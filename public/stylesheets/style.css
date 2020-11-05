@@ -1,8 +1,45 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.page-item{
+    border-color: #ffffff;
+}
+.page-item.active .page-link {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.page-link {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+.page-link:hover {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+#search:focus{
+    outline: 0;
+    border-color: rgba(255, 166, 0, 0.6);
+    box-shadow: 0 0 0 2px rgba(255, 166, 0, 0.6);
 }
 
-a {
-  color: #00B7FF;
+#page .page-link:focus{
+    outline: 0;
+    border-color: rgba(255, 166, 0, 0.6);
+    box-shadow: 0 0 0 2px rgba(255, 166, 0, 0.6);
 }
+
+/* #signIn {
+    background-color: rgba(255, 166, 0, 0.87);
+    
+}
+
+#signIn:hover {
+    border-color: rgba(255, 166, 0, 0.87);
+}
+
+#signIn:focus {
+    border-color: rgba(255, 166, 0, 0.87);
+}
+
+#signIn .page-link:focus{
+    outline: 0;
+    border-color: rgba(255, 166, 0, 0.87);
+    box-shadow: 0 0 0 2px rgba(255, 166, 0, 0.6);
+} */
