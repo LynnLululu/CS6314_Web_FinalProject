@@ -1,0 +1,170 @@
+{
+"productID": 1001,
+"productName": "Coconut Bread",
+"productPrice": 3.50,
+"description": "A soft bread with coconut and cheese filling, topped with sliced cashew.",
+"image": "CoconutBread.jpg",
+"num": 20,
+"categoey": ["Bread", "Coconut", "Nut", "Cheese"],
+"visible": true 
+},
+{
+"productID": 1002,
+"productName": "Garlic Cheese",
+"productPrice": 2.80,
+"description": "A soft bread topped with special garlic spread, mozzarella cheese, and sprinkled with chopped chives.",
+"image": "GarlicCheese.jpg",
+"num": 20,
+"categoey": ["Bread", "Cheese", "Garlic"],
+"visible": true 
+},
+{
+"productID": 1003,
+"productName": "Coffee Bread",
+"productPrice": 3.70,
+"description": "A coffee flavored bread filled with special cream cheese.",
+"image":"CoffeeBread.jpg",
+"num": 20,
+"categoey": ["Bread", "Coffee", "Cheese"],
+"visible": true 
+},
+{
+"productID": 1004,
+"productName": "Whole Milk Bread",
+"productPrice": 5.20,
+"description": "A soft, moist Japanese style bread with buttery and milky flavor.",
+"image": "WholeMilkBread.jpg",
+"num": 15,
+"categoey": ["Bread", "Milk", "Butter"],
+"visible": true 
+},
+{
+"productID": 1005,
+"productName": "Berry Fairy",
+"productPrice": 3.40,
+"description": "Sweet bread with fresh strawberry and special cream.",
+"image": "BerryFairy.jpg",
+"num": 20,
+"categoey": ["Bread", "Cream", "Strawberry"],
+"visible": true 
+},
+{
+"productID": 2001,
+"productName": "Blueberry Cheesecake",
+"productPrice": 4.30,
+"description": "Moist and rich cheesecake with blueberry jam based with a cookie crumble bottom.",
+"image": "BlueberryCheesecake.jpg",
+"num": 15,
+"categoey": ["Cake", "Slice", "Cheese", "Blueberry"],
+"visible": true 
+},
+{
+"productID": 2002,
+"productName": "Black Forest Slice",
+"productPrice": 3.60,
+"description": "Chocolate sponge cake with sweet cherries and fresh cream.",
+"image": "BlackForestSlice.jpg",
+"num": 15,
+"categoey": ["Cake", "Slice", "Chocolate", "Cherry", "Cream"],
+"visible": true 
+},
+{
+"productID": 2003,
+"productName": "Coconut Roll",
+"productPrice": 5.20,
+"description": "Vanilla flavored sponge roll filled with fresh vanilla cream and surrounded by coconut shavings.",
+"image": "CoconutRoll.jpg",
+"num": 10,
+"categoey": ["Cake", "Roll", "Coconut", "Cream", "Vanilla"],
+"visible": true 
+},
+{
+"productID": 2001,
+"productName": "Chocolate Roll",
+"productPrice": 5.50,
+"description": "Chocolate flavored sponge roll with fresh cream.",
+"image": "ChocolateRoll.jpg",
+"num": 10,
+"categoey": ["Cake", "Roll", "Chocolate", "Cream"],
+"visible": true 
+},
+{
+"productID": 3001,
+"productName": "Americano",
+"productPrice": 2.70,
+"description": "Espresso based black coffee.",
+"image": "Americano.jpg",
+"num": 10,
+"categoey": ["Beverage", "Coffee"],
+"visible": true 
+},
+{
+"productID": 3002,
+"productName": "Caramel Macchiato",
+"productPrice": 3.20,
+"description": "Espresso with steamed milk and caramel sauce.",
+"image": "CaramelMacchiato.jpg",
+"num": 10,
+"categoey": ["Beverage", "Coffee", "Milk"],
+"visible": true 
+},
+{
+"productID": 3003,
+"productName": "Boba Milk Tea",
+"productPrice": 3.50,
+"description": "Black tea with fresh milk, cream and boba.",
+"image": "BobaMilkTea.jpg",
+"num": 10,
+"categoey": ["Beverage", "Tea", "Milk", "Boba"],
+"visible": true 
+},
+{
+"productID": 3004,
+"productName": "Iced Fruit Tea",
+"productPrice": 3.70,
+"description": "Jasmine green tea with fresh peach pulp.",
+"image": "IcedFruitTea.jpg",
+"num": 10,
+"categoey": ["Beverage", "Tea", "Iced"],
+"visible": true 
+},
+{
+"productID": 4001,
+"productName": "Butter Bread",
+"productPrice": 2.80,
+"description": "Golden bread baked with salted butter. Sprinkled with sea salt to make it simply delicious.",
+"image": "ButterBread.jpg",
+"num": 25,
+"categoey": ["Top Picks", "Bread", "Butter"],
+"visible": true 
+},
+{
+"productID": 4002,
+"productName": "Red Velvet Slice",
+"productPrice": 3.70,
+"description": "3-layered red velvet cake with vanilla cream cheese and red velvet crumbs. Decorated with white chocolate shavings and cherries.",
+"image": "RedVelvetSlice.jpg",
+"num": 25,
+"categoey": ["Top Picks", "Cake", "Slice", "Cheese", "Chocolate", "Cherry"],
+"visible": true 
+},
+{
+"productID": 4003,
+"productName": "Taro Taro",
+"productPrice": 3.70,
+"description": "Sweet bread made with mixed grains and filled with signature taro filling.",
+"image": "TaroTaro.jpg",
+"num": 10,
+"categoey": ["Top Picks", "Bread", "Taro"],
+"visible": true 
+},
+{
+"productID": 4004,
+"productName": "Iced Coffee",
+"productPrice": 3.20,
+"description": "Iced Sweetened Americano with sea salt cream.",
+"image": "IcedCoffee.jpg",
+"num": 10,
+"categoey": ["Top Picks", "Iced", "Coffee", "Cream"],
+"visible": true 
+}
