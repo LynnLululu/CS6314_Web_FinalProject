@@ -3,11 +3,6 @@ var router = express.Router();
 
 let db = require('../modules/database');
 
-function output(res, js) {
-	lres.render('index', { "products" : js["products"] , "catagories" : js["catagories"] });
-    
-}
-
 router.get('/', function(req, res) {
 	var products = new Promise((resolve, reject) => {
 	    let sql = "select * from PRODUCT";
