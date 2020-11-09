@@ -1,24 +1,24 @@
 CREATE TABLE CUSTOMER (
 	AccountID	INT,
-	Fname		VARCHAR(25) NOT NULL,
-	Lname		VARCHAR(25) NOT NULL,
+	Fname		VARCHAR(25),
+	Lname		VARCHAR(25),
 	DateOfBirth	DATE,
-	Email		VARCHAR(40),
+	Email		VARCHAR(40) NOT NULL,
 	UserName	VARCHAR(25) NOT NULL,
 	Password	VARCHAR(25) NOT NULL,
-	Payment		VARCHAR(20) NOT NULL,
-	MailAddr	CHAR(50) NOT NULL,
-	BillAddr	CHAR(50) NOT NULL,
+	Payment		VARCHAR(20),
+	MailAddr	CHAR(50),
+	BillAddr	CHAR(50),
 	Phone		CHAR(10),
 	PRIMARY KEY	(AccountID)
 );
 
 CREATE TABLE ADMIN (
 	AccountID	INT,
-	Fname		VARCHAR(25) NOT NULL,
-	Lname		VARCHAR(25) NOT NULL,
+	Fname		VARCHAR(25),
+	Lname		VARCHAR(25),
 	DateOfBirth	DATE,
-	Email		VARCHAR(40),
+	Email		VARCHAR(40) NOT NULL,
 	UserName	VARCHAR(25) NOT NULL,
 	Password	VARCHAR(25) NOT NULL,
 	PRIMARY KEY (AccountID)

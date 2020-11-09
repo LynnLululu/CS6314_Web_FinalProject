@@ -3,3 +3,12 @@ socket?
 data?
 
 logic?
+
+products: catatories, pagenums
+signin: email, password
+return all customer's
+signup: username, email
+signup:
+
+prod det
+
