@@ -29,27 +29,25 @@ INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Pas
 INSERT INTO PRODUCT (ProductID, Name, Price, Description, Image, Visible, Num)
 	VALUES (0, 'chef cappuccino', 6.25, 'Highly recommend!', NULL, 1, 0);
 INSERT INTO PRODUCT (ProductID, Name, Price, Description, Image, Visible, Num)
-	VALUES (1, 'meemaw doughnut', 2.00, 'Meemaw special!', NULL, 1, 0);	
+	VALUES (1, 'meemaw cupcake', 2.00, 'Meemaw special!', NULL, 1, 0);	
 INSERT INTO PRODUCT (ProductID, Name, Price, Description, Image, Visible, Num)
-	VALUES (2, 'rocky ice cream', 3.00, 'Zero or infinite.', NULL, 1, 0);
+	VALUES (2, 'rocky whole-wheat bread', 3.00, 'Zero or infinite.', NULL, 1, 0);
 INSERT INTO PRODUCT (ProductID, Name, Price, Description, Image, Visible, Num)
 	VALUES (3, 'llet tonnac', 10.00, 'Coming soon.', NULL, 0, 0);
 
 INSERT INTO CATAGORY (CatagoryID, Name)
-	VALUES (0, 'beverage');
+	VALUES (0, 'Cake');
 INSERT INTO CATAGORY (CatagoryID, Name)
-	VALUES (1, 'dessert');
+	VALUES (1, 'Bread');
 INSERT INTO CATAGORY (CatagoryID, Name)
-	VALUES (2, 'recommend');
+	VALUES (2, 'Drink');
 	
 INSERT INTO PRODUCT_OWN_CATAGORY (ProductID, CatagoryID)
-	VALUES (0, 0);
+	VALUES (0, 2);
 INSERT INTO PRODUCT_OWN_CATAGORY (ProductID, CatagoryID)
-	VALUES (1, 1);
+	VALUES (1, 0);
 INSERT INTO PRODUCT_OWN_CATAGORY (ProductID, CatagoryID)
 	VALUES (2, 1);
-INSERT INTO PRODUCT_OWN_CATAGORY (ProductID, CatagoryID)
-	VALUES (0, 2);
 
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice, Comments)
 	VALUES (0, 100, STR_TO_DATE('04/25/2020','%m/%d/%Y'), 33.77, 'First purchase.');

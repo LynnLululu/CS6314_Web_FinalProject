@@ -9,8 +9,8 @@ const connection = mysql.createConnection({
 });
 
 connection.connect((err) => {
-    if (err) { console.log("error!") }
-    else { console.log("success!") }
+    if (err) { console.log("Connection error!") }
+    else { console.log("Connection success!") }
 });
  
 let query = (sql, callback) => {
