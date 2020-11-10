@@ -1,0 +1,17 @@
+<!-- Category & Search Bar -->
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">&nbsp;&nbsp;Category&nbsp;&nbsp;</button>
+        <div class="dropdown-menu">
+          <% catagories.forEach(function(catagory){ %>
+            <a class="dropdown-item" href="#"><%= catagory.catagoryName %></a>
+          <% }); %>
+        </div>
+      </div>
+      <input id="search" type="text" class="form-control" aria-label="Text input with dropdown button">
+      <div class="input-group-append">
+        <button type="button" class="btn btn-secondary"
+          id="button-addon2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+      </div>
+    </div>
