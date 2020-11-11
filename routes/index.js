@@ -34,18 +34,18 @@ router.get('/', function(req, res) {
 	    });
 	});
 	var catagories = new Promise((resolve, reject) => {
-	    let sql = "select * from CATAGORY";
+	    let sql = "select * from CATEGORY";
 	    let array = [];
 	    db.query(sql, (err, rows) => {
 	        if (err) {
 	            throw err;
 	        }
 	        else {
-	        	console.log("Catagories:");
+	        	console.log("Categories:");
 	            for (let elem of rows) {
 	                let tmp = {};
-	                tmp["catagoryID"] = elem['CatagoryID'];
-	                tmp["catagoryName"] = elem['Name'];
+	                tmp["categoryID"] = elem['categoryID'];
+	                tmp["categoryName"] = elem['Name'];
 	                console.log(elem['Name']);
 	                array.push(tmp);
 	            }
@@ -56,33 +56,9 @@ router.get('/', function(req, res) {
 	var promises = [products, catagories];
 	// promises and results are paired
 	Promise.all(promises).then(function(results) {
-		res.render('index', { "products" : results[0], "catagories" : results[1]})
+		res.render('index', { "products" : results[0], "categories" : results[1]})
 	}).catch(err => console.log(err));
     console.log("show_product.js.");
 });
-
-
-router.get('/products', function(req, res) {
-	var collection = db.get('Products');
-	collection.find({}, function(err, products){
-		if (err) throw err;
-	  	res.json(products);
-	});
-});
-
-
-router.get('products/:id', function(req, res) {
-	var collection = db.get('Products');
-	collection.findOne({ _id: req.params.id }, function(err, product){
-		if (err) throw err;
-	  	res.render('show', {product : product});
-	});
-});
-
-
-module.exports = router;
-
-// show product
-  
 
 module.exports = router;

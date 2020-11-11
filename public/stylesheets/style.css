@@ -70,25 +70,21 @@ a.dropdown-item:active {
     background-size: 100% 100%;
 
 }
-/* #carouselExampleControls * {
-    background-color: transparent;
-} */
-
-/* #signIn {
-    background-color: rgba(255, 166, 0, 0.87);
-    
+/* login */
+.login-tabs a {
+    color: #3c3c3c;
 }
-
-#signIn:hover {
-    border-color: rgba(255, 166, 0, 0.87);
+.login-tabs .nav-link.active {
+    color: #ffc107;
 }
-
-#signIn:focus {
-    border-color: rgba(255, 166, 0, 0.87);
+.modal-dialog {
+    width: 460px;
 }
-
-#signIn .page-link:focus{
-    outline: 0;
-    border-color: rgba(255, 166, 0, 0.87);
-    box-shadow: 0 0 0 2px rgba(255, 166, 0, 0.6);
-} */
+.error {
+    color:#647C90 ;
+}
+label.error {
+    font-size: 12px;
+    margin-top: 12px;
+    margin-bottom: 0px;
+}
