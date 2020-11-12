@@ -5,30 +5,21 @@ const Level = {
     DEVELOPING: 0,
     DEBUGGING: 1,
     OPERATING: 2,
+    NOLOGGING: 3,
 }
 var logLevel =  Level.DEVELOPING;
 exports.Level = Level;
 exports.logLevel = logLevel;
 
-// set dirty to nofity that this obj needs to be update before using.
-var setDirty = function(obj) {
-    if (obj["isDirty"] != null) {
-        obj["isDirty"] = false;
-    }
-};
-exports.setDirty = setDirty;
-
 // products
-var _products = { "isDirty" : false , "data" : [] };
-var getProducts = new Promise((resolve, reject) => {
-    if (_products["isDirty"] == false) {
-        let sql = "select * from PRODUCT";
+var getProducts = function(sql) {
+    return new Promise((resolve, reject) => {
         db.query(sql, (err, rows) => {
             if (err) {
                 throw err;
             }
             else {
-                _products["data"] = [];
+                let products = [];
                 for (let elem of rows) {
                     let tmp = {};
                     tmp["productID"] = elem['ProductID'];
@@ -42,49 +33,46 @@ var getProducts = new Promise((resolve, reject) => {
                     } else {
                         tmp["visible"] = true;
                     }
-                    _products["data"].push(tmp);
+                    products.push(tmp);
                 }
-                _products["isDirty"] = true;
                 if (logLevel <= Level.OPERATING) {
                     console.log("Get products:");
                 }
                 if (logLevel <= Level.DEBUGGING) {
-                    console.log(_products["data"]);
+                    console.log(products);
                 }
-                resolve(_products["data"]);
+                resolve(products);
             }
         });
-    }
-});
+    });
+};
 exports.getProducts = getProducts;
 
-// catagories
-var _catagories = { "isDirty" : false , "data" : [] };
-var getCatagories = new Promise((resolve, reject) => {
-    if (_catagories["isDirty"] == false) {
-        let sql = "select * from CATAGORY";
+// categories
+var getCategories = function(sql) {
+    return new Promise((resolve, reject) => {
         db.query(sql, (err, rows) => {
             if (err) {
                 throw err;
             }
             else {
-                _catagories["data"] = [];
+                let categories = [];
                 for (let elem of rows) {
                     let tmp = {};
-                    tmp["catagoryID"] = elem['CatagoryID'];
-                    tmp["catagoryName"] = elem['Name'];
-                    _catagories["data"].push(tmp);
+                    tmp["categoryID"] = elem['CategoryID'];
+                    tmp["categoryName"] = elem['Name'];
+                    categories.push(tmp);
                 }
-                _catagories["isDirty"] = true;
                 if (logLevel <= Level.OPERATING) {
-                    console.log("Get catagories:");
+                    console.log("Get categories:");
                 }
                 if (logLevel <= Level.DEBUGGING) {
-                    console.log(_catagories["data"]);
+                    console.log(categories);
                 }
-                resolve(_catagories["data"]);
+                resolve(categories);
             }
         });
-    }
-});
-exports.getCatagories = getCatagories;
+    });
+};
+exports.getCategories = getCategories;
+

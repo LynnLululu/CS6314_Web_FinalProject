@@ -1,14 +1,9 @@
-socket?
+multiply user login
 
-data?
+delete in batch
 
-logic?
+sort by adding time
 
-products: catatories, pagenums
-signin: email, password
-return all customer's
-signup: username, email
-signup:
+cookies & sessions
 
-prod det
-
+ejs schema

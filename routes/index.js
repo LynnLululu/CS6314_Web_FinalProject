@@ -4,28 +4,28 @@ var router = express.Router();
 var g = require('../modules/globals');
 
 router.get('/', function(req, res) {
-	var promises = [g.getProducts, g.getCatagories];
-	// promises and results are paired
-	Promise.all(promises).then(function(results) {
-		res.render('index', { "products" : results[0], "catagories" : results[1]});
-	});
+	res.redirect('/products');
 });
 
 
 router.get('/products', function(req, res) {
-	var collection = db.get('Products');
-	collection.find({}, function(err, products){
-		if (err) throw err;
-	  	res.json(products);
+	let promises = [];
+	promises.push(g.getProducts("select * from PRODUCT"));
+	promises.push(g.getCategories("select * from CATEGORY"));
+	// promises and results are paired
+	Promise.all(promises).then(function(results) {
+		res.render('index', { "products" : results[0], "categories" : results[1] });
 	});
 });
 
-
-router.get('products/:id', function(req, res) {
-	var collection = db.get('Products');
-	collection.findOne({ _id: req.params.id }, function(err, product){
-		if (err) throw err;
-	  	res.render('show', {product : product});
+router.get('/products/:id', function(req, res) {
+	let promises = [];
+	let _id = req.params.id
+	promises.push(g.getProducts("select * from PRODUCT where ProductID=" + _id));
+	promises.push(g.getCategories("select * from CATEGORY, PRODUCT_OWN_CATEGORY where ProductID=" + _id));
+	// promises and results are paired
+	Promise.all(promises).then(function(results) {
+		res.render('show', { "product" : results[0], "categories" : results[1] });
 	});
 });
 
