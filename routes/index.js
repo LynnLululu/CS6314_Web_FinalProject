@@ -1,64 +1,33 @@
 var express = require('express');
 var router = express.Router();
 
-let db = require('../modules/database');
+var g = require('../modules/globals');
 
 router.get('/', function(req, res) {
-	var products = new Promise((resolve, reject) => {
-	    let sql = "select * from PRODUCT";
-	    let array = [];
-	    db.query(sql, (err, rows) => {
-	        if (err) {
-	            throw err;
-	        }
-	        else {
-	        	console.log("Products:");
-	            for (let elem of rows) {
-	                let tmp = {};
-	                tmp["productID"] = elem['ProductID'];
-	                tmp["productName"] = elem['Name'];
-	                console.log(elem['Name']);
-	                tmp["productPrice"] = elem['Price'];
-	                tmp["description"] = elem['Description'];
-	                tmp["image"] = elem['Image'];
-	                tmp["num"] = elem['Num'];
-	                if (elem['Visible'] == 0) {
-	                    tmp["visible"] = false;
-	                } else {
-	                    tmp["visible"] = true;
-	                }
-	                array.push(tmp);
-	            }
-	            resolve(array);
-	        };
-	    });
-	});
-	var catagories = new Promise((resolve, reject) => {
-	    let sql = "select * from CATEGORY";
-	    let array = [];
-	    db.query(sql, (err, rows) => {
-	        if (err) {
-	            throw err;
-	        }
-	        else {
-	        	console.log("Categories:");
-	            for (let elem of rows) {
-	                let tmp = {};
-	                tmp["categoryID"] = elem['categoryID'];
-	                tmp["categoryName"] = elem['Name'];
-	                console.log(elem['Name']);
-	                array.push(tmp);
-	            }
-	            resolve(array);
-	        };
-	    });
-	});
-	var promises = [products, catagories];
+	res.redirect('/products');
+});
+
+
+router.get('/products', function(req, res) {
+	let promises = [];
+	promises.push(g.getProducts("select * from PRODUCT"));
+	promises.push(g.getCategories("select * from CATEGORY"));
 	// promises and results are paired
 	Promise.all(promises).then(function(results) {
-		res.render('index', { "products" : results[0], "categories" : results[1]})
-	}).catch(err => console.log(err));
-    console.log("show_product.js.");
+		res.render('index', { "products" : results[0], "categories" : results[1] });
+	});
 });
+
+router.get('/products/:id', function(req, res) {
+	let promises = [];
+	let _id = req.params.id
+	promises.push(g.getProducts("select * from PRODUCT where ProductID=" + _id));
+	promises.push(g.getCategories("select * from CATEGORY, PRODUCT_OWN_CATEGORY where ProductID=" + _id));
+	// promises and results are paired
+	Promise.all(promises).then(function(results) {
+		res.render('show', { "product" : results[0], "categories" : results[1] });
+	});
+});
+
 
 module.exports = router;

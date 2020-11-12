@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+let g = require('../modules/globals');
  
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -9,8 +10,16 @@ const connection = mysql.createConnection({
 });
 
 connection.connect((err) => {
-    if (err) { console.log("Connection error!") }
-    else { console.log("Connection success!") }
+    if (err) {
+        if (g.logLevel <= g.Level.DEBUGGING) {
+            console.log("Connection fail!");
+        }
+    }
+    else {
+        if (g.logLevel <= g.Level.DEBUGGING) {
+            console.log("Connection success!");
+        }
+    }
 });
  
 let query = (sql, callback) => {
