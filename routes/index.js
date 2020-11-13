@@ -29,5 +29,16 @@ router.get('/products/:id', function(req, res) {
 	});
 });
 
+router.get('/favorite', function(req, res) {
+	let promises = [];
+	promises.push(g.getProducts("select * from PRODUCT"));
+	promises.push(g.getCategories("select * from CATEGORY"));
+	// promises and results are paired
+	Promise.all(promises).then(function(results) {
+		res.render('favorite', { "products" : results[0], "categories" : results[1] });
+	});
+});
+
+
 
 module.exports = router;

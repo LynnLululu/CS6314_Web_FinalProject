@@ -113,3 +113,6 @@ label.error {
     margin-top: 12px;
     margin-bottom: 0px;
 }
+button:focus {
+    outline: none;
+}

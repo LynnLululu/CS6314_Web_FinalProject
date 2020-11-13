@@ -18,6 +18,11 @@ $(document).ready(function(){
         $(this).toggleClass("fas");
     });
 
+    // click the trash to delete the card
+    $("#productList").on("click", "i.fa-trash-alt", function () {
+        $(this).closest(".col-lg-3").remove();
+    });
+
 
     // pagination
     var itemNum = 8;    // display 8 item per page
