@@ -2,7 +2,7 @@
     <div  id="productList" class="row text-center">
 
       <% products.forEach(function(product){ %>
-        <div class="col-lg-3 col-md-6 mb-4">
+        <div class="col-lg-3 col-md-6 mb-4" style="display: none;">
           <!-- card -->
           <div class="card h-100 pb-0">
 
@@ -48,19 +48,18 @@
     <!-- Pagination -->
     <nav aria-label="Page navigation example text-secondary">
       <ul id="page" class="pagination justify-content-center w-100">
-        <li class="page-item ml-0 mr-auto">
-          <a class="page-link" href="#" aria-label="Previous">
+        <li id="pagePrev" class="page-item ml-0 mr-auto disabled">
+          <a class="page-link" aria-label="Previous">
             <span aria-hidden="true">
               <i class="fas fa-chevron-left mr-3"></i>
               Prev
             </span>
           </a>
         </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item ml-auto mr-0">
-          <a class="page-link" href="#" aria-label="Next">
+        <li id="page1"class="page page-item active"><a class="page-link">1</a></li>
+
+        <li id="pageNext" class="page-item ml-auto mr-0">
+          <a class="page-link" aria-label="Next">
             <span aria-hidden="true">
               Next
               <i class="fas fa-chevron-right ml-3"></i>

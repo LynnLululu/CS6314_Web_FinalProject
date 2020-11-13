@@ -46,6 +46,12 @@ button.btn.dropdown-toggle.btn-light.bs-placeholder{
     color: #6c757d;
     border-color: #ffffff;
 }
+.page-item.disabled .page-link{
+    color: lightgray;
+}
+#pagePrev.disabled a, #pageNext.disabled a{
+    border: none;
+}
 
 #search:focus{
     outline: 0;
