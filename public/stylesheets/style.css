@@ -6,8 +6,7 @@
 a.dropdown-item:active {
     color:#343a40;
     background-color: rgba(239, 239, 239);
-    border-color: rgba(255, 166, 0, 0.6);
-    box-shadow: 0 0 0 2px rgba(255, 166, 0, 0.6);
+
 }
 
 button.btn.dropdown-toggle.btn-light.bs-placeholder{

@@ -112,38 +112,38 @@ INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice, Comments)
 	VALUES (2, 109, STR_TO_DATE('04/25/2020','%m/%d/%Y'), 18.16, 'First purchase.');
 
 INSERT INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num)
-	VALUES (0, 0, 2);
+	VALUES (0, 1001, 2);
 INSERT INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num)
-	VALUES (0, 1, 4);
+	VALUES (0, 1002, 4);
 INSERT INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num)
-	VALUES (0, 2, 2);
+	VALUES (0, 2001, 2);
 INSERT INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num)
-	VALUES (1, 0, 2);
+	VALUES (1, 2005, 2);
 INSERT INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num)
-	VALUES (1, 1, 10);
+	VALUES (1, 3001, 10);
 INSERT INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num)
-	VALUES (2, 0, 1);
+	VALUES (2, 3004, 1);
 INSERT INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num)
-	VALUES (2, 1, 1);
+	VALUES (2, 1002, 1);
 INSERT INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num)
-	VALUES (2, 2, 2);
+	VALUES (2, 2003, 2);
 
 INSERT INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num)
-	VALUES (0, 0, 'chef cappuccino', 6.25, 2);
+	VALUES (0, 1001, 'Coconut Bread', 3.5, 2);
 INSERT INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num)
-	VALUES (0, 1, 'meemaw doughnut', 2.0, 4);
+	VALUES (0, 1002, 'Garlic Cheese', 2.8, 4);
 INSERT INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num)
-	VALUES (0, 2, 'rocky ice cream', 3.0, 2);
+	VALUES (0, 2001, 'Blueberry Cheesecake', 4.3, 2);
 INSERT INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num)
-	VALUES (1, 0, 'chef cappuccino', 6.25, 2);
+	VALUES (1, 2005, 'Chocolate Roll', 5.5, 2);
 INSERT INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num)
-	VALUES (1, 1, 'meemaw doughnut', 2.00, 10);
+	VALUES (1, 3001, 'Americano', 2.7, 10);
 INSERT INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num)
-	VALUES (2, 0, 'chef cappuccino', 6.25, 1);
+	VALUES (2, 3004, 'Iced Fruit Tea', 3.7, 1);
 INSERT INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num)
-	VALUES (2, 1, 'meemaw doughnut', 2.00, 1);
+	VALUES (2, 1002, 'Garlic Cheese', 2.8, 1);
 INSERT INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num)
-	VALUES (2, 2, 'rocky ice cream', 3.00, 2);
+	VALUES (2, 2003, 'Red Velvet Slice', 3.7, 2);
 
 INSERT INTO CART (AccountID)
 	VALUES (101);
@@ -151,19 +151,18 @@ INSERT INTO CART (AccountID)
 	VALUES (106);
 
 INSERT INTO CART_OWN_PRODUCT (AccountID, ProductID, Num)
-	VALUES (101, 0, 2);
+	VALUES (101, 1002, 2);
 INSERT INTO CART_OWN_PRODUCT (AccountID, ProductID, Num)
-	VALUES (101, 1, 2);
+	VALUES (101, 2001, 2);
 INSERT INTO CART_OWN_PRODUCT (AccountID, ProductID, Num)
-	VALUES (101, 2, 2);
+	VALUES (101, 2002, 2);
 INSERT INTO CART_OWN_PRODUCT (AccountID, ProductID, Num)
-	VALUES (106, 0, 2);
+	VALUES (106, 3001, 2);
 INSERT INTO CART_OWN_PRODUCT (AccountID, ProductID, Num)
-	VALUES (106, 1, 10);
+	VALUES (106, 1003, 10);
 
 INSERT INTO WISHLIST (AccountID)
 	VALUES (105);
 
 INSERT INTO WISHLIST_OWN_PRODUCT (AccountID, ProductID)
-	VALUES (105, 3);
-						
+	VALUES (105, 3003);
