@@ -23,6 +23,11 @@ $(document).ready(function(){
         $(this).closest(".col-lg-3").remove();
     });
 
+    // click the trash to delete the shopcart item
+    $("#shopList").on("click", "i.fa-trash-alt", function () {
+        $(this).closest(".row").remove();
+    });
+
 
     // pagination
     var itemNum = 8;    // display 8 item per page
