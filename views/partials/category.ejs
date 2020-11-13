@@ -1,13 +1,15 @@
+
+
+
+
 <!-- Category & Search Bar -->
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">&nbsp;&nbsp;Category&nbsp;&nbsp;</button>
-        <div class="dropdown-menu">
+        <select class="selectpicker border-right-0" multiple title="&nbsp;&nbsp;&nbsp;All Categories">  
           <% categories.forEach(function(category){ %>
-            <a class="dropdown-item" href="#"><%= category.categoryName %></a>
-          <% }); %>
-        </div>
+            <option><%= category.categoryName %></option>
+          <% }); %>  
+        </select>
       </div>
       <input id="search" type="text" class="form-control" aria-label="Text input with dropdown button">
       <div class="input-group-append">
@@ -15,3 +17,6 @@
           id="button-addon2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
       </div>
     </div>
+
+
+    

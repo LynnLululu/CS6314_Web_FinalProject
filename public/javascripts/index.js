@@ -1,4 +1,9 @@
 $(function () {
+    $.fn.selectpicker.Constructor.BootstrapVersion = '4';
+
+
+    $('select').selectpicker();
+
     // color the heart when hover on it
     $("#productList").on("mouseover", "i.fa-heart", function () {
         $(this).toggleClass("fas");
@@ -14,4 +19,3 @@ $(function () {
     });
 
 });
-

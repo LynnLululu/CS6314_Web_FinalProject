@@ -10,6 +10,26 @@ a.dropdown-item:active {
     box-shadow: 0 0 0 2px rgba(255, 166, 0, 0.6);
 }
 
+button.btn.dropdown-toggle.btn-light.bs-placeholder{
+    border-color:rgb(206, 212, 218);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dropdown.bootstrap-select .btn{
+    border-color:rgb(206, 212, 218);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dropdown-item:focus{
+    outline: none;
+}
+
+.bootstrap-select .dropdown-toggle:focus {
+    outline: none!important;
+}
+
 .page-item{
     border-color: #ffffff;
 }
