@@ -63,9 +63,9 @@ INSERT INTO PRODUCT(ProductID, Name, Price, Description, Image, Num, Visible)
 
 
 INSERT INTO CATEGORY (CategoryID, Name)
-	VALUES (0, 'Cake');
+	VALUES (0, 'Bread');
 INSERT INTO CATEGORY (CategoryID, Name)
-	VALUES (1, 'Bread');
+	VALUES (1, 'Cake');
 INSERT INTO CATEGORY (CategoryID, Name)
 	VALUES (2, 'Drink');
 	
