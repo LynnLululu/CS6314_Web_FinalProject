@@ -1,7 +1,4 @@
 $(function () {
-
-
-
     // color the heart when hover on it
     $("h3.float-right").on("mouseover", "i.fa-heart", function () {
         $(this).toggleClass("fas");
