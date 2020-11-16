@@ -22,7 +22,7 @@ router.get('/products/:id', function(req, res) {
 	let promises = [];
 	let _id = req.params.id
 	promises.push(g.getProducts("select * from PRODUCT where ProductID=" + _id));
-	promises.push(g.getCategories("select * from CATEGORY, PRODUCT_OWN_CATEGORY where ProductID=" + _id));
+	promises.push(g.getCategories("select * from CATEGORY NATURAL JOIN PRODUCT_OWN_CATEGORY AS PC where PC.ProductID=" + _id));
 	// promises and results are paired
 	Promise.all(promises).then(function(results) {
 		res.render('show', { "product" : results[0], "categories" : results[1] });
