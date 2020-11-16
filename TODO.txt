@@ -1,9 +1,0 @@
-multiply user login
-
-delete in batch
-
-sort by adding time
-
-cookies & sessions
-
-ejs schema
