@@ -25,7 +25,27 @@ router.get('/products/:id', function(req, res) {
 	promises.push(g.getCategories("select * from CATEGORY, PRODUCT_OWN_CATEGORY where ProductID=" + _id));
 	// promises and results are paired
 	Promise.all(promises).then(function(results) {
-		res.render('show', { "product" : results[0], "categories" : results[1] });
+		res.render('show', { "product" : results[0][0], "categories" : results[1] });
+	});
+});
+
+router.get('/favorite', function(req, res) {
+	let promises = [];
+	promises.push(g.getProducts("select * from PRODUCT"));
+	promises.push(g.getCategories("select * from CATEGORY"));
+	// promises and results are paired
+	Promise.all(promises).then(function(results) {
+		res.render('favorite', { "products" : results[0], "categories" : results[1] });
+	});
+});
+
+router.get('/shopcart', function(req, res) {
+	let promises = [];
+	promises.push(g.getProducts("select * from PRODUCT"));
+	promises.push(g.getCategories("select * from CATEGORY"));
+	// promises and results are paired
+	Promise.all(promises).then(function(results) {
+		res.render('shopcart', { "products" : results[0], "categories" : results[1] });
 	});
 });
 
