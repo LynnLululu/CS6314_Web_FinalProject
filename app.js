@@ -3,12 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
+var bodyparser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var cartRouter = require('./routes/cart');
-var wishlistRouter = require('./routes/wishlist');
+var favoriteRouter = require('./routes/favorite');
 var ordersRouter = require('./routes/orders');
 var usersRouter = require('./routes/users');
+var testRouter = require('./test/test_post');
 
 var app = express();
 
@@ -22,11 +25,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// use bodyparser
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
+// use session
+app.use(session({
+	secret :  'secret',  // signed cookie
+    resave : true,
+    saveUninitialized: false, // save as initial?
+    cookie : {
+        maxAge : 1000 * 60 * 3, // set session's valid time
+    },
+}));
+
 app.use('/', indexRouter);
 app.use('/cart', cartRouter);
-app.use('/wishlist', wishlistRouter);
+app.use('/favorite', favoriteRouter);
 app.use('/orders', ordersRouter);
 app.use('/users', usersRouter);
+app.use('/test', testRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

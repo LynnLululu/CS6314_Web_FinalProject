@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-let db = require('../modules/database_test');
+let db = require('../modules/test_database');
 
 router.get('/', function(req, res) {
     let sql = "select * from notes";
