@@ -1,11 +1,7 @@
-
-
-
-
 <!-- Category & Search Bar -->
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <select class="selectpicker border-right-0" multiple title="&nbsp;&nbsp;&nbsp;All Categories">  
+        <select id="select-category" class="selectpicker border-right-0" multiple title="&nbsp;&nbsp;&nbsp;All Categories">  
           <% categories.forEach(function(category){ %>
             <option><%= category.categoryName %></option>
           <% }); %>  

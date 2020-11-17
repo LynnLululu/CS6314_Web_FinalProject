@@ -1,3 +1,4 @@
+<!-- title -->
 <h2 class="text-center mb-3 pt-5 pb-3">Your Favorites</h2>
 
 <!-- Product list -->
@@ -45,7 +46,7 @@
               </button>
               <div class="dropdown-menu overflow-auto" style="max-height: 140px;" aria-labelledby="dropdownMenuButton">
                 <% for (var i = 1; i <= product.num; i++) {%>
-                <a class="dropdown-item" href="#"> <%= i %></a>
+                <a class="dropdown-item"><%= i %></a>
                 <% } %>
               </div>
             </div>

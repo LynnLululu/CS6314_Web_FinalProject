@@ -1,8 +1,13 @@
 $(document).ready(function(){
+    // dropdown-menu
+    $("a.dropdown-item").on("click",(function(e){
+        var selText = "&nbsp;&nbsp;&nbsp;" + $(this).text() + "&nbsp;&nbsp;";
+        $(this).parents('div.dropdown').find('button.dropdown-toggle').html(selText);       
+    }));
 
     //bootstrap select
     $.fn.selectpicker.Constructor.BootstrapVersion = '4';
-    $('select').selectpicker();
+    $('#select-category').selectpicker();
 
     // color the heart when hover on it
     $("#productList").on("mouseover", "i.fa-heart", function () {
@@ -112,4 +117,9 @@ $(document).ready(function(){
 
         handleDisable();
     });
+
+    // back to top button
+    $("#back-to-top").on("click", function(){
+        scrollTo(0,0);
+    })
 });

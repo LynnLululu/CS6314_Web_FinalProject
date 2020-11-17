@@ -13,6 +13,7 @@ button.btn.dropdown-toggle.btn-light.bs-placeholder{
     border-color:rgb(206, 212, 218);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    width: 220px;
 }
 
 .dropdown.bootstrap-select .btn{
