@@ -32,10 +32,10 @@ function register() {
     var pwd = $("input[name='pwd']").val();
     var pwdC = $("input[name='pwdC']").val();
     alert("Registered successful!");
-    /*
+	
     $.ajax({
         type: "POST",
-        url: "/user/saveUser",
+        url: "/users/signup",
         data: {
             "email": email,
             "userName": userName,
@@ -52,6 +52,7 @@ function register() {
     });
     */
 }
+
 function validateRule() {
     var icon = "<i class='fa fa-times-circle'></i> ";
     $("#signupForm").validate({
@@ -125,6 +126,7 @@ function login() {
         alert("User name or password is wrong.");
         return;
     }
+
     if (email == "99@qq.com" && pwd == "Qqq123456") {
         alert("Login successful!");
         $("#exampleModal").modal('toggle');
@@ -133,14 +135,15 @@ function login() {
         $("#sign-txt2").show();
     } else {
         alert("User name or password is wrong.");
+
     }
-    /*
+    
     $.ajax({
         type: "POST",
-        url: "/user/login",
+        url: "/users/signin",
         data: {
-            "email": email,
-            "pwd": pwd,
+            "emailx": email,
+            "pwdx": pwd,
         },
         success: function(r) {
             if (r.code == 200) {
@@ -153,5 +156,12 @@ function login() {
                 alert("用户名或者密码错误！");
             }
         }
-    });*/
+    });
 }
+function logout() {
+    $.ajax({
+        type: "POST",
+        url: "/users/signout",
+    });
+}
+
