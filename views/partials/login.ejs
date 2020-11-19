@@ -25,7 +25,7 @@
             <!-- Tab panes -->
             <div class="tab-content mt-3">
               <div role="tabpanel" class="tab-pane active" id="home">
-                <form id="sign" action="/products/signin" method="POST">
+                <form id="sign" action="/test/signin" method="POST">
                   <div class="form-group">
                     <label for="staticEmail">Email</label>
                     <div>
@@ -39,7 +39,10 @@
                       <input id="inputPassword" class="form-control" name="pwdx" type="password" value="" placeholder="password">
                     </div>
                   </div>
-                  <button id="signIn" onclick="login()" type="button" class="btn btn-warning btn-block login-btn mt-4" >Sign In</button>
+                  <div class="form-group">
+                    <!-- onclick="login()" -->
+                    <button id="signIn" type="submit" class="btn btn-warning btn-block login-btn mt-4" >Sign In</button>
+                  </div>
                 </form>
               </div>
               <div role="tabpanel" class="tab-pane" id="profile">
