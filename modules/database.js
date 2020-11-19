@@ -1,13 +1,16 @@
 const mysql = require('mysql');
 let g = require('../modules/globals');
- 
-const connection = mysql.createConnection({
+
+// db option
+const dbOption = {
     host: 'localhost',
     user: 'root',
     password: 'root',
     port: '8889',
     database: 'final_project'
-});
+}
+exports.dbOption = dbOption;
+const connection = mysql.createConnection(dbOption);
 
 connection.connect((err) => {
     if (err) {

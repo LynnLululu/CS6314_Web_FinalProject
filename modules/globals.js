@@ -8,7 +8,7 @@ const Level = {
     OPERATING: 2,
     TESTING: 3,
 }
-var logLevel =  Level.TESTING;
+var logLevel =  Level.DEVELOPING;
 exports.Level = Level;
 exports.logLevel = logLevel;
 
@@ -98,19 +98,32 @@ var updateAccountJSON = function(email, username, password) {
     }
 }
 
+// resolve user
+var resolveUser = function(user) {
+   if (user === undefined) {
+        return {
+            "catagory": "anonymous",
+            "email": "",
+            "username": "",
+            "password": "",
+            "details": {}
+        };
+    } else {
+        return user;
+    }
+};
+exports.resolveUser = resolveUser;
+
 // seession action when sign in
 var sessionForSignIn = function(email, password) {
     return new Promise((resolve, reject) => {
         let promises = [];
-        promises.push(getCustomers("select * from CUSTOMER where Email=" + email + " AND Password=" + password));
-        promises.push(getAdmins("select * from ADMIN where Email=" + email + " AND Password=" + password));
+        promises.push(getCustomers("select * from CUSTOMER where Email='" + email + "' AND Password='" + password + "'"));
+        promises.push(getAdmins("select * from ADMIN where Email='" + email + "' AND Password='" + password + "'"));
         Promise.all(promises).then(function(results) {
             let customers = results[0];
             let admins = results[1];
             if (customers.length > 0) {
-                if (logLevel <= Level.OPERATING) {
-                    console.log("Sign in: " + customers[0]["email"]);
-                }
                 resolve({
                     "catagory": "customer",
                     "email": customers[0]["email"],
@@ -128,9 +141,6 @@ var sessionForSignIn = function(email, password) {
                     }
                 });
             } else if (admins.length > 0) {
-                if (logLevel <= Level.OPERATING) {
-                    console.log("Sign in: " + admins[0]["email" + "(Admin)"]);
-                }
                 resolve({
                     "catagory": "admin",
                     "email": admins[0]["email"],
@@ -162,14 +172,12 @@ var sessionForSignUp = function(username, email, password) {
         promises.push(getCustomers("select * from CUSTOMER"));
         Promise.all(promises).then(function(results) {
             let ids = [];
-            for (let customer in results[0]) {
-                if (customer["customerID"] >= 100) {  // save 0-99 for admins
-                    ids.push(customer["customerID"]);
-                }
+            for (let i = 0; i < results[0].length; i++) {
+                ids.push(results[0][i]["customerID"]);
             }
             ids.sort();
-            let newID = 100;
-            for (let i = 0; i < ids.length(); i++) {
+            let newID = 100;  // save 0-99 for admins
+            for (let i = 0; i < ids.length; i++) {
                 if (ids[i] == newID) {
                     newID++;
                 } else {
@@ -178,15 +186,12 @@ var sessionForSignUp = function(username, email, password) {
             }
             // add new customer
             updateAccountJSON(email, username, password);
-            let sql = "INSERT INTO CUSTOMER (AccountID, Email, UserName, Password) VALUES (" + newID + ", " + email + ", " + username + ", " + password + ");";
+            let sql = "INSERT INTO CUSTOMER (AccountID, Email, UserName, Password) VALUES (" + newID + ", '" + email + "', '" + username + "', '" + password + "');";
             db.query(sql, (err, rows) => {
                 if (err) {
                     throw err;
                 }
                 else {
-                    if (logLevel <= Level.OPERATING) {
-                        console.log("Sign up: " + email);
-                    }
                     resolve({
                         "catagory": "customer",
                         "email": email,
@@ -209,6 +214,25 @@ var sessionForSignUp = function(username, email, password) {
     });
 };
 exports.sessionForSignUp = sessionForSignUp;
+
+// seession action when change password
+var sessionForChangePwd = function(newPwd, user) {
+    return new Promise((resolve, reject) => {
+        let promises = [];
+        Promise.all(promises).then(function(results) {
+            let sql = "UPDATE CUSTOMER SET Password='" + newPwd + "' WHERE Email='" + user["email"] + "'";
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    throw err;
+                }
+                else {
+                    resolve("success");
+                }
+            })  
+        });
+    });
+};
+exports.sessionForChangePwd = sessionForChangePwd;
 
 // products
 var getProducts = function(sql) {
@@ -336,4 +360,47 @@ var getAdmins = function(sql) {
     });
 };
 exports.getAdmins = getAdmins;
+
+// products in cart
+var getCart = function(user) {
+    return new Promise((resolve, reject) => {
+        if (user["catagory"] == "customer") {
+            // cannot distinguish CP.Num and P.Num
+            let sql = "select CP.ProductID, CP.Num CartNum, P.Name, P.Price, P.Description, P.Image, P.Visible, P.Num StoreNum from CART_OWN_PRODUCT CP, PRODUCT P where CP.AccountID='" + user["details"]["customerID"] + "' and CP.ProductID=P.ProductID";
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    throw err;
+                }
+                else {
+                    let results = [];
+                    for (let elem of rows) {
+                        let tmp = {};
+                        tmp["productID"] = elem['ProductID'];
+                        tmp["cartNum"] = elem['CartNum'];
+                        tmp["productName"] = elem['Name'];
+                        tmp["price"] = elem['Price'];
+                        tmp["description"] = elem['Description'];
+                        tmp["image"] = elem['Image'];
+                        tmp["visible"] = elem['Visible'];
+                        tmp["storeNum"] = elem['StoreNum'];
+                        results.push(tmp);
+                        console.log(elem);
+                    }
+                    if (logLevel <= Level.DEVELOPING) {
+                        console.log("Get cart");
+                        console.log(results);
+                    }
+                    resolve(results);
+                }
+            });
+        } else {
+            resolve([]);
+        }
+    });
+}
+exports.getCart = getCart;
+
+
+
+
 

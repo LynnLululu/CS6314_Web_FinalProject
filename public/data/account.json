@@ -63,5 +63,15 @@
 		"email": "yalhol@gmail.com",
 		"username": "adminH",
 		"password": "123452"
+	},
+	{
+		"email": "test@test.com",
+		"username": "test",
+		"password": "Test1234"
+	},
+	{
+		"email": "test2@test.com",
+		"username": "test2",
+		"password": "Test1234"
 	}
 ]

@@ -4,10 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
+var SessionStore = require('express-mysql-session');
 var bodyparser = require('body-parser');
 
+let db = require('./modules/database');
 var indexRouter = require('./routes/index');
-var cartRouter = require('./routes/cart');
+var shopcartRouter = require('./routes/shopcart');
 var favoriteRouter = require('./routes/favorite');
 var ordersRouter = require('./routes/orders');
 var usersRouter = require('./routes/users');
@@ -31,15 +33,21 @@ app.use(bodyparser.urlencoded({ extended: true }));
 // use session
 app.use(session({
 	secret :  'secret',  // signed cookie
-    resave : true,
-    saveUninitialized: false, // save as initial?
+	name : 'token',
+    resave : false,
+    rolling : true,
+    saveUninitialized: true,
+    store : new SessionStore(db.dbOption),
     cookie : {
+    	path : '/',
+    	httpOnly : true,
+    	secure : false,
         maxAge : 1000 * 60 * 3, // set session's valid time
-    },
+    }
 }));
 
 app.use('/', indexRouter);
-app.use('/cart', cartRouter);
+app.use('/shopcart', shopcartRouter);
 app.use('/favorite', favoriteRouter);
 app.use('/orders', ordersRouter);
 app.use('/users', usersRouter);
