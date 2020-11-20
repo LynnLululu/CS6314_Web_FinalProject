@@ -102,7 +102,7 @@ var updateAccountJSON = function(email, username, password) {
 var resolveUser = function(user) {
    if (user === undefined) {
         return {
-            "catagory": "anonymous",
+            "category": "anonymous",
             "email": "",
             "username": "",
             "password": "",
@@ -125,7 +125,7 @@ var sessionForSignIn = function(email, password) {
             let admins = results[1];
             if (customers.length > 0) {
                 resolve({
-                    "catagory": "customer",
+                    "category": "customer",
                     "email": customers[0]["email"],
                     "username": customers[0]["username"],
                     "password": customers[0]["password"],
@@ -142,7 +142,7 @@ var sessionForSignIn = function(email, password) {
                 });
             } else if (admins.length > 0) {
                 resolve({
-                    "catagory": "admin",
+                    "category": "admin",
                     "email": admins[0]["email"],
                     "username": admins[0]["username"],
                     "password": admins[0]["password"],
@@ -186,14 +186,14 @@ var sessionForSignUp = function(username, email, password) {
             }
             // add new customer
             updateAccountJSON(email, username, password);
-            let sql = "INSERT INTO CUSTOMER (AccountID, Email, UserName, Password) VALUES (" + newID + ", '" + email + "', '" + username + "', '" + password + "');";
+            let sql = "REPLACE INTO CUSTOMER (AccountID, Email, UserName, Password) VALUES (" + newID + ", '" + email + "', '" + username + "', '" + password + "');";
             db.query(sql, (err, rows) => {
                 if (err) {
                     throw err;
                 }
                 else {
                     resolve({
-                        "catagory": "customer",
+                        "category": "customer",
                         "email": email,
                         "username": username,
                         "password": password,
@@ -364,7 +364,7 @@ exports.getAdmins = getAdmins;
 // products in cart
 var getCart = function(user) {
     return new Promise((resolve, reject) => {
-        if (user["catagory"] == "customer") {
+        if (user["category"] == "customer") {
             // cannot distinguish CP.Num and P.Num
             let sql = "select CP.ProductID, CP.Num CartNum, P.Name, P.Price, P.Description, P.Image, P.Visible, P.Num StoreNum from CART_OWN_PRODUCT CP, PRODUCT P where CP.AccountID='" + user["details"]["customerID"] + "' and CP.ProductID=P.ProductID";
             db.query(sql, (err, rows) => {
@@ -400,7 +400,100 @@ var getCart = function(user) {
 }
 exports.getCart = getCart;
 
+var updateCartTable = function() {
+    if (logLevel <= Level.DEBUGGING) {
+        console.log("Update CART.");
+    }
+    let sqls = [
+        "TRUNCATE TABLE CART",
+        "INSERT INTO CART select DISTINCT AccountID from CART_OWN_PRODUCT"
+    ]
+    async.eachSeries(sqls, function(sql, callback) {
+        db.query(sql, (err, rows) => {
+            if (err) {
+                callback(err);
+            } else {
+                if (logLevel <= Level.DEVELOPING) {
+                    console.log("success: " + sql);
+                }
+                callback();
+            }
+        });
+    }, function(err) {  // callback after all queries
+        if (err) {
+            console.log(err);
+        } else {
+            if (logLevel <= Level.DEBUGGING) {
+                console.log("All success.");
+            }
+        }
+    });
+}
 
+// get product number in cart
+var getCartNum = function(cid, pid) {
+    return new Promise((resolve, reject) => {
+        if (cid === undefined || pid === undefined) {
+            resolve(0);
+        } else {
+            let sql = "select Num from CART_OWN_PRODUCT where AccountID='" + cid + "' and ProductID='" + pid + "'";
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    throw err;
+                }
+                else {
+                    if (rows.length == 0) {
+                        resolve(0);
+                    } else {
+                        resolve(rows[0]["Num"]);
+                    }
+                }
+            });
+        }
+    });
+}
 
+//  add function for cart
+var addToCart = function(cid, pid, num, callback) {
+    let promises = [];
+    promises.push(getCartNum(cid, pid));
+    Promise.all(promises).then(function(results) {
+        let cartNum = num + results[0]
+        let sql = "REPLACE INTO CART_OWN_PRODUCT (AccountID, ProductID, Num) VALUES ('" + cid + "', '" + pid + "', " + cartNum + ")";
+        db.query(sql, (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            else {
+                updateCartTable();
+                callback();
+            }
+        });
+    });
+}
+exports.addToCart = addToCart;
+
+//  remove function for cart
+var removeFromCart = function(cid, pid, num, callback) {
+    let promises = [];
+    promises.push(getCartNum(cid, pid));
+    Promise.all(promises).then(function(results) {
+        let sql = "REPLACE INTO CART_OWN_PRODUCT (AccountID, ProductID, Num) VALUES ('" + cid + "', '" + pid + "', " + cartNum + ")";
+        let cartNum = results[0] - num
+        if (cartNum <= 0) {
+            sql = "DELETE FROM CART_OWN_PRODUCT WHERE AccountID='" + cid + "' and ProductID='" + pid + "'";
+        }
+        db.query(sql, (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            else {
+                updateCartTable();
+                callback();
+            }
+        });
+    });
+}
+exports.removeFromCart = removeFromCart;
 
 
