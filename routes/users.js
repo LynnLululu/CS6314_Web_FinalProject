@@ -12,6 +12,9 @@ router.post('/', function(req, res) {
 });
 
 router.post('/signin', function(req, res) {
+	if (g.logLevel <= g.Level.OPERATING) {
+		console.log("Sign in.")
+    }
 	let promises = [];
 	promises.push(g.sessionForSignIn(req.body.emailx, req.body.pwdx));
 	Promise.all(promises).then(function(results) {
@@ -29,6 +32,9 @@ router.post('/signin', function(req, res) {
 });
 
 router.post('/signup', function(req, res) {
+	if (g.logLevel <= g.Level.OPERATING) {
+		console.log("Sign up.")
+    }
 	let promises = [];
 	promises.push(g.sessionForSignUp(req.body.userName, req.body.email, req.body.pwd));
 	Promise.all(promises).then(function(results) {
@@ -43,6 +49,9 @@ router.post('/signup', function(req, res) {
 
 router.post('/signout', function(req, res) {
 	if (g.logLevel <= g.Level.OPERATING) {
+		console.log("Sign out.")
+    }
+	if (g.logLevel <= g.Level.OPERATING) {
         g.selectedPrint("Sign out", req.session.user);
     }
     req.session.user = undefined;
@@ -50,6 +59,9 @@ router.post('/signout', function(req, res) {
 });
 
 router.post('/changepwd', function(req, res) {
+	if (g.logLevel <= g.Level.DEBUGGING) {
+		console.log("Change password.")
+    }
 	let promises = [];
 	promises.push(g.sessionForChangePwd(req.body.newPwd, req.session.user));
 	Promise.all(promises).then(function(results) {

@@ -7,10 +7,45 @@ var g = require('../modules/globals');
 router.get('/', function(req, res) {
 	res.redirect('/products');
 });
-
+/*
+var filterProducts  = async function(products, categories, text) {
+	let promise = await new Promise((resolve, reject) => {
+		let arr = [];
+		let clist = (categories == undefined || categories == '') ? [] : categories.split(' ');
+		let kwlist = (text == undefined || text == '') ? [] : text.trim().toLowerCase().split(' ');
+		products.forEach((product) => {
+			let flag = true;
+			for (let i = 0; i < clist.length; i++) {
+				
+			}
+			if (genre != undefined && genre != '' && genre != video.genre) {
+				flag = false;
+			}
+			if (title != undefined && title != '') {
+				let keywords = title.trim().toLowerCase().split(' ');
+				for (let i = 0; i < keywords.length; i++) {
+					if (flag && video.title.toLowerCase().search(keywords[i]) == -1) {
+						flag = false;
+					}
+				}
+			}
+			if (flag) {
+				arr.push(video);
+			}
+		})
+		resolve(arr);
+	});
+	return promise;
+};
+*/
 // show all products
 router.get('/products', function(req, res) {
 	let promises = [];
+	let categories = req.params.searchCategories;
+	let text = req.params.searchText;
+	console.log(categories);
+	console.log(text);
+	console.log("test####");
 	promises.push(g.getProducts("select * from PRODUCT"));
 	promises.push(g.getCategories("select * from CATEGORY"));
 	promises.push(g.getAccountJSON());
@@ -33,39 +68,10 @@ router.get('/products', function(req, res) {
 	});
 });
 
-var filterProducts  = async function(products, categories, searchWrod) {
-	let promise = await new Promise((resolve, reject) => {
-		let arr = [];
-		let clist = categories
-		products.forEach((product) => {
-			let flag = true;
-			if (genre != undefined && genre != '' && genre != video.genre) {
-				flag = false;
-			}
-			if (title != undefined && title != '') {
-				let keywords = title.trim().toLowerCase().split(' ');
-				for (let i = 0; i < keywords.length; i++) {
-					if (flag && video.title.toLowerCase().search(keywords[i]) == -1) {
-						flag = false;
-					}
-				}
-			}
-			if (flag) {
-				arr.push(video);
-			}
-		})
-		resolve(arr);
-	});
-	return promise;
-};
 // show one product
 router.get('/products/:id', function(req, res) {
 	let promises = [];
 	let _id = req.params.id;
-	let categories = req.params.gategories;
-	let searchWord = req.params.searchWord;
-	console.log(categories);
-	console.log(searchWord);
 	promises.push(g.getProducts("select * from PRODUCT where ProductID=" + _id));
 	promises.push(g.getCategories("select * from CATEGORY NATURAL JOIN PRODUCT_OWN_CATEGORY where ProductID=" + _id));
 	promises.push(g.getAccountJSON());
