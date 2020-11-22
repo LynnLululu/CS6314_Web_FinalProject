@@ -73,5 +73,15 @@
 		"email": "test2@test.com",
 		"username": "test2",
 		"password": "Test1234"
+	},
+	{
+		"email": "lu@com",
+		"username": "lu",
+		"password": "Lu1234"
+	},
+	{
+		"email": "lu@com",
+		"username": "lu",
+		"password": "Lu1234"
 	}
 ]

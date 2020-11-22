@@ -50,7 +50,7 @@ function register() {
             }
         }
     });
-    */
+
 }
 
 function validateRule() {
@@ -127,16 +127,16 @@ function login() {
         return;
     }
 
-    if (email == "99@qq.com" && pwd == "Qqq123456") {
-        alert("Login successful!");
-        $("#exampleModal").modal('toggle');
-        $("#sign-txt1").hide();
-        $("#sign-txt2").html(' <i class="fas fa-user ml-2 mr-2"></i> admin');
-        $("#sign-txt2").show();
-    } else {
-        alert("User name or password is wrong.");
+    // if (email == "99@qq.com" && pwd == "Qqq123456") {
+    //     alert("Login successful!");
+    //     $("#exampleModal").modal('toggle');
+    //     $("#sign-txt1").hide();
+    //     $("#sign-txt2").html(' <i class="fas fa-user ml-2 mr-2"></i> admin');
+    //     $("#sign-txt2").show();
+    // } else {
+    //     alert("User name or password is wrong.");
 
-    }
+    // }
     
     $.ajax({
         type: "POST",
