@@ -37,7 +37,7 @@ router.post('/add', function(req, res) {
 		res.send([]);
 	} else {
 		let promises = [];
-		promises.push(g.addToCart(user["detail"]["customerID"], pid, num, g.getCart(user)));
+		promises.push(g.addToCart(user, pid, num));
 		Promise.all(promises).then(function(results) {
 		if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("After adding to shopcart:");
@@ -48,18 +48,39 @@ router.post('/add', function(req, res) {
 	}
 });
 
-router.post('/remove', function(req, res) {
+router.post('/update', function(req, res) {
 	let user = g.resolveUser(req.session.user);
 	let pid = req.body.productID;
 	let num = req.body.num;
 	if (g.logLevel <= g.Level.DEBUGGING) {
-        console.log("Remove " + num + " product " + pid + " to " + user["email"] + "'s shopcart.");
+        console.log("Update product " + pid + " in " + user["email"] + "'s shopcart to " + num + ".");
     }
 	if (user == undefined || user["category"] != "customer") {
 		res.send([]);
 	} else {
 		let promises = [];
-		promises.push(g.removeFromCart(user["detail"]["customerID"], pid, num, g.getCart(user)));
+		promises.push(g.updateInCart(user, pid, num));
+		Promise.all(promises).then(function(results) {
+		if (g.logLevel <= g.Level.DEBUGGING) {
+            console.log("After update in shopcart:");
+            g.selectedPrint("cart", results[0]);
+        }
+		res.send(results[0]);
+	});
+	}
+});
+
+router.post('/remove', function(req, res) {
+	let user = g.resolveUser(req.session.user);
+	let pid = req.body.productID;
+	if (g.logLevel <= g.Level.DEBUGGING) {
+        console.log("Remove product " + pid + " from " + user["email"] + "'s shopcart.");
+    }
+	if (user == undefined || user["category"] != "customer") {
+		res.send([]);
+	} else {
+		let promises = [];
+		promises.push(g.removeFromCart(user, pid));
 		Promise.all(promises).then(function(results) {
 		if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("After remove from shopcart:");

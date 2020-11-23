@@ -8,7 +8,7 @@ const Level = {
     OPERATING: 2,
     TESTING: 3,
 }
-var logLevel =  Level.DEVELOPING;
+var logLevel =  Level.DEBUGGING;
 exports.Level = Level;
 exports.logLevel = logLevel;
 
@@ -32,70 +32,6 @@ exports.selectedPrint = selectedPrint;
 // date format
 function formatDate(date) {
   return moment(date).format('YYYY-MM-DD HH:mm:ss');
-}
-
-// occupied.json dir
-const _accountDir = "./public/data/account.json";
-
-// build account.json and return its directory
-var getAccountJSON = function() {
-    return new Promise((resolve, reject) => {
-        fs.exists(_accountDir, function(exist) {
-            if (exist) {
-                if (logLevel <= Level.DEBUGGING) {
-                    console.log("Existed: account.json.");
-                }
-                if (logLevel <= Level.DEVELOPING) {
-                    let string = fs.readFileSync(_accountDir);
-                    let content = JSON.parse(string);
-                    console.log(content);
-                }
-                resolve(_accountDir);
-            } else {
-                let sql = "select UserName, Email, Password from CUSTOMER UNION select UserName, Email, Password from ADMIN";
-                db.query(sql, (err, rows) => {
-                    if (err) {
-                        throw err;
-                    }
-                    else {
-                        let results = [];
-                        for (let elem of rows) {
-                            let tmp = {};
-                            tmp["email"] = elem['Email'];
-                            tmp["username"] = elem['UserName'];
-                            tmp["password"] = elem['Password'];
-                            results.push(tmp);
-                        }
-                        fs.writeFileSync(_accountDir, JSON.stringify(results, null, '\t'));
-                        if (logLevel <= Level.DEBUGGING) {
-                            console.log("Create: account.json.");
-                        }
-                        if (logLevel <= Level.DEVELOPING) {
-                            console.log(results);
-                        }
-                        resolve(_accountDir);
-                    }
-                });
-            }
-        });
-    });
-};
-exports.getAccountJSON = getAccountJSON;
-
-// update account.json
-var updateAccountJSON = function(email, username, password) {
-    let string = fs.readFileSync(_accountDir);
-    let content = JSON.parse(string);
-    let tmp = {};
-    tmp["email"] = email;
-    tmp["username"] = username;
-    tmp["password"] = password;
-    content.push(tmp);
-    fs.writeFileSync(_accountDir, JSON.stringify(content, null, '\t'));
-    if (logLevel <= Level.DEBUGGING) {
-        console.log("Update: account.json.");
-        console.log(tmp);
-    }
 }
 
 // resolve user
@@ -185,7 +121,6 @@ var sessionForSignUp = function(username, email, password) {
                 }
             }
             // add new customer
-            updateAccountJSON(email, username, password);
             let sql = "REPLACE INTO CUSTOMER (AccountID, Email, UserName, Password) VALUES (" + newID + ", '" + email + "', '" + username + "', '" + password + "');";
             db.query(sql, (err, rows) => {
                 if (err) {
@@ -235,14 +170,15 @@ var sessionForChangePwd = function(newPwd, user) {
 exports.sessionForChangePwd = sessionForChangePwd;
 
 // products
-var getProducts = function(sql) {
+var getProducts = function() {
     return new Promise((resolve, reject) => {
+        let sql = "select * from PRODUCT";
         db.query(sql, (err, rows) => {
             if (err) {
                 throw err;
             }
             else {
-                let results = [];
+                let result = {};
                 for (let elem of rows) {
                     let tmp = {};
                     tmp["productID"] = elem['ProductID'];
@@ -256,13 +192,14 @@ var getProducts = function(sql) {
                     } else {
                         tmp["visible"] = true;
                     }
-                    results.push(tmp);
+                    tmp["categories"] = [];
+                    result[elem['ProductID']] = tmp;
                 }
                 if (logLevel <= Level.DEVELOPING) {
                     console.log("Get products.");
-                    console.log(results);
+                    console.log(result);
                 }
-                resolve(results);
+                resolve(result);
             }
         });
     });
@@ -424,7 +361,7 @@ var updateCartTable = function() {
             console.log(err);
         } else {
             if (logLevel <= Level.DEBUGGING) {
-                console.log("All success.");
+                console.log("Update Table CART success.");
             }
         }
     });
@@ -454,46 +391,58 @@ var getCartNum = function(cid, pid) {
 }
 
 //  add function for cart
-var addToCart = function(cid, pid, num, callback) {
+var addToCart = function(user, pid, num) {
+    let cid = user["detail"]["customerID"];
     let promises = [];
     promises.push(getCartNum(cid, pid));
     Promise.all(promises).then(function(results) {
-        let cartNum = num + results[0]
-        let sql = "REPLACE INTO CART_OWN_PRODUCT (AccountID, ProductID, Num) VALUES ('" + cid + "', '" + pid + "', " + cartNum + ")";
-        db.query(sql, (err, rows) => {
-            if (err) {
-                throw err;
-            }
-            else {
-                updateCartTable();
-                callback();
-            }
+        return new Promise((resolve, reject) => {
+            let cartNum = num + results[0]
+            let sql = "REPLACE INTO CART_OWN_PRODUCT (AccountID, ProductID, Num) VALUES ('" + cid + "', '" + pid + "', " + cartNum + ")";
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    throw err;
+                }
+                else {
+                    resolve(updateCartTable(getCart(user)));
+                }
+            });
         });
     });
 }
 exports.addToCart = addToCart;
 
-//  remove function for cart
-var removeFromCart = function(cid, pid, num, callback) {
-    let promises = [];
-    promises.push(getCartNum(cid, pid));
-    Promise.all(promises).then(function(results) {
-        let sql = "REPLACE INTO CART_OWN_PRODUCT (AccountID, ProductID, Num) VALUES ('" + cid + "', '" + pid + "', " + cartNum + ")";
-        let cartNum = results[0] - num
-        if (cartNum <= 0) {
-            sql = "DELETE FROM CART_OWN_PRODUCT WHERE AccountID='" + cid + "' and ProductID='" + pid + "'";
-        }
+//  update function for cart
+var updateInCart = function(user, pid, num) {
+    let cid = user["detail"]["customerID"];
+    let sql = "REPLACE INTO CART_OWN_PRODUCT (AccountID, ProductID, Num) VALUES ('" + cid + "', '" + pid + "', " + num + ")";
+    return new Promise((resolve, reject) => {
         db.query(sql, (err, rows) => {
             if (err) {
                 throw err;
             }
             else {
-                updateCartTable();
-                callback();
+                resolve(updateCartTable(getCart(user)));
+            }
+        });
+    });
+}
+exports.updateInCart = updateInCart;
+
+//  remove function for cart
+var removeFromCart = function(user, pid) {
+    let cid = user["detail"]["customerID"];
+    let sql = "DELETE FROM CART_OWN_PRODUCT WHERE AccountID='" + cid + "' and ProductID='" + pid + "'";
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            else {
+                resolve(updateCartTable(getCart(user)));
             }
         });
     });
 }
 exports.removeFromCart = removeFromCart;
-
 

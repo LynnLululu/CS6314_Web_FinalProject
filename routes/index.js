@@ -10,10 +10,15 @@ router.get('/', function(req, res) {
 
 // show all products
 router.get('/products', function(req, res) {
+	let categories = req.params.searchCategories;
+	let text = req.params.searchText;
+	console.log(categories);
+	console.log(text);
+	console.log("test####");
 	let promises = [];
+	let results = []
 	promises.push(g.getProducts("select * from PRODUCT"));
 	promises.push(g.getCategories("select * from CATEGORY"));
-	promises.push(g.getAccountJSON());
 	promises.push(g.resolveUser(req.session.user));
 	// promises and results are paired
 	Promise.all(promises).then(function(results) {

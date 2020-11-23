@@ -28,6 +28,19 @@ router.post('/signin', function(req, res) {
 	});
 });
 
+router.post('/checkusername', function(req, res) {
+	let promises = [];
+	promises.push(g.checkUsername(req.body.userName));
+	Promise.all(promises).then(function(results) {
+		let user = g.resolveUser(results[0]);
+		req.session.user = user;
+		if (g.logLevel <= g.Level.OPERATING) {
+			g.selectedPrint("Success", user);
+        }
+        res.send(user);
+	});
+});
+
 router.post('/signup', function(req, res) {
 	let promises = [];
 	promises.push(g.sessionForSignUp(req.body.userName, req.body.email, req.body.pwd));
