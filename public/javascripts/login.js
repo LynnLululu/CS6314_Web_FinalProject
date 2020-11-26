@@ -32,7 +32,7 @@ function register() {
     var pwd = $("input[name='pwd']").val();
     var pwdC = $("input[name='pwdC']").val();
     alert("Registered successful!");
-	
+    
     $.ajax({
         type: "POST",
         url: "/users/signup",
@@ -164,4 +164,3 @@ function logout() {
         url: "/users/signout",
     });
 }
-

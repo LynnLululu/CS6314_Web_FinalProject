@@ -1,20 +1,21 @@
 <!-- Product list -->
     <div  id="productList" class="row text-center">
 
-      <% products.forEach(function(product){ %>
+      <% Object.keys(products).forEach(function(productID){ %>
+        <% let product = products[productID]; %>
         <div class="col-lg-3 col-md-6 mb-4" style="display: none;">
           <!-- card -->
           <div class="card h-100 pb-0">
 
             <!-- product image -->
-            <a href="products/<%= product.productID %>" class="card-link text-dark">
+            <a href="products/<%= productID %>" class="card-link text-dark">
               <img class="card-img-top" src="images/<%= product.image %>" alt="<%= product.productName %>">
             </a>
 
             <div class="card-body text-left">
 
               <!-- product link -->
-              <a href="products/<%= product.productID %>" class="card-link text-dark">
+              <a href="products/<%= productID %>" class="card-link text-dark">
 
                 <!-- product name -->
                 <h5 class="card-title text-truncate"><%= product.productName %></h5>

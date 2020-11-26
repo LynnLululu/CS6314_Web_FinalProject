@@ -19,9 +19,9 @@
       <h1><%= product.productName %></h1>
       <!-- product description -->
       <p><%= product.description %></p>
-      <% thisCategory.forEach(function(category){ %>
+      <% product.categories.forEach(function(category){ %>
       <!--product category -->
-      <a href="#" class="badge badge-secondary float-right mr-1 mb-1"><%= category.categoryName %></a>
+      <a href="#" class="badge badge-secondary float-right mr-1 mb-1"><%= category %></a>
       <% }); %>
       <br>
       <div class="row">

@@ -8,7 +8,7 @@ INSERT INTO ADMIN (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Passwo
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Payment, MailAddr, BillAddr, Phone)
 	VALUES (100, 'Medhurst', 'Tess', STR_TO_DATE('01/29/1991','%m/%d/%Y'), 'medtes@gmail.com', 'medtes', '6789321469', '4829571662449868', '4494 Wilson Avenue Plano TX 75023', '4494 Wilson Avenue Plano TX 75023', '7112659193');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Payment, MailAddr, BillAddr, Phone)
-	VALUES (101, 'Hayes', 'Mitchel', STR_TO_DATE('07/17/1972','%m/%d/%Y'), 'haymit@gmail.com', 'haymit', '1289312', '5487744475243527', '932 Worthington Drive Plano TX 75074', '932 Worthington Drive Plano TX 75074', '6758447400');
+	VALUES (101, 'Hayes', 'Mitchel', STR_TO_DATE('07/17/1972','%m/%d/%Y'), 'haymit@gmail.com', 'haymit', '1234', '5487744475243527', '932 Worthington Drive Plano TX 75074', '932 Worthington Drive Plano TX 75074', '6758447400');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Payment, MailAddr, BillAddr, Phone)
 	VALUES (102, 'Hegmann', 'Louie', STR_TO_DATE('12/28/1994','%m/%d/%Y'), 'heglou@outlook.com', 'heglou', '341152341', '5132304934743739', '4223 Jones Street Plano TX 75074', '848 Liberty Street Plano TX 75074', '2668550710');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Payment, MailAddr, BillAddr, Phone)
@@ -161,8 +161,8 @@ INSERT INTO CART_OWN_PRODUCT (AccountID, ProductID, Num)
 INSERT INTO CART_OWN_PRODUCT (AccountID, ProductID, Num)
 	VALUES (106, 1003, 10);
 
-INSERT INTO WISHLIST (AccountID)
-	VALUES (105);
+INSERT INTO FAVORITE (AccountID)
+	VALUES (101);
 
-INSERT INTO WISHLIST_OWN_PRODUCT (AccountID, ProductID)
-	VALUES (105, 3003);
+INSERT INTO FAVORITE_OWN_PRODUCT (AccountID, ProductID)
+	VALUES (101, 3003);
