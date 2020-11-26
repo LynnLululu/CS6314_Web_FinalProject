@@ -7,7 +7,7 @@ var mu = require('../modules/m_user');
 router.get('/', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
 	if (g.logLevel <= g.Level.DEBUGGING) {
-		console.log("Show user details.");
+		console.log("Show user details. 'tbd':");
         g.selectedPrint(mu.resolveUser(req.session.user));
     }
     res.render('tbd', { "user": user });
@@ -28,21 +28,21 @@ router.post('/signin', function(req, res) {
         let admins = results["admins"];
         if (admins.length > 0) {
         	req.session.user = admins[0];
-        	if (g.logLevel <= g.Level.DEBUGGING) {
+        	if (g.logLevel <= g.Level.OPERATING) {
                 console.log("Sign in as admin.");
                 g.selectedPrint(mu.resolveUser(req.session.user));
             }
             res.send(req.session.user);
         } else if (customers.length > 0) {
         	req.session.user = customers[0];
-        	if (g.logLevel <= g.Level.DEBUGGING) {
+        	if (g.logLevel <= g.Level.OPERATING) {
                 console.log("Sign in as customer.");
                 g.selectedPrint(mu.resolveUser(req.session.user));
             }
             res.send(req.session.user);
         } else {
         	req.session.user = undefined
-        	if (g.logLevel <= g.Level.DEBUGGING) {
+        	if (g.logLevel <= g.Level.OPERATING) {
                 console.log("Sign in failed.");
                 g.selectedPrint(mu.resolveUser(req.session.user));
             }
@@ -161,7 +161,7 @@ router.post('/signup', function(req, res) {
     	if (g.logLevel <= g.Level.TESTING) {
             console.log(results);
         }
-    	if (g.logLevel <= g.Level.DEBUGGING) {
+    	if (g.logLevel <= g.Level.OPERATING) {
             console.log("Sign up as customer.");
             g.selectedPrint(mu.resolveUser(req.session.user));
         }
@@ -171,7 +171,7 @@ router.post('/signup', function(req, res) {
 		if (g.logLevel <= g.Level.TESTING) {
             console.log(exists);
         }
-		if (g.logLevel <= g.Level.DEBUGGING) {
+		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Sign up failed.");
             g.selectedPrint(mu.resolveUser(req.session.user));
         }
@@ -181,7 +181,7 @@ router.post('/signup', function(req, res) {
 
 router.post('/signout', function(req, res) {
 	req.session.user = undefined;
-    if (g.logLevel <= g.Level.DEBUGGING) {
+    if (g.logLevel <= g.Level.OPERATING) {
 		console.log("Sign out.");
         g.selectedPrint(mu.resolveUser(req.session.user));
     }

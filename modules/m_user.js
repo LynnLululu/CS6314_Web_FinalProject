@@ -290,12 +290,11 @@ exports.createCustomer = createCustomer;
 // change username
 var updateUsername = function(dic, key, newUsername, user) {
     return new Promise((resolve, reject) => {
-        let promises = [];
-        let sql = "update CUSTOMER SET UserName='" + newUsername + "' WHERE AccountID='" + user["customerID"] + "'";
-            if (user["category"] === "admin") {
-                sql = "update ADMIN SET UserName='" + newUsername + "' WHERE AccountID='" + user["adminID"] + "'";
-            }
-            db.query(sql, (err, rows) => {
+        let sql = "update CUSTOMER SET UserName='" + newUsername + "' where AccountID=" + user["customerID"];
+        if (user["category"] === "admin") {
+            sql = "update ADMIN SET UserName='" + newUsername + "' where AccountID=" + user["adminID"];
+        }
+        db.query(sql, (err, rows) => {
             if (err) {
                 dic[key] = "fail";
                 if (g.logLevel <= g.Level.DEVELOPING) {
@@ -318,12 +317,11 @@ exports.updateUsername = updateUsername;
 // change password
 var updatePassword = function(dic, key, newPassword, user) {
     return new Promise((resolve, reject) => {
-        let promises = [];
-         let sql = "update CUSTOMER SET Password='" + newPassword + "' WHERE AccountID='" + user["customerID"] + "'";
-            if (user["category"] === "admin") {
-                sql = "update ADMIN SET Password='" + newPassword + "' WHERE AccountID='" + user["adminID"] + "'";
-            }
-            db.query(sql, (err, rows) => {
+        let sql = "update CUSTOMER SET Password='" + newPassword + "' where AccountID=" + user["customerID"];
+        if (user["category"] === "admin") {
+            sql = "update ADMIN SET Password='" + newPassword + "' where AccountID=" + user["adminID"];
+        }
+        db.query(sql, (err, rows) => {
             if (err) {
                 dic[key] = "fail";
                 if (g.logLevel <= g.Level.DEVELOPING) {
@@ -345,27 +343,78 @@ exports.updatePassword = updatePassword;
 
 var updateAccountDetails = function(dic, key, newFName, newLName, newDob, newPhone, user) {
     return new Promise((resolve, reject) => {
-        let promises = [];
-         let sql = "update CUSTOMER SET Fname='" + newFName + "', Lname='" + newLName "', DateOfBirth='" + newDob "', Phon='" newPhone "' WHERE AccountID='" + user["customerID"] + "'";
-            if (user["category"] === "admin") {
-                sql = "update ADMIN SET Fname='" + newFName + "', Lname='" + newLName "', DateOfBirth='" + newDob "', Phon='" newPhone "' WHERE AccountID='" + user["customerID"] + "'";
-            }
-            db.query(sql, (err, rows) => {
+        let sql = "update CUSTOMER SET Fname='" + newFName + "', Lname='" + newLName + "', DateOfBirth='" + newDob + "', Phone='" + newPhone + "' where AccountID=" + user["customerID"];
+        if (user["category"] === "admin") {
+            sql = "update ADMIN SET Fname='" + newFName + "', Lname='" + newLName + "', DateOfBirth='" + newDob + "', Phone='" + newPhone + "' where AccountID=" + user["customerID"];
+        }
+        db.query(sql, (err, rows) => {
             if (err) {
                 dic[key] = "fail";
                 if (g.logLevel <= g.Level.DEVELOPING) {
-                    console.log("updatePassword: " + dic[key]);
+                    console.log("updateAccountDetails: " + dic[key]);
                 }
                 throw err;
             }
             else {
                 dic[key] = "success";
                 if (g.logLevel <= g.Level.DEVELOPING) {
-                    console.log("updatePassword: " + dic[key]);
+                    console.log("updateAccountDetails: " + dic[key]);
                 }
                 resolve();
             }
         });
     });
 }
+exports.updateAccountDetails = updateAccountDetails;
 
+var updatePaymentMethods = function(dic, key, newPayment, user) {
+    return new Promise((resolve, reject) => {
+        let sql = "update CUSTOMER SET Payment='" + newPayment + "' where AccountID=" + user["customerID"];
+        if (user["category"] === "admin") {
+            sql = "update ADMIN SET Payment='" + newPayment + "' where AccountID=" + user["customerID"];
+        }
+        db.query(sql, (err, rows) => {
+            if (err) {
+                dic[key] = "fail";
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("updatePaymentMethods: " + dic[key]);
+                }
+                throw err;
+            }
+            else {
+                dic[key] = "success";
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("updatePaymentMethods: " + dic[key]);
+                }
+                resolve();
+            }
+        });
+    });
+}
+exports.updatePaymentMethods = updatePaymentMethods;
+
+var updateDeliveryAddress = function(dic, key, newAddress, user) {
+    return new Promise((resolve, reject) => {
+        let sql = "update CUSTOMER SET MailAddr='" + newAddress + "' where AccountID=" + user["customerID"];
+        if (user["category"] === "admin") {
+            sql = "update ADMIN SET MailAddr='" + newAddress + "' where AccountID=" + user["customerID"];
+        }
+        db.query(sql, (err, rows) => {
+            if (err) {
+                dic[key] = "fail";
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("updateDeliveryAddress: " + dic[key]);
+                }
+                throw err;
+            }
+            else {
+                dic[key] = "success";
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("updateDeliveryAddress: " + dic[key]);
+                }
+                resolve();
+            }
+        });
+    });
+}
+exports.updateDeliveryAddress = updateDeliveryAddress;

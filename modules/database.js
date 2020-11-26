@@ -7,7 +7,8 @@ const dbOption = {
     user: 'root',
     password: 'root',
     port: '8889',
-    database: 'final_project'
+    database: 'final_project',
+    timezone: "-06:00",
 }
 exports.dbOption = dbOption;
 const connection = mysql.createConnection(dbOption);
@@ -32,3 +33,4 @@ let query = (sql, callback) => {
 };
 
 exports.query = query
+

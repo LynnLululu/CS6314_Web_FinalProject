@@ -4,27 +4,27 @@
 <!-- Shop list -->
 <div id="shopList" class="row text-center">
     <div class="col col-lg-8 col-md-6">
-        <% products.forEach(function(product){ %>
+        <% Object.keys(cart).forEach(function(productID){ %>
         <div class="row mr-0 w-100 mb-3">
             <div class="col-12 col-lg-6 col-sm-12 bg-light">
                 <div class="rounded py-3 h-100">
-                    <img class="w-100 h-100" src="/images/<%= product.image %>"
-                        alt="<%= product.productName %> Picture">
+                    <img class="w-100 h-100" src="/images/<%= cart[productID].image %>"
+                        alt="<%= cart[productID].productName %> Picture">
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-sm-12 bg-light">
                 <div class="p-5">
-                    <h4 class="text-left"><%= product.productName %>
+                    <h4 class="text-left"><%= cart[productID].productName %>
                         <a class="btn float-right">
                             <i class="fas fa-trash-alt text-secondary"></i>
                         </a>
                     </h4>
-                    <p class="text-left"><%= product.description %></p>
-                    <% categories.forEach(function(category){ %>
+                    <p class="text-left"><%= cart[productID].description %></p>
+                    <% cart[productID].categories.forEach(function(category){ %>
                     <a href="#" class="badge badge-secondary float-right mr-1 mb-1"><%= category.categoryName %></a>
                     <% }); %>
                     <br>
-                    <h4 class="mt-3 mb-2 float-right mr-1 pt-2">$<%= product.productPrice %></h4>
+                    <h4 class="mt-3 mb-2 float-right mr-1 pt-2">$<%= cart[productID].productPrice %></h4>
                     <div class="dropdown my-3 pt-2 float-left">
                         <button class="btn btn-outline-secondary dropdown-toggle px-4" type="button"
                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -32,7 +32,7 @@
                         </button>
                         <div class="dropdown-menu overflow-auto" style="max-height: 140px;"
                             aria-labelledby="dropdownMenuButton">
-                            <% for (var i = 1; i <= product.num; i++) {%>
+                            <% for (var i = 1; i <= cart[productID].num; i++) {%>
                             <a class="dropdown-item" href="#"> <%= i %></a>
                             <% } %>
                         </div>
@@ -54,7 +54,7 @@
                 <h6 class="text-left">Subtotal</h6 class="text-left">
             </div>
             <div class="col-6">
-                <p class="text-right">$100</p>
+                <p class="text-right"><%= summary.beforeTax %></p>
             </div>
         </div>
 
@@ -64,7 +64,7 @@
                 <h6 class="text-left">Shipping</h6 class="text-left">
             </div>
             <div class="col-6">
-                <p class="text-right">Free</p>
+                <p class="text-right"><%= summary.shipping %></p>
             </div>
         </div>
 
@@ -74,7 +74,7 @@
                 <h6 class="text-left">Tax</h6 class="text-left">
             </div>
             <div class="col-6">
-                <p class="text-right">$8.25</p>
+                <p class="text-right"><%= summary.tax %></p>
             </div>
         </div>
         <hr>
@@ -84,7 +84,7 @@
                 <h5 class="text-left">Total</h5>
             </div>
             <div class="col-6">
-                <h5 class="text-right">$108.25</h5>
+                <h5 class="text-right"><%= summary.total %></h5>
             </div>
         </div>
 

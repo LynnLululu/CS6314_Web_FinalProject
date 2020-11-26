@@ -1,6 +1,18 @@
 let db = require('../modules/database');
 let g = require('../modules/globals');
 
+const EMPTYPRODUCT = {
+    "productID": -1,
+    "productName": "",
+    "categories": [],
+    "productPrice": 0,
+    "description": "",
+    "image": "",
+    "storeNum": 0,
+    "visible": false,
+}
+exports.EMPTYPRODUCT = EMPTYPRODUCT;
+
 // get all products
 var getProducts = function(dic, key) {
     return new Promise((resolve, reject) => {
@@ -19,7 +31,7 @@ var getProducts = function(dic, key) {
                     tmp["productPrice"] = elem['Price'];
                     tmp["description"] = elem['Description'];
                     tmp["image"] = elem['Image'];
-                    tmp["num"] = elem['Num'];
+                    tmp["storeNum"] = elem['Num'];
                     if (elem['Visible'] == 0) {
                         tmp["visible"] = false;
                     } else {
@@ -51,7 +63,9 @@ var addCategories = function(dic, key) {
                 for (let elem of rows) {
                     let productID = elem['ProductID'];
                     let categoryName = elem['Name'];
-                    dic[key][productID]["categories"].push(categoryName);
+                    if (dic[key].hasOwnProperty(productID)) {
+                        dic[key][productID]["categories"].push(categoryName);
+                    }
                 }
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("addCategories");
@@ -109,7 +123,7 @@ exports.selectProducts = selectProducts;
 // get all categories
 var getCategories = function(dic, key) {
     return new Promise((resolve, reject) => {
-        let sql = "select * from CATEGORY";
+        let sql = "select * from CATEGORY order by CategoryID ASC";
         db.query(sql, (err, rows) => {
             if (err) {
                 throw err;
@@ -117,7 +131,10 @@ var getCategories = function(dic, key) {
             else {
                 let results = [];
                 for (let elem of rows) {
-                    results.push(elem['Name']);
+                    results.push({
+                        "categoryID": elem['CategoryID'],
+                        "categoryName": elem['Name'],
+                    });
                 }
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("getCategories");
@@ -162,35 +179,161 @@ var generateFilterString = function(dic, key, categories, keywords, text) {
 exports.generateFilterString = generateFilterString;
 
 // update image
-var updateImage = function(image) {
+var updateImage = function(image) {  // TODO
     return new Promise((resolve, reject) => {
-        results();
+        resolve();
     });
 };
 exports.updateImage = updateImage;
 
 // update product
-var updateProduct = function(product) {
+var updateProduct = function(productID, product) {
     return new Promise((resolve, reject) => {
-        results();
+        let visible = product["visible"] ? 1 : 0;
+        let sql = "update PRODUCT SET Name='" + product["productName"] + "', Price=" + product["productPrice"] + ", Description='" + product["description"] + "', Image='" + product["image"] + "', Visible=" + visible + ", Num=" + product["storeNum"] + " where ProductID=" + productID;
+        db.query(sql, (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            else {
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("updateProduct");
+                }
+                resolve();
+            }
+        });
     });
 };
 exports.updateProduct = updateProduct;
-
-
-// update product
-var updateCategories = function(categories) {
-    return new Promise((resolve, reject) => {
-        results();
-    });
-};
-exports.updateCategories = updateCategories;
 
 // soft delete product
 var deleteProduct = function(productID) {
     return new Promise((resolve, reject) => {
-        results();
+        let sql = "update PRODUCT SET Visible=0, Num=0 where ProductID=" + product["customerID"];
+        db.query(sql, (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            else {
+                dic[key] = "success";
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("deleteProduct");
+                }
+                resolve();
+            }
+        });
     });
 };
-exports.updateProduct = updateProduct;
+exports.deleteProduct = deleteProduct;
+
+// relax categories
+var relaxCategories = function(productID, product, categories) {
+    return new Promise((resolve, reject) => {
+        let cdic = {};
+        let nextID = 0;
+        for (let c of categories) {
+            cdic[c["categoryName"]] = c["categoryID"];
+            if (c["categoryID"] >= nextID) {
+                nextID = c["categoryID"] + 1;
+            }
+        }
+        let sqls = "delete FROM PRODUCT_OWN_CATEGORY where ProductID=" + productID + ";";
+        for (let c of product["categories"]) {
+            if (!cdic.hasOwnProperty(c)) {
+                sqls = sqls + "insert INTO CATEGORY (CategoryID, Name) VALUES (" + nextID +", 'c');";
+                maxID = maxID + 1;
+            }
+            sqls = sqls + "insert INTO PRODUCT_OWN_CATEGORY(ProductID, CategoryID) VALUES(" + productID + ", " + cdic[c] + ");"
+
+        }
+        async.eachSeries(sqls, function(sql, callback) {
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback();
+                }
+            });
+        }, function(err) {  // callback after all queries
+            if (err) {
+                console.log(err);
+            } else {
+                if (g.logLevel <= g.Level.DEBUGGING) {
+                    console.log("relaxCategories");
+                }
+                resolve();
+            }
+        });
+    });
+};
+exports.relaxCategories = relaxCategories;
+
+// sell products
+var sellProducts = function(purchase) {
+    return new Promise((resolve, reject) => {
+        let sqls = [];
+        for (let [pid, num] of purchase) {
+            sqls.push("update PRODUCT SET Num=Num+" + num + " where ProductID=" + pid);
+        }
+        async.eachSeries(sqls, function(sql, callback) {
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback();
+                }
+            });
+        }, function(err) {  // callback after all queries
+            if (err) {
+                console.log(err);
+            } else {
+                if (g.logLevel <= g.Level.DEBUGGING) {
+                    console.log("sellProducts");
+                }
+                resolve();
+            }
+        });
+    });
+}
+exports.sellProducts = sellProducts;
+
+
+const CAROUSELSIZE = 4;
+// select products for carousel
+var selectCarousel = function(dic, key, products, categories, hot) {
+    return new Promise((resolve, reject) => {
+        let selected = { "Hot": [] };
+        for (let category of categories) {
+            selected[category["categoryName"]] = [];
+        }
+        for (let elem of hot) {
+            let product = products[elem["productID"]];
+            if (selected["Hot"].length < CAROUSELSIZE) {
+                selected["Hot"].push(product);
+            }
+            for (let category of product["categories"]) {
+                if (selected[category].length < CAROUSELSIZE) {
+                    selected[category].push(product);
+                }
+            }
+        }
+        let empty = [];
+        Object.keys(selected).forEach(function(title) {
+            if (selected[title].length === 0) {
+                empty.push(title);
+            }
+        })
+        for (let title of empty) {
+            delete selected[title];
+        }
+        if (g.logLevel <= g.Level.TESTING) {
+            console.log("selectCarousel");
+            console.log(selected);
+        }
+        dic[key] = selected;
+        resolve();
+    });
+}
+exports.selectCarousel = selectCarousel;
+
 
