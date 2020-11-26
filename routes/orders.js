@@ -68,7 +68,7 @@ router.post('/:id/comment', function(req, res) {
 	let orderID = req.params.id;
 	let comments = req.body.comments;
 	let user = mu.resolveUser(req.session.user);
-	if (user["category"] != "customer") {
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no order.");
 	}
 	let asyncFunc = async (ord, comments) => {

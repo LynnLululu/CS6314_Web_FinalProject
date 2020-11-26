@@ -31,7 +31,7 @@ router.post('/add', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
 	let pid = req.body.productID;
 	let num = req.body.num;
-	if (user == undefined || user["category"] != "customer") {
+	if (user == undefined || user["category"] !== "customer") {
 		res.send("Guest or admin has no favorite.");
 	}
 	let asyncFunc = async (user, pid) => {
@@ -56,7 +56,7 @@ router.post('/remove', function(req, res) {
 	if (g.logLevel <= g.Level.DEBUGGING) {
         console.log("Remove product " + pid + " from " + user["email"] + "'s favorite.");
     }
-	if (user == undefined || user["category"] != "customer") {
+	if (user == undefined || user["category"] !== "customer") {
 		res.send("Guest or admin has no favorite.");
 	}
 	let asyncFunc = async (user, pid) => {

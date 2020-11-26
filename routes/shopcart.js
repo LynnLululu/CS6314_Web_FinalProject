@@ -34,7 +34,7 @@ router.post('/add', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
 	let pid = req.body.productID;
 	let num = req.body.num;
-	if (user["category"] != "customer") {
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no shopcart.");
 	}
 	let asyncFunc = async (user, pid, num) => {
@@ -64,7 +64,7 @@ router.post('/update', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
 	let pid = req.body.productID;
 	let num = req.body.num;
-	if (user["category"] != "customer") {
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no shopcart.");
 	}
 	let asyncFunc = async (user, pid, num) => {
@@ -90,7 +90,7 @@ router.post('/update', function(req, res) {
 router.post('/remove', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
 	let pid = req.body.productID;
-	if (user["category"] != "customer") {
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no shopcart.");
 	}
 	let asyncFunc = async (user, pid) => {
@@ -144,7 +144,7 @@ router.post('/pay', function(req, res) {
 	let purchase = req.body.purchase;
 	let totalPrice = req.body.totalPrice;
 	let user = mu.resolveUser(req.session.user);
-	if (user["category"] != "customer") {
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin cannot pay.");
 	}
 	if (purchase === undefined) {

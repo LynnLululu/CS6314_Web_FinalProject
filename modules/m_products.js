@@ -79,10 +79,9 @@ var addCategories = function(dic, key) {
 exports.addCategories = addCategories;
 
 // select products by categoreis and keywords
-var selectProducts = function(dic, key, categories, keywords) {
+var selectProducts = function(dic, key, products, categories, keywords) {
     return new Promise((resolve, reject) => {
         let selected = {};
-        let products = dic[key];
         Object.keys(products).forEach(function(productID) {
             let flag = true;
             let productCategories = products[productID]["categories"];
@@ -307,7 +306,8 @@ var selectCarousel = function(dic, key, products, categories, hot) {
             selected[category["categoryName"]] = [];
         }
         for (let elem of hot) {
-            let product = products[elem["productID"]];
+            let productID = elem["productID"];
+            let product = products[productID];
             if (selected["Hot"].length < CAROUSELSIZE) {
                 selected["Hot"].push(product);
             }

@@ -29,7 +29,8 @@ router.get('/products', function(req, res) {
 		let results = {}
 		let p1 = await mp.getProducts(results, "products");
 		let p2 = await mp.addCategories(results, "products");
-		let p3 = await mp.selectProducts(results, "products", searchCategories, searchKeywords);
+		let products = results["products"];
+		let p3 = await mp.selectProducts(results, "selected", products, searchCategories, searchKeywords);
 		let p4 = await mp.getCategories(results, "categories");
 		results["user"] = user;
 		results["lastCategories"] = searchCategories;
@@ -39,10 +40,9 @@ router.get('/products', function(req, res) {
 		}
 		let p5 = await mp.generateFilterString(results, "lastFilterString", searchCategories, searchKeywords, searchText);
 		let p6 = await mp.getCategories(results, "categories");
+		let categories = results["categories"];
 		let p7 = await mo.findHotProducts(results, "hot");
 		let hot = results["hot"];
-		let products = results["products"];
-		let categories = results["categories"];
 		let p8 = await mp.selectCarousel(results, "carousel", products, categories, hot);
 		return Promise.resolve(results);
 	}
