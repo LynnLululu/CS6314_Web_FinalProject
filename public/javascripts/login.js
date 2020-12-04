@@ -14,7 +14,7 @@ $(function() {
 
 $.validator.setDefaults({
     submitHandler: function() {
-        register();
+        // register();
     }
 });
 $.validator.addMethod("mm",function(value,element,params){
@@ -31,7 +31,7 @@ function register() {
     var userName = $("input[name='userName']").val();
     var pwd = $("input[name='pwd']").val();
     var pwdC = $("input[name='pwdC']").val();
-    alert("Registered successful!");
+    // alert("Registered successful!");
     
     $.ajax({
         type: "POST",
@@ -146,14 +146,15 @@ function login() {
             "pwdx": pwd,
         },
         success: function(r) {
-            if (r.code == 200) {
-                alert("登录成功！");
+            console.log(r);
+            if (r !== "anonymous") {
+                alert("Log in Successful!");
                 $("#exampleModal").modal('toggle');
                 $("#sign-txt1").hide();
                 $("#sign-txt2").html(' <i class="fas fa-user ml-2 mr-2"></i>' + r.data);
                 $("#sign-txt2").show();
             } else {
-                alert("用户名或者密码错误！");
+                alert("Wrong Email or Password!");
             }
         }
     });
