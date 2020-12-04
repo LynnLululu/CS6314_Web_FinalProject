@@ -15,6 +15,7 @@ router.get('/', function(req, res) {
 
 // sign in
 router.post('/signin', function(req, res) {
+	console.log("####Signin");
 	let email = req.body.emailx;
 	let password = req.body.pwdx;
 	if (!email || !password) {
@@ -135,6 +136,7 @@ router.post('/check/password', function(req, res) {
 });
 
 router.post('/signup', function(req, res) {
+	console.log("####Signup");
 	let email = req.body.email;
 	let username = req.body.userName;
 	let password = req.body.pwd;
