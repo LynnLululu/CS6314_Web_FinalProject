@@ -8,11 +8,14 @@ var testSQLs = function(dic) {
         let sqls = [
             "TRUNCATE TABLE CART",
             "insert INTO CART select DISTINCT AccountID from CART_OWN_PRODUCT",
-            "replace INTO CART (AccountID) VALUES (108)",
-            "delete FROM CART where AccountID=108"
+            "select * from CART",
+            "replace INTO CART (AccountID) VALUES (102)",
+            "delete FROM CART where AccountID=102",
+            //"insert INTO CART (AccountID) VALUES (105)",
         ]
         async.eachSeries(sqls, function(sql, callback) {
             db.query(sql, (err, rows) => {
+                console.log(rows);
                 if (err) {
                     callback(err);
                 } else {

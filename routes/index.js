@@ -183,7 +183,7 @@ router.post('/products/:id/edit/remove', function(req, res) {
 			if (g.logLevel <= g.Level.DEBUGGING) {
 	            console.log("Soft-Delete a product.:");
 	        }
-	        res.redirect('/'); 
+	        res.redirect('/products');
 		})
 	}
 });

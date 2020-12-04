@@ -45,10 +45,10 @@ router.post('/add', function(req, res) {
 	}
 	asyncFunc(user, pid).then(results => {
 		if (g.logLevel <= g.Level.DEBUGGING) {
-            console.log("Add products to favorite");
+            console.log("Add product " + pid + " to favorite.");
             g.selectedPrint(results);
         }
-        res.send("Add product" + pid + "to favorite."); 
+        res.redirect('/favorite');
 	})
 });
 
@@ -70,10 +70,10 @@ router.post('/remove', function(req, res) {
 	}
 	asyncFunc(user, pid).then(results => {
 		if (g.logLevel <= g.Level.DEBUGGING) {
-            console.log("Remove products in favorite");
+            console.log("Remove product " + pid + " from favorite.");
             g.selectedPrint(results);
         }
-        res.send("Remove product" + pid + "to favorite."); 
+        res.redirect('/favorite');
 	})
 });
 

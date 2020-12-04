@@ -52,10 +52,10 @@ router.post('/add', function(req, res) {
 	}
 	asyncFunc(user, pid, num).then(results => {
 		if (g.logLevel <= g.Level.DEBUGGING) {
-            console.log("Add products to cart");
+            console.log("Add " + num + " product " + pid + "s to shopcart.");
             g.selectedPrint(results);
         }
-        res.send("Add " + num + " product" + pid + "to cart. Cart remains " + results["total"] + "."); 
+        res.send("Add " + num + " product " + pid + "s to shopcart."); 
 	})
 });
 
@@ -82,10 +82,10 @@ router.post('/update', function(req, res) {
 	}
 	asyncFunc(user, pid, num).then(results => {
 		if (g.logLevel <= g.Level.DEBUGGING) {
-            console.log("Update products in cart");
+            console.log("Update product " + pid + "s' number in shopcart to " + num + ".");
             g.selectedPrint(results);
         }
-        res.send("Update product" + pid + "in cart to " + num + "."); 
+        res.redirect('/shopcart');
 	})
 });
 
@@ -107,10 +107,10 @@ router.post('/remove', function(req, res) {
 	}
 	asyncFunc(user, pid).then(results => {
 		if (g.logLevel <= g.Level.DEBUGGING) {
-            console.log("Remove products in cart");
+            console.log("Remove product " + pid + " from shopcart.");
             g.selectedPrint(results);
         }
-        res.send("Remove product" + pid + "in cart."); 
+        res.redirect('/shopcart');
 	})
 });
 
@@ -167,10 +167,10 @@ router.post('/pay', function(req, res) {
 	}
 	asyncFunc(user, purchase, totalPrice).then(results => {
 		if (g.logLevel <= g.Level.DEBUGGING) {
-            console.log("Payment process.");
+            console.log("Payment success. Have a nice day!");
             g.selectedPrint(results);
         }
-        res.send("Payment success. Have a nice day!"); 
+        res.redirect('/products');
 	})
 });
 

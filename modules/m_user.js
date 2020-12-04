@@ -275,7 +275,7 @@ exports.getNextCustomerID = getNextCustomerID;
 var createCustomer = function(dic, key, newID, email, username, password) {
     return new Promise((resolve, reject) => {
         h.hash(password, (hashed) => {
-            let sql = "replace INTO CUSTOMER (AccountID, Email, UserName, Password) VALUES (" + newID + ", '" + email + "', '" + username + "', '" + password + "');";
+            let sql = "replace INTO CUSTOMER (AccountID, Email, UserName, Password) VALUES (" + newID + ", '" + email + "', '" + username + "', '" + hashed + "');";
             db.query(sql, (err, rows) => {
                 if (err) {
                     throw err;

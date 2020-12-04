@@ -87,7 +87,7 @@ router.post('/:id/comment', function(req, res) {
             console.log("Comments.");
             g.selectedPrint(results);
         }
-        res.redirect('/' + orderID); 
+        res.redirect('/orders/' + orderID); 
 	})
 });
 

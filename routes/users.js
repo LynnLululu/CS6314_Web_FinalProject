@@ -37,7 +37,7 @@ router.post('/signin', function(req, res) {
 			}
             g.selectedPrint(mu.resolveUser(req.session.user));
         }
-        res.send(req.session.user);
+        res.redirect('/products');
 	})
 });
 
@@ -162,24 +162,18 @@ router.post('/signup', function(req, res) {
 	asyncFunc(email, username, password).then(results => {
 		let newCustomer = results["newCustomer"];
     	req.session.user = newCustomer;
-    	if (g.logLevel <= g.Level.TESTING) {
-            console.log(results);
-        }
     	if (g.logLevel <= g.Level.OPERATING) {
             console.log("Sign up as customer.");
             g.selectedPrint(mu.resolveUser(req.session.user));
         }
-        res.send(req.session.user);
+        res.redirect('/products');
     }, (exists) => {  // sign up fail, set user to anonymous
 		req.session.user = undefined;
-		if (g.logLevel <= g.Level.TESTING) {
-            console.log(exists);
-        }
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Sign up failed.");
             g.selectedPrint(mu.resolveUser(req.session.user));
         }
-        res.send(req.session.user);
+        res.redirect('/products');
 	});
 });
 
@@ -189,7 +183,7 @@ router.post('/signout', function(req, res) {
 		console.log("Sign out.");
         g.selectedPrint(mu.resolveUser(req.session.user));
     }
-    res.send(req.session.user);
+    res.redirect('/products');
 });
 
 router.post('/update/username', function(req, res) {
@@ -217,12 +211,12 @@ router.post('/update/username', function(req, res) {
 		if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("Change username " + results["state"] + ".");
         }
-        res.send(results["state"]);
+        res.send(true);
     }, (exists) => {  // sign up fail, set user to anonymous
 		if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("Username existed.");
         }
-        res.send("existed");
+        res.send(false);
 	});
 });
 
