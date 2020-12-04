@@ -1,5 +1,6 @@
 let db = require('../modules/database');
 let g = require('../modules/globals');
+let async = require('async');
 
 const SALESTAX = 0.0825;
 const SHIPPING = 0;

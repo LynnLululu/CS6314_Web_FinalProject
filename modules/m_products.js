@@ -1,5 +1,6 @@
 let db = require('../modules/database');
 let g = require('../modules/globals');
+let async = require('async');
 
 const EMPTYPRODUCT = {
     "productID": -1,
@@ -326,7 +327,7 @@ var selectCarousel = function(dic, key, products, categories, hot) {
         for (let title of empty) {
             delete selected[title];
         }
-        if (g.logLevel <= g.Level.TESTING) {
+        if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("selectCarousel");
             console.log(selected);
         }

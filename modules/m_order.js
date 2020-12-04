@@ -1,5 +1,6 @@
 let db = require('../modules/database');
 let g = require('../modules/globals');
+let async = require('async');
 var mp = require('../modules/m_products');
 
 const EMPTYORDER = {

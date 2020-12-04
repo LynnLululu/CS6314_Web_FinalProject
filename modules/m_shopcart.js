@@ -1,5 +1,6 @@
 let db = require('../modules/database');
 let g = require('../modules/globals');
+let async = require('async');
 
 const SALESTAX = 0.0825;
 const SHIPPING = 0;
@@ -77,7 +78,7 @@ var updateCartTable = function() {
     return new Promise((resolve, reject) => {
         let sqls = [
             "TRUNCATE TABLE CART",
-            "INSERT INTO CART select DISTINCT AccountID from CART_OWN_PRODUCT"
+            "insert INTO CART select DISTINCT AccountID from CART_OWN_PRODUCT"
         ]
         async.eachSeries(sqls, function(sql, callback) {
             db.query(sql, (err, rows) => {

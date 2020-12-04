@@ -19,35 +19,22 @@ router.post('/signin', function(req, res) {
 	let password = req.body.pwdx;
 	let asyncFunc = async (email, password) => {
 		let results = {}
-		let p1 = await mu.getCustomers(results, "customers", email, password);
-		let p2 = await mu.getAdmins(results, "admins", email, password);
+		let p1 = await mu.getCustomers(results, "customers", email);
+		let p2 = await mu.getAdmins(results, "admins", email);
+		let p3 = await mu.identifyUser(results, "user", password);
 		return Promise.resolve(results);
 	}
-	asyncFunc(email, password).then(results => {
-		let customers = results["customers"];
-        let admins = results["admins"];
-        if (admins.length > 0) {
-        	req.session.user = admins[0];
-        	if (g.logLevel <= g.Level.OPERATING) {
-                console.log("Sign in as admin.");
-                g.selectedPrint(mu.resolveUser(req.session.user));
-            }
-            res.send(req.session.user);
-        } else if (customers.length > 0) {
-        	req.session.user = customers[0];
-        	if (g.logLevel <= g.Level.OPERATING) {
-                console.log("Sign in as customer.");
-                g.selectedPrint(mu.resolveUser(req.session.user));
-            }
-            res.send(req.session.user);
-        } else {
-        	req.session.user = undefined
-        	if (g.logLevel <= g.Level.OPERATING) {
-                console.log("Sign in failed.");
-                g.selectedPrint(mu.resolveUser(req.session.user));
-            }
-            res.send(req.session.user);
+	asyncFunc(email, password).then((results) => {
+		req.session.user = results["user"];
+		if (g.logLevel <= g.Level.OPERATING) {
+			if (req.session.user === undefined || req.session.user["category"] === "anonymous") {
+				console.log("Sign in failed.");
+			} else {
+				console.log("Sign in as " + req.session.user["category"] + ".");
+			}
+            g.selectedPrint(mu.resolveUser(req.session.user));
         }
+        res.send(req.session.user);
 	})
 });
 
@@ -116,20 +103,22 @@ router.post('/check/username', function(req, res) {
 // check if input password fits original password in database
 router.post('/check/password', function(req, res) {
 	let input = req.body.password;
-	let user = req.session.user;
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] !== "customer") {
+		res.send("Guest or admin has no password.");
+	}
 	let asyncFunc = async (input, user) => {
 		let results = {}
-		let p1 = await mu.getPassword(results, "original", input, user);
+		let p1 = await mu.checkPassword(results, "flag", input, user);
 		return Promise.resolve(results);
 	}
 	asyncFunc(input, user).then(results => {
-		let original = results["original"];
+		let flag = results["flag"];
 		if (g.logLevel <= g.Level.DEVELOPING) {
-            console.log("Input: " + input);
-            console.log("Original" + original);
-            console.log(input == original);
+            console.log("Input password: " + input);
+            console.log(flag);
         }
-        res.send(input == original);
+        res.send(flag);
 	})
 });
 

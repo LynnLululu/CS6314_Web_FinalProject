@@ -4,11 +4,15 @@ CREATE TABLE CUSTOMER (
 	Lname		VARCHAR(25),
 	DateOfBirth	DATE,
 	Email		VARCHAR(40) NOT NULL,
-	UserName	VARCHAR(25) NOT NULL,
-	Password	VARCHAR(25) NOT NULL,
-	Payment		VARCHAR(20),
-	MailAddr	CHAR(50),
-	BillAddr	CHAR(50),
+	UserName	VARCHAR(30) NOT NULL,
+	Password	CHAR(60) NOT NULL,
+	Card		VARCHAR(24),
+	ExpDate		DATE,
+	SecCode		CHAR(3),
+	Street		VARCHAR(100),
+	City		VARCHAR(20),
+	Zip			CHAR(5),
+	State		CHAR(2),
 	Phone		CHAR(10),
 	PRIMARY KEY	(AccountID)
 );
@@ -19,8 +23,8 @@ CREATE TABLE ADMIN (
 	Lname		VARCHAR(25),
 	DateOfBirth	DATE,
 	Email		VARCHAR(40) NOT NULL,
-	UserName	VARCHAR(25) NOT NULL,
-	Password	VARCHAR(25) NOT NULL,
+	UserName	VARCHAR(30) NOT NULL,
+	Password	CHAR(60) NOT NULL,
 	PRIMARY KEY (AccountID)
 );
 

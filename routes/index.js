@@ -47,7 +47,7 @@ router.get('/products', function(req, res) {
 		return Promise.resolve(results);
 	}
 	asyncFunc(user, searchCategories, searchText).then(results => {
-		if (g.logLevel <= g.Level.DEBUGGING) {
+		if (g.logLevel <= g.Level.TESTING) {
             console.log("Show products. 'index':");
             g.selectedPrint(results);
         }

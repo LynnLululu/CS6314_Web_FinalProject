@@ -13,7 +13,7 @@ var shopcartRouter = require('./routes/shopcart');
 var favoriteRouter = require('./routes/favorite');
 var ordersRouter = require('./routes/orders');
 var usersRouter = require('./routes/users');
-var testRouter = require('./test/test_post');
+var testRouter = require('./test/test_hash');
 
 var app = express();
 
