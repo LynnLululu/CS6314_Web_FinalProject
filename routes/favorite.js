@@ -8,7 +8,7 @@ var mf = require('../modules/m_favorite');
 
 router.get('/', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
-	if (user === undefined || user["category"] !== "customer") {
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no favorite.");
 	}
 	let asyncFunc = async (user) => {
@@ -28,10 +28,12 @@ router.get('/', function(req, res) {
 });
 
 router.post('/add', function(req, res) {
-	let user = mu.resolveUser(req.session.user);
 	let pid = req.body.productID;
-	let num = req.body.num;
-	if (user == undefined || user["category"] !== "customer") {
+	if (isNaN(Number(pid))) {
+		res.send("Unvalid input in post favorite/add.")
+	}
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no favorite.");
 	}
 	let asyncFunc = async (user, pid) => {
@@ -51,12 +53,12 @@ router.post('/add', function(req, res) {
 });
 
 router.post('/remove', function(req, res) {
-	let user = mu.resolveUser(req.session.user);
 	let pid = req.body.productID;
-	if (g.logLevel <= g.Level.DEBUGGING) {
-        console.log("Remove product " + pid + " from " + user["email"] + "'s favorite.");
-    }
-	if (user == undefined || user["category"] !== "customer") {
+	if (isNaN(Number(pid))) {
+		res.send("Unvalid input in post favorite/remove.")
+	}
+    let user = mu.resolveUser(req.session.user);
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no favorite.");
 	}
 	let asyncFunc = async (user, pid) => {

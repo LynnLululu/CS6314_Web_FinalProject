@@ -15,7 +15,7 @@ router.get('/', function(req, res) {
 router.get('/products', function(req, res) {
 	let searchCategories = req.query.searchCategories;
 	let searchText = req.query.searchText;
-	if (searchCategories === undefined || searchCategories === []) {
+	if (searchCategories === undefined) {
 		searchCategories = [];
 	} else if (!Array.isArray(searchCategories)) {
 		searchCategories = [searchCategories];
@@ -47,7 +47,7 @@ router.get('/products', function(req, res) {
 		return Promise.resolve(results);
 	}
 	asyncFunc(user, searchCategories, searchText).then(results => {
-		if (g.logLevel <= g.Level.TESTING) {
+		if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("Show products. 'index':");
             g.selectedPrint(results);
         }
@@ -58,6 +58,9 @@ router.get('/products', function(req, res) {
 // show one product
 router.get('/products/:id', function(req, res) {
 	let productID = req.params.id;
+	if (isNaN(Number(productID))) {
+		res.send("Unvalid input in get products/:id.")
+	}
 	let user = mu.resolveUser(req.session.user);
 	if (isNaN(Number(productID))) {  // unvalid productID
 		res.send("Unvalid productID: " + productID);
@@ -92,6 +95,9 @@ router.get('/products/:id', function(req, res) {
 // show one product
 router.get('/products/:id/edit', function(req, res) {
 	let productID = req.params.id
+	if (isNaN(Number(productID))) {
+		res.send("Unvalid input in get products/:id/edit/edit.")
+	}
 	let user = mu.resolveUser(req.session.user);
 	if (isNaN(Number(productID))) {  // unvalid productID
 		res.send("Unvalid productID: " + productID);
@@ -122,6 +128,9 @@ router.get('/products/:id/edit', function(req, res) {
 // update one product
 router.post('/products/:id/edit/update', function(req, res) {
 	let productID = req.params.id;
+	if (isNaN(Number(productID))) {
+		res.send("Unvalid input in post products/:id/edit/update.")
+	}
 	let user = mu.resolveUser(req.session.user);
 	if (isNaN(Number(productID))) {  // unvalid productID
 		res.send("Unvalid productID: " + productID);
@@ -157,6 +166,9 @@ router.post('/products/:id/edit/update', function(req, res) {
 // remove one product (soft delete)
 router.post('/products/:id/edit/remove', function(req, res) {
 	let productID = req.params.id;
+	if (isNaN(Number(productID))) {
+		res.send("Unvalid input in post products/:id/edit/remove.")
+	}
 	let user = mu.resolveUser(req.session.user);
 	if (isNaN(Number(productID))) {  // unvalid productID
 		res.send("Unvalid productID: " + productID);

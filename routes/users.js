@@ -17,6 +17,9 @@ router.get('/', function(req, res) {
 router.post('/signin', function(req, res) {
 	let email = req.body.emailx;
 	let password = req.body.pwdx;
+	if (!email || !password) {
+		res.send("Unvalid input in post users/signin.")
+	}
 	let asyncFunc = async (email, password) => {
 		let results = {}
 		let p1 = await mu.getCustomers(results, "customers", email);
@@ -41,6 +44,9 @@ router.post('/signin', function(req, res) {
 // check if email already existed
 router.post('/check/email', function(req, res) {
 	let email = req.body.email;
+	if (!email) {
+		res.send("Unvalid input in post users/check/email.")
+	}
 	let asyncFunc = async (email) => {
 		let results = {}
 		let p1 = await mu.checkInCUSTOMER(results, "emailsInC", "email", email);
@@ -72,6 +78,9 @@ router.post('/check/email', function(req, res) {
 // check if username already existed
 router.post('/check/username', function(req, res) {
 	let username = req.body.username;
+	if (!username) {
+		res.send("Unvalid input in post users/check/username.")
+	}
 	let asyncFunc = async (username) => {
 		let results = {}
 		let p1 = await mu.checkInCUSTOMER(results, "usernameInC", "username", username);
@@ -103,6 +112,9 @@ router.post('/check/username', function(req, res) {
 // check if input password fits original password in database
 router.post('/check/password', function(req, res) {
 	let input = req.body.password;
+	if (!input) {
+		res.send("Unvalid input in post users/check/password.")
+	}
 	let user = mu.resolveUser(req.session.user);
 	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no password.");
@@ -126,6 +138,9 @@ router.post('/signup', function(req, res) {
 	let email = req.body.email;
 	let username = req.body.userName;
 	let password = req.body.pwd;
+	if (!email || !username || !password) {
+		res.send("Unvalid input in post users/signup.")
+	}
 	let asyncFunc = async (email, username, password) => {
 		let exists = {}
 		let p1 = await mu.checkInCUSTOMER(exists, "emailsInC", "email", email);
@@ -179,7 +194,13 @@ router.post('/signout', function(req, res) {
 
 router.post('/update/username', function(req, res) {
 	let newUsername = req.body.newUsername;
-	let user = req.session.user;
+	if (!newUsername) {
+		res.send("Unvalid input in post users/update/username.")
+	}
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] === "anonymous") {
+		res.send("Guest has no username");
+	}
 	let asyncFunc = async (newUsername, user) => {
 		let exists = {}
 		let p1 = await mu.checkInCUSTOMER(exists, "usernamesInC", "username", newUsername);
@@ -207,8 +228,11 @@ router.post('/update/username', function(req, res) {
 
 router.post('/update/password', function(req, res) {
 	let newPassword = req.body.newPwd;
-	let user = req.session.user;
-	if (user === undefined || user["category"] === "anonymous") {
+	if (!newPassword) {
+		res.send("Unvalid input in post users/update/password.")
+	}
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] === "anonymous") {
 		res.send("Guest has no password");
 	}
 	let asyncFunc = async (newPassword, user) => {
@@ -229,9 +253,12 @@ router.post('/update/account', function(req, res) {
 	let newLName = req.body.newLName;
 	let newDob = req.body.newDob;
 	let newPhone = req.body.newPhone;
-	let user = req.session.user;
-	if (user === undefined || user["category"] === "anonymous") {
-		res.send("Guest has no account details.");
+	if (!newFName || !newLName || !newDob || !newPhone) {
+		res.send("Unvalid input in post users/update/account.")
+	}
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] === "anonymous") {
+		res.send("Guest has no account details");
 	}
 	let asyncFunc = async (newFName, newLName, newDob, newPhone, user) => {
 		let results = {}
@@ -247,17 +274,22 @@ router.post('/update/account', function(req, res) {
 });
 
 router.post('/update/payment', function(req, res) {
-	let newPayment = req.body.newPayment;
-	let user = req.session.user;
-	if (user === undefined || user["category"] !== "customer") {
-		res.send("Guest or admin has no payment methods.");
+	let newCard = req.body.newCard;
+	let newEDate = req.body.newEDate;
+	let newSCode = req.body.newSCode;
+	if (!newCard || !newEDate || !newSCode) {
+		res.send("Unvalid input in post users/update/payment.")
 	}
-	let asyncFunc = async (newFName, newLName, newDob, user) => {
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] !== "customer") {
+		res.send("Only Customer has payment methods");
+	}
+	let asyncFunc = async (newCard, newEDate, newSCode, user) => {
 		let results = {}
-		let p1 = await mu.updatePaymentMethods(results, "state", newPayment, user);
+		let p1 = await mu.updatePaymentMethods(results, "state", ewCard, newEDate, newSCode, user);
 		return Promise.resolve(results);
 	}
-	asyncFunc(newFName, newLName, newDob, user).then(results => {
+	asyncFunc(newCard, newEDate, newSCode, user).then(results => {
 		if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("Update payment methods " + results["state"] + ".");
         }
@@ -266,17 +298,23 @@ router.post('/update/payment', function(req, res) {
 });
 
 router.post('/update/address', function(req, res) {
-	let newAddress = req.body.newAddress;
-	let user = req.session.user;
-	if (user === undefined || user["category"] !== "customer") {
-		res.send("Guest or admin has no delivery address.");
+	let newStreet = req.body.newStreet;
+	let newCity = req.body.newCity;
+	let newZip = req.body.newZip;
+	let newState = req.body.newState;
+	if (!newStreet || !newCity || !newZip || !newState) {
+		res.send("Unvalid input in post users/update/address.")
 	}
-	let asyncFunc = async (newFName, newLName, newDob, user) => {
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] !== "customer") {
+		res.send("Only Customer has delivery address");
+	}
+	let asyncFunc = async (newStreet, newCity, newZip, newState, user) => {
 		let results = {}
-		let p1 = await mu.updateDeliveryAddress(results, "state", newAddress, user);
+		let p1 = await mu.updateDeliveryAddress(results, "state", newStreet, newCity, newZip, newState, user);
 		return Promise.resolve(results);
 	}
-	asyncFunc(newFName, newLName, newDob, user).then(results => {
+	asyncFunc(newStreet, newCity, newZip, newState, user).then(results => {
 		if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("Update delivery address " + results["state"] + ".");
         }

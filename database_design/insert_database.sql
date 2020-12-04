@@ -1,7 +1,7 @@
-INSERT INTO ADMIN (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password)
-	VALUES (0, 'Charles', 'Lee', STR_TO_DATE('01/01/1997','%m/%d/%Y'), 'chalee@gmail.com', 'adminL', '$2b$10$OevNVIaABJZn/n9FNolEiurdtfyHnti/KKmuV6X488uXiIsBrDGgu');
-INSERT INTO ADMIN (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password)
-	VALUES (1, 'Admin', 'Test', STR_TO_DATE('01/01/2000','%m/%d/%Y'), 'admin@test.com', 'testa', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.');
+INSERT INTO ADMIN (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Phone)
+	VALUES (0, 'Charles', 'Lee', STR_TO_DATE('01/01/1997','%m/%d/%Y'), 'chalee@gmail.com', 'adminL', '$2b$10$OevNVIaABJZn/n9FNolEiurdtfyHnti/KKmuV6X488uXiIsBrDGgu', '9955654039');
+INSERT INTO ADMIN (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Phone)
+	VALUES (1, 'Admin', 'Test', STR_TO_DATE('01/01/2000','%m/%d/%Y'), 'admin@test.com', 'testa', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '5476014382');
 
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
 	VALUES (100, 'Medhurst', 'Tess', STR_TO_DATE('01/29/1991','%m/%d/%Y'), 'medtes@gmail.com', 'medtes', '$2b$10$OevNVIaABJZn/n9FNolEiu.Urct5C5OsuBjai1sx4GMHVnUnQ1IZC', '4829571662449868', STR_TO_DATE('01/01/2022','%m/%d/%Y'), '457', '4494 Wilson Avenue', 'Plano', '75023', 'TX', '7112659193');

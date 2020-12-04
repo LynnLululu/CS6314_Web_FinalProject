@@ -25,6 +25,7 @@ CREATE TABLE ADMIN (
 	Email		VARCHAR(40) NOT NULL,
 	UserName	VARCHAR(30) NOT NULL,
 	Password	CHAR(60) NOT NULL,
+	Phone		CHAR(10),
 	PRIMARY KEY (AccountID)
 );
 

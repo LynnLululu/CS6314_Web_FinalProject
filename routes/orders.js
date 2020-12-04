@@ -8,7 +8,7 @@ var mo = require('../modules/m_order');
 
 router.get('/', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
-	if (user === undefined || user["category"] !== "customer") {
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no order.");
 	}
 	let asyncFunc = async (user) => {
@@ -34,8 +34,11 @@ router.get('/', function(req, res) {
 
 router.get('/:id', function(req, res) {
 	let orderID = req.params.id;
-	let user = req.session.user;
-	if (user === undefined || user["category"] !== "customer") {
+	if (isNaN(Number(orderID))) {
+		res.send("Unvalid input in get order/:id.")
+	}
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no order.");
 	}
 	let asyncFunc = async (user, orderID) => {
@@ -67,6 +70,9 @@ router.get('/:id', function(req, res) {
 router.post('/:id/comment', function(req, res) {
 	let orderID = req.params.id;
 	let comments = req.body.comments;
+	if (isNaN(Number(orderID)) || !comments) {
+		res.send("Unvalid input in post order/:id/comment.")
+	}
 	let user = mu.resolveUser(req.session.user);
 	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no order.");

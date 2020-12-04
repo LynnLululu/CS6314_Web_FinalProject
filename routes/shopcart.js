@@ -9,7 +9,7 @@ var mo = require('../modules/m_order');
 
 router.get('/', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
-	if (user === undefined || user["category"] !== "customer") {
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no shopcart.");
 	}
 	let asyncFunc = async (user) => {
@@ -31,9 +31,12 @@ router.get('/', function(req, res) {
 });
 
 router.post('/add', function(req, res) {
-	let user = mu.resolveUser(req.session.user);
 	let pid = req.body.productID;
 	let num = req.body.num;
+	if (isNaN(Number(pid)) || isNaN(Number(num)) || num <= 0) {
+		res.send("Unvalid input in post shopcart/add.")
+	}
+	let user = mu.resolveUser(req.session.user);
 	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no shopcart.");
 	}
@@ -42,13 +45,9 @@ router.post('/add', function(req, res) {
 		let cid = user["customerID"];
 		let p1 = await msc.getCartNum(results, "cartNum", cid, pid);
 		let total = Number(results["cartNum"]) + Number(num);
-		if (total > 0) {
-			let p2 = await msc.updateInCart(cid, pid, total);
-		} else {
-			let p3 = await msc.removeFromCart(cid, pid);
-		}
+		let p2 = await msc.updateInCart(cid, pid, total);
 		results["total"] = total;
-		let p4 = await msc.updateCartTable();
+		let p3 = await msc.updateCartTable();
 		return Promise.resolve(results);
 	}
 	asyncFunc(user, pid, num).then(results => {
@@ -61,9 +60,12 @@ router.post('/add', function(req, res) {
 });
 
 router.post('/update', function(req, res) {
-	let user = mu.resolveUser(req.session.user);
 	let pid = req.body.productID;
 	let num = req.body.num;
+	if (isNaN(Number(pid)) || isNaN(Number(num))) {
+		res.send("Unvalid input in post shopcart/update.")
+	}
+	let user = mu.resolveUser(req.session.user);
 	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no shopcart.");
 	}
@@ -88,8 +90,11 @@ router.post('/update', function(req, res) {
 });
 
 router.post('/remove', function(req, res) {
-	let user = mu.resolveUser(req.session.user);
 	let pid = req.body.productID;
+	if (isNaN(Number(pid))) {
+		res.send("Unvalid input in post shopcart/remove.")
+	}
+	let user = mu.resolveUser(req.session.user);
 	if (user["category"] !== "customer") {
 		res.send("Guest or admin has no shopcart.");
 	}
@@ -110,8 +115,8 @@ router.post('/remove', function(req, res) {
 });
 
 router.get('/checkout', function(req, res) {
-	let user = req.session.user;
-	if (user === undefined || user["category"] !== "customer") {
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] !== "customer") {
 		res.send("Guest or admin cannot purchase.");
 	}
 	let asyncFunc = async (user) => {
@@ -143,12 +148,12 @@ router.get('/checkout', function(req, res) {
 router.post('/pay', function(req, res) {
 	let purchase = req.body.purchase;
 	let totalPrice = req.body.totalPrice;
+	if (!purchase || isNaN(Number(totalPrice))) {
+		res.send("Unvalid input in post shopcart/remove.")
+	}
 	let user = mu.resolveUser(req.session.user);
 	if (user["category"] !== "customer") {
 		res.send("Guest or admin cannot pay.");
-	}
-	if (purchase === undefined) {
-		res.send("Non-purchase exit.");
 	}
 	let asyncFunc = async (user, purchase, totalPrice) => {
 		let results = {};
