@@ -321,14 +321,14 @@ var updateUsername = function(dic, key, newUsername, user) {
         }
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = "fail";
+                dic[key] = false;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updateUsername: " + dic[key]);
                 }
                 throw err;
             }
             else {
-                dic[key] = "success";
+                dic[key] = true;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updateUsername: " + dic[key]);
                 }
@@ -349,14 +349,14 @@ var updatePassword = function(dic, key, newPassword, user) {
             }
             db.query(sql, (err, rows) => {
                 if (err) {
-                    dic[key] = "fail";
+                    dic[key] = false;
                     if (g.logLevel <= g.Level.DEVELOPING) {
                         console.log("updatePassword: " + dic[key]);
                     }
                     throw err;
                 }
                 else {
-                    dic[key] = "success";
+                    dic[key] = true;
                     if (g.logLevel <= g.Level.DEVELOPING) {
                         console.log("updatePassword: " + dic[key]);
                     }
@@ -376,14 +376,14 @@ var updateAccountDetails = function(dic, key, newFName, newLName, newDob, newPho
         }
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = "fail";
+                dic[key] = false;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updateAccountDetails: " + dic[key]);
                 }
                 throw err;
             }
             else {
-                dic[key] = "success";
+                dic[key] = true;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updateAccountDetails: " + dic[key]);
                 }
@@ -402,14 +402,14 @@ var updatePaymentMethods = function(dic, key, newCard, newEDate, newSCode, user)
         }
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = "fail";
+                dic[key] = false;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updatePaymentMethods: " + dic[key]);
                 }
                 throw err;
             }
             else {
-                dic[key] = "success";
+                dic[key] = true;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updatePaymentMethods: " + dic[key]);
                 }
@@ -428,14 +428,14 @@ var updateDeliveryAddress = function(dic, key, newStreet, newCity, newZip, newSt
         }
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = "fail";
+                dic[key] = false;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updateDeliveryAddress: " + dic[key]);
                 }
                 throw err;
             }
             else {
-                dic[key] = "success";
+                dic[key] = true;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updateDeliveryAddress: " + dic[key]);
                 }
