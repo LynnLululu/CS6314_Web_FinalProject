@@ -8,6 +8,8 @@ const EMPTYUSER = {
     "email": "",
     "username": "Guest",
     "password": "",
+    "bfavorite": {},
+    "carousel": [],
     "details": {}
 }
 
@@ -43,14 +45,20 @@ var getCustomers = function(dic, key, email) {
                     tmp["email"] = elem['Email'];
                     tmp["username"] = elem['UserName'];
                     tmp["password"] = elem['Password'];
+                    tmp["bfavorite"] = {};
+                    tmp["carousel"] = [];
                     tmp["details"] = {
                         "firstName": elem['Fname'],
                         "lastName": elem['Lname'],
                         "dateOfBirth": elem['DateOfBirth'],
-                        "payment": elem['Payment'],
-                        "mailAddress": elem['MailAddr'],
-                        "billAddress": elem['BillAddr'],
                         "phone": elem['Phone'],
+                        "card": elem['Card'],
+                        "expDate": elem['ExpDate'],
+                        "secCode": elem['SecCode'],
+                        "street": elem['Street'],
+                        "city": elem['City'],
+                        "zip": elem['Zip'],
+                        "state": elem['State'],
                     };
                     results.push(tmp);
                 }
@@ -121,10 +129,13 @@ var getAdmins = function(dic, key, email) {
                     tmp["email"] = elem['Email'];
                     tmp["username"] = elem['UserName'];
                     tmp["password"] = elem['Password'];
+                    tmp["bfavorite"] = {};
+                    tmp["carousel"] = [];
                     tmp["details"] = {
                         "firstName": elem['Fname'],
                         "lastName": elem['Lname'],
                         "dateOfBirth": elem['DateOfBirth'],
+                        "phone": elem['Phone'],
                     };
                     results.push(tmp);
                 }
@@ -175,35 +186,42 @@ var checkInADMIN = function(dic, key, attrname, attrvalue) {
 };
 exports.checkInADMIN = checkInADMIN;
 
-// identify user
-var identifyUser = function(dic, key, password) {
+// identify user. We make email unique.
+var identifyUser = function(dic, key, password, admins, customers) {
     return new Promise((resolve, reject) => {
-        let admins = dic["admins"];
-        let customers = dic["customers"];
-        dic[key] = undefined;
-        for (let admin of admins) {
-            h.compare(password, admin["password"], (flag) => {
-                if (flag) {
-                    if (g.logLevel <= g.Level.DEVELOPING) {
-                        console.log("identifyUser");
-                        console.log(admin);
-                    }
-                    dic[key] = admin;
-                    resolve();
+        if (admins.length > 0) {
+            h.compare(password, admins[0]["password"], (flag) => {
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("identifyUser");
+                    console.log(admins[0]);
                 }
-            })
-        }
-        for (let customer of customers) {
-            h.compare(password, customer["password"], (flag) => {
                 if (flag) {
-                    if (g.logLevel <= g.Level.DEVELOPING) {
-                        console.log("identifyUser");
-                        console.log(customer);
-                    }
-                    dic[key] = customer;
-                    resolve();
+                    dic[key] = admins[0];
+                } else {
+                    dic[key] = undefined;
                 }
+                resolve();
             })
+        } else if (customers.length > 0) {
+            h.compare(password, customers[0]["password"], (flag) => {
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("identifyUser");
+                    console.log(customers[0]);
+                }
+                if (flag) {
+                    dic[key] = customers[0];
+                } else {
+                    dic[key] = undefined;
+                }
+                resolve();
+            })
+        } else {
+            if (g.logLevel <= g.Level.DEVELOPING) {
+                console.log("identifyUser");
+                console.log(undefined);
+            }
+            dic[key] = undefined;
+            resolve();
         }
     });
 };
@@ -340,7 +358,7 @@ var updateUsername = function(dic, key, newUsername, user) {
 exports.updateUsername = updateUsername;
 
 // change password
-var updatePassword = function(dic, key, newPassword, user) {
+var updatePassword = function(dic, key, keyHahsed, newPassword, user) {
     return new Promise((resolve, reject) => {
         h.hash(newPassword, (hashed) => {
             let sql = "update CUSTOMER SET Password='" + hashed + "' where AccountID=" + user["customerID"];
@@ -357,6 +375,7 @@ var updatePassword = function(dic, key, newPassword, user) {
                 }
                 else {
                     dic[key] = true;
+                    dic[keyHahsed] = hashed;
                     if (g.logLevel <= g.Level.DEVELOPING) {
                         console.log("updatePassword: " + dic[key]);
                     }

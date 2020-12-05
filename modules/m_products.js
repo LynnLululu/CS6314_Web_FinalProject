@@ -310,11 +310,11 @@ var selectCarousel = function(dic, key, products, categories, hot) {
             let productID = elem["productID"];
             let product = products[productID];
             if (selected["Hot"].length < CAROUSELSIZE) {
-                selected["Hot"].push(product);
+                selected["Hot"].push({ productID: product});
             }
             for (let category of product["categories"]) {
                 if (selected[category].length < CAROUSELSIZE) {
-                    selected[category].push(product);
+                    selected[category].push({ productID: product});
                 }
             }
         }

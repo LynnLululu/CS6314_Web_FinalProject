@@ -3,6 +3,7 @@ var router = express.Router();
 
 var g = require('../modules/globals');
 var mu = require('../modules/m_user');
+var mf = require('../modules/m_favorite');
 
 router.get('/', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
@@ -27,11 +28,17 @@ router.post('/signin', function(req, res) {
 			let results = {}
 			let p1 = await mu.getCustomers(results, "customers", email);
 			let p2 = await mu.getAdmins(results, "admins", email);
-			let p3 = await mu.identifyUser(results, "user", password);
+			let customers = results["customers"];
+			let admins = results["admins"];
+			let p3 = await mu.identifyUser(results, "user", password, customers, admins);
+			let customerID = results["user"]["accountID"];
+			let p4 = await mf.getBriefFavorite(results, "bfavorite", customerID);
+			results["user"]["bfavorite"] = results["bfavorite"];
 			return Promise.resolve(results);
 		}
 		asyncFunc(email, password).then((results) => {
 			req.session.user = results["user"];
+			req.session.reload();
 			if (g.logLevel <= g.Level.OPERATING) {
 				if (req.session.user === undefined || req.session.user["category"] === "anonymous") {
 					console.log("Sign in failed.");
@@ -187,6 +194,7 @@ router.post('/signup', function(req, res) {
 		asyncFunc(email, username, password).then(results => {
 			let newCustomer = results["newCustomer"];
 	    	req.session.user = newCustomer;
+	    	req.session.save();
 	    	if (g.logLevel <= g.Level.OPERATING) {
 	            console.log("Sign up as customer.");
 	            g.selectedPrint(mu.resolveUser(req.session.user));
@@ -235,7 +243,7 @@ router.post('/update/username', function(req, res) {
 				return Promise.reject(exists);
 			}
 			let results = {};
-			let p3 = await mu.updatePassword(results, "state", newUsername, user);
+			let p3 = await mu.updateUsername(results, "state", newUsername, user);
 			return Promise.resolve(results);
 		}
 		asyncFunc(newUsername, user).then(results => {
@@ -243,6 +251,8 @@ router.post('/update/username', function(req, res) {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Change username to " + newUsername + " success");
 		        }
+		        req.session.user["username"] = newUsername;
+		        req.session.save();
 	        	res.status(200).send("Change username to " + newUsername + " success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
@@ -283,6 +293,8 @@ router.post('/update/password', function(req, res) {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Change password to " + newPassword + " success");
 		        }
+		        req.session.user["password"] = results["hashed"];
+		        req.session.save();
 	        	res.status(200).send("Change password to " + newPassword + " success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
@@ -321,6 +333,11 @@ router.post('/update/account', function(req, res) {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Update account details success");
 		        }
+		        req.session.user["details"]["firstName"] = newFName;
+		        req.session.user["details"]["lastName"] = newLName;
+		        req.session.user["details"]["dateOfBirth"] = newDob;
+		        req.session.user["details"]["phone"] = newPhone;
+		        req.session.save();
 	        	res.status(200).send("Update account details success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
@@ -358,6 +375,10 @@ router.post('/update/payment', function(req, res) {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Update payment methods success");
 		        }
+		        req.session.user["details"]["card"] = newCard;
+		        req.session.user["details"]["expDate"] = newEDate;
+		        req.session.user["details"]["secCode"] = newSCode;
+		        req.session.save();
 	        	res.status(200).send("Update payment methods success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
@@ -396,6 +417,11 @@ router.post('/update/address', function(req, res) {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Update delivery address success");
 		        }
+		        req.session.user["details"]["street"] = newStreet;
+		        req.session.user["details"]["city"] = newCity;
+		        req.session.user["details"]["zip"] = newZip;
+		        req.session.user["details"]["state"] = newState;
+		        req.session.save();
 	        	res.status(200).send("Update delivery address success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {

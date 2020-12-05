@@ -4,6 +4,7 @@ var router = express.Router();
 var g = require('../modules/globals');
 var mu = require('../modules/m_user');
 var mp = require('../modules/m_products');
+var mf = require('../modules/m_favorite');
 var mo = require('../modules/m_order');
 
 // root
@@ -39,17 +40,25 @@ router.get('/products', function(req, res) {
 			results["lastSearchText"] = "";
 		}
 		let p5 = await mp.generateFilterString(results, "lastFilterString", searchCategories, searchKeywords, searchText);
-		let p6 = await mp.getCategories(results, "categories");
 		let categories = results["categories"];
 		let p7 = await mo.findHotProducts(results, "hot");
 		let hot = results["hot"];
 		let p8 = await mp.selectCarousel(results, "carousel", products, categories, hot);
+		// update carousel in user
+		req.session.user["carousel"] = results["carousel"];
+		req.session.save();
 		return Promise.resolve(results);
 	}
 	asyncFunc(user, searchCategories, searchText).then(results => {
 		if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("Show products. 'index':");
             g.selectedPrint(results);
+        }
+        let dateframe = {
+        	"selected": results["selected"].
+        	"categories": results["categories"].
+        	"user": results["user"].
+        	"products": results["products"].
         }
         res.status(200).render('index', results); 
 	})

@@ -57,6 +57,8 @@ router.post('/add', function(req, res) {
 	            console.log("Add product " + pid + " to favorite");
 	            g.selectedPrint(results);
 	        }
+	        res.session.user["bfavorite"][pid] = undefined;
+	        res.session.save();
 	        res.status(200).send("Add product " + pid + " to favorite");
 		})
 	}
@@ -88,6 +90,8 @@ router.post('/remove', function(req, res) {
 	            console.log("Remove product " + pid + " from favorite");
 	            g.selectedPrint(results);
 	        }
+	        delete res.session.user["bfavorite"][pid];
+	        res.session.save();
 	        res.status(200).send("Remove product " + pid + " from favorite");
 		})
 	}
