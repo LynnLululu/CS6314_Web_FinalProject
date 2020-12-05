@@ -52,7 +52,7 @@ router.get('/products', function(req, res) {
 	    		req.session.bfavorite = {};
 	    	}
 		req.session.save();
-        let dateframe = {
+        let dataframe = {
         	"user": user,
         	"bfavorite": req.session.bfavorite,
         	"carousel": req.session.carousel,
@@ -66,12 +66,12 @@ router.get('/products', function(req, res) {
         }
         if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("Show products. 'index':");
-            g.selectedPrint(dateframe);
+            g.selectedPrint(dataframe);
         }
         if (g.logLevel <= g.Level.DEVELOPING) {
             g.selectedPrint(results);
         }
-        res.status(200).render('index', dateframe); 
+        res.status(200).render('index', dataframe); 
 	})
 });
 
@@ -88,7 +88,7 @@ router.get('/products/:id', function(req, res) {
 	} else {
 		let asyncFunc = async (user, productID) => {
 			let results = {
-				"user" : mu.resolveUser(user),
+				"user" : user,
 				"bfavorite": req.session.bfavorite,
     			"carousel": req.session.carousel,
 			};
@@ -133,7 +133,7 @@ router.get('/products/:id/edit', function(req, res) {
 	} else {
 		let asyncFunc = async (user, productID) => {
 			let results = {
-				"user" : mu.resolveUser(user),
+				"user" : user,
 				"bfavorite": req.session.bfavorite,
     			"carousel": req.session.carousel,
 			};
@@ -231,7 +231,7 @@ router.post('/products/:id/edit/remove', function(req, res) {
 router.get('/products/new', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
 	let results = {
-		"user" : mu.resolveUser(user),
+		"user" : user,
 		"bfavorite": req.session.bfavorite,
 		"carousel": req.session.carousel,
 	};

@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
         g.selectedPrint(mu.resolveUser(req.session.user));
     }
     res.status(200).render('tbd', {
-    	"user": user
+    	"user": user,
     	"bfavorite": req.session.bfavorite,
     	"carousel": req.session.carousel,
     });

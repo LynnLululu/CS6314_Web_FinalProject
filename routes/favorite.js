@@ -8,16 +8,34 @@ var mf = require('../modules/m_favorite');
 
 router.get('/', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
+	let bfavorite = req.session.bfavorite;
+	if (bfavorite === undefined) {
+		bfavorite = {};
+	}
 	if (user["category"] != "customer") {
-		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Only customers have favorite");
-        }
-		res.status(400).redirect('/products');
+		let asyncFunc = async (user, bfavorite) => {
+			let customerID = user["customerID"];
+			let results = {
+				"user" : user,
+				"bfavorite": bfavorite,
+    			"carousel": req.session.carousel,
+			};
+			let p1 = await mp.getProductsByIDS(results, "favorite", bfavorite);
+			let p2 = await mp.addCategories(results, "favorite");
+			return Promise.resolve(results);
+		}
+		asyncFunc(bfavorite).then(results => {
+			if (g.logLevel <= g.Level.DEBUGGING) {
+	            console.log("Show favorite (not a customer). 'favorite':");
+	            g.selectedPrint(results);
+	        }
+	        res.status(200).render('favorite', results);
+		})
 	} else {
 		let asyncFunc = async (user) => {
 			let customerID = user["customerID"];
 			let results = {
-				"user" : mu.resolveUser(user),
+				"user" : user,
 				"bfavorite": req.session.bfavorite,
     			"carousel": req.session.carousel,
 			};
@@ -45,8 +63,13 @@ router.post('/add', function(req, res) {
 		res.status(400).send("Unvalid input in post favorite/add");
 	} else if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Only customers have favorite");
+            console.log("Only customers' favorite will be saved in database");
         }
+    	if (!req.session.hasOwnProperty(bfavorite)) {
+    		req.session.bfavorite = {};
+    	}
+        res.session.bfavorite[pid] = 0;
+        res.session.save();
         res.status(400).send("Only customers have favorite");
 	} else {
 		let asyncFunc = async (user, pid) => {
@@ -81,8 +104,14 @@ router.post('/remove', function(req, res) {
         res.status(400).send("Unvalid input in post favorite/remove");
 	} else if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Only customers have favorite");
+            console.log("Only customers' favorite will be saved in database");
         }
+        if (req.session.hasOwnProperty(bfavorite)) {
+        	if (req.session.bfavorite.hasOwnProperty(pid)) {
+        		delete res.session.user["bfavorite"][pid];
+        	}
+    	}
+        res.session.save();
         res.status(400).send("Only customers have favorite");
 	} else {
 		let asyncFunc = async (user, pid) => {
