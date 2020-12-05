@@ -209,7 +209,7 @@ exports.updateProduct = updateProduct;
 // soft delete product
 var deleteProduct = function(productID) {
     return new Promise((resolve, reject) => {
-        let sql = "update PRODUCT SET Visible=0, Num=0 where ProductID=" + product["customerID"];
+        let sql = "update PRODUCT SET Visible=0, Num=0 where ProductID=" + productID;
         db.query(sql, (err, rows) => {
             if (err) {
                 throw err;

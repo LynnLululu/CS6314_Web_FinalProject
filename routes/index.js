@@ -215,7 +215,8 @@ router.post('/products/:id/edit/remove', function(req, res) {
         res.status(400).send("Only admins can edit product");
 	} else {
 		let asyncFunc = async (productID) => {
-			let p1 = await mp.deleteProduct(productID);
+			let results = {};
+			let p1 = await mp.deleteProduct(results, "state", productID);
 			return Promise.resolve(product);
 		}
 		asyncFunc(productID).then(results => {

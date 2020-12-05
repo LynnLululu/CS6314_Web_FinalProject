@@ -15,6 +15,7 @@ var ordersRouter = require('./routes/orders');
 var usersRouter = require('./routes/users');
 // Transform unhashed passwrod from old version. I directed use my test code.
 var transformerRouter = require('./test/test_hash');
+var testStaticRouter = require('./test/test_static');
 var testRouter = require('./test/test_sqls');
 
 var app = express();
@@ -54,6 +55,7 @@ app.use('/favorite', favoriteRouter);
 app.use('/orders', ordersRouter);
 app.use('/users', usersRouter);
 app.use('/transform', transformerRouter);
+app.use('/teststatic', testStaticRouter);
 app.use('/test', testRouter);
 
 // catch 404 and forward to error handler
