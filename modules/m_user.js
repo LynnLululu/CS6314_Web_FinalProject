@@ -8,8 +8,6 @@ const EMPTYUSER = {
     "email": "",
     "username": "Guest",
     "password": "",
-    "bfavorite": {},
-    "carousel": [],
     "details": {}
 }
 
@@ -45,8 +43,6 @@ var getCustomers = function(dic, key, email) {
                     tmp["email"] = elem['Email'];
                     tmp["username"] = elem['UserName'];
                     tmp["password"] = elem['Password'];
-                    tmp["bfavorite"] = {};
-                    tmp["carousel"] = [];
                     tmp["details"] = {
                         "firstName": elem['Fname'],
                         "lastName": elem['Lname'],
@@ -129,8 +125,6 @@ var getAdmins = function(dic, key, email) {
                     tmp["email"] = elem['Email'];
                     tmp["username"] = elem['UserName'];
                     tmp["password"] = elem['Password'];
-                    tmp["bfavorite"] = {};
-                    tmp["carousel"] = [];
                     tmp["details"] = {
                         "firstName": elem['Fname'],
                         "lastName": elem['Lname'],

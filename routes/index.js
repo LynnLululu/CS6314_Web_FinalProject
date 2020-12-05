@@ -33,7 +33,6 @@ router.get('/products', function(req, res) {
 		let products = results["products"];
 		let p3 = await mp.selectProducts(results, "selected", products, searchCategories, searchKeywords);
 		let p4 = await mp.getCategories(results, "categories");
-		results["user"] = user;
 		results["lastCategories"] = searchCategories;
 		results["lastSearchText"] = searchText;
 		if (searchText === undefined) {
@@ -44,23 +43,35 @@ router.get('/products', function(req, res) {
 		let p7 = await mo.findHotProducts(results, "hot");
 		let hot = results["hot"];
 		let p8 = await mp.selectCarousel(results, "carousel", products, categories, hot);
-		// update carousel in user
-		req.session.user["carousel"] = results["carousel"];
-		req.session.save();
 		return Promise.resolve(results);
 	}
 	asyncFunc(user, searchCategories, searchText).then(results => {
-		if (g.logLevel <= g.Level.DEBUGGING) {
+        // update carousel in session
+		req.session.carousel = results["carousel"];
+		if (!req.session.hasOwnProperty("bfavorite")) {
+	    		req.session.bfavorite = {};
+	    	}
+		req.session.save();
+        let dateframe = {
+        	"selected": results["selected"],
+        	"categories": results["categories"],
+        	"products": results["products"],
+        	"lastCategories": results["lastCategories"],
+        	"lastSearchText": results["lastSearchText"],
+        	"lastFilterString": results["lastFilterString"],
+        	"lastSearchText": results["lastSearchText"],
+        	"user": user,
+        	"bfavorite": req.session.bfavorite,
+        	"carousel": req.session.carousel,
+        }
+        if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("Show products. 'index':");
+            g.selectedPrint(dateframe);
+        }
+        if (g.logLevel <= g.Level.DEVELOPING) {
             g.selectedPrint(results);
         }
-        let dateframe = {
-        	"selected": results["selected"].
-        	"categories": results["categories"].
-        	"user": results["user"].
-        	"products": results["products"].
-        }
-        res.status(200).render('index', results); 
+        res.status(200).render('index', dateframe); 
 	})
 });
 

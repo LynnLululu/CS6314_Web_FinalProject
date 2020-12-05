@@ -31,14 +31,19 @@ router.post('/signin', function(req, res) {
 			let customers = results["customers"];
 			let admins = results["admins"];
 			let p3 = await mu.identifyUser(results, "user", password, customers, admins);
-			let customerID = results["user"]["accountID"];
-			let p4 = await mf.getBriefFavorite(results, "bfavorite", customerID);
-			results["user"]["bfavorite"] = results["bfavorite"];
+			// only customer's favorite will be saved in database
+			if (results["user"] !== undefined && results["user"]["category"] == "customer") {
+				let customerID = results["user"]["customerID"];
+				let p4 = await mf.getBriefFavorite(results, "bfavorite", customerID);
+			}
 			return Promise.resolve(results);
 		}
 		asyncFunc(email, password).then((results) => {
 			req.session.user = results["user"];
-			req.session.reload();
+			if (results["bfavorite"]) {
+				req.session.bfavorite = results["bfavorite"];
+			}
+			req.session.save();
 			if (g.logLevel <= g.Level.OPERATING) {
 				if (req.session.user === undefined || req.session.user["category"] === "anonymous") {
 					console.log("Sign in failed.");
@@ -46,6 +51,9 @@ router.post('/signin', function(req, res) {
 					console.log("Sign in as " + req.session.user["category"] + ".");
 				}
 	            g.selectedPrint(mu.resolveUser(req.session.user));
+	        }
+	        if (g.logLevel <= g.Level.DEBUGGING) {
+				g.selectedPrint(results);
 	        }
 	        res.status(200).redirect('/products');
 		})
@@ -194,17 +202,25 @@ router.post('/signup', function(req, res) {
 		asyncFunc(email, username, password).then(results => {
 			let newCustomer = results["newCustomer"];
 	    	req.session.user = newCustomer;
+	    	if (!req.session.hasOwnProperty(bfavorite)) {
+	    		req.session.bfavorite = {};
+	    	}
 	    	req.session.save();
 	    	if (g.logLevel <= g.Level.OPERATING) {
 	            console.log("Sign up as customer.");
 	            g.selectedPrint(mu.resolveUser(req.session.user));
 	        }
+	        if (g.logLevel <= g.Level.DEBUGGING) {
+				g.selectedPrint(results);
+	        }
 	        res.status(200).redirect('/products');
 	    }, (exists) => {  // sign up fail, set user to anonymous
-			req.session.user = undefined;
 			if (g.logLevel <= g.Level.OPERATING) {
 	            console.log("Sign up failed.");
 	            g.selectedPrint(mu.resolveUser(req.session.user));
+	        }
+	        if (g.logLevel <= g.Level.DEBUGGING) {
+				g.selectedPrint(results);
 	        }
 	        res.status(400).redirect('/products');
 		});
@@ -213,6 +229,7 @@ router.post('/signup', function(req, res) {
 
 router.post('/signout', function(req, res) {
 	req.session.user = undefined;
+	req.session.save();
     if (g.logLevel <= g.Level.OPERATING) {
 		console.log("Sign out.");
         g.selectedPrint(mu.resolveUser(req.session.user));

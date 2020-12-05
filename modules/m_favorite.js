@@ -47,24 +47,29 @@ exports.getFavorite = getFavorite;
 // only get productID in favorite
 var getBriefFavorite = function(dic, key, customerID) {
     return new Promise((resolve, reject) => {
-        let sql = "select ProductID from FAVORITE_OWN_PRODUCT where AccountID=" + customerID;
-        db.query(sql, (err, rows) => {
-            if (err) {
-                throw err;
-            }
-            else {
-                let results = {};
-                for (let elem of rows) {
-                    results[elem["ProductID"]] = undefined;
+        if (isNaN(Number(customerID))) {
+            dic[key] = [];
+            resolve();
+        } else {
+            let sql = "select ProductID from FAVORITE_OWN_PRODUCT where AccountID=" + customerID;
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    throw err;
                 }
-                if (g.logLevel <= g.Level.DEVELOPING) {
-                    console.log("getBriefFavorite");
-                    console.log(results);
+                else {
+                    let results = {};
+                    for (let elem of rows) {
+                        results[elem["ProductID"]] = 0;
+                    }
+                    if (g.logLevel <= g.Level.DEVELOPING) {
+                        console.log("getBriefFavorite");
+                        console.log(results);
+                    }
+                    dic[key] = results;
+                    resolve();
                 }
-                dic[key] = results;
-                resolve();
-            }
-        });
+            });
+        }
     });
 }
 exports.getBriefFavorite = getBriefFavorite;
