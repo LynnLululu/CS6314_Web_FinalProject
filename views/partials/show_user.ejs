@@ -1,0 +1,209 @@
+<!-- admin -->
+<% if (user.category == "admin") { %>
+
+<div class="row userinfo">
+
+  <div class="col-md-6 offset-md-3">
+
+    <div id="mds" style="margin-top: -62px;position: absolute;"></div>
+    <p class="content-title">
+      Account Details
+    </p>
+    <div>
+      
+    <form class="tab-form" id="informationForm" action="#">
+      <div class="form-group">
+        <label>Email</label>
+        <div>
+          <input type="email" class="form-control" name="infoEmail" id="infoEmail" placeholder="<%= user.email %>">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div style="position: relative;">
+          <input disabled id="infoPwd" class="form-control" name="infoPwd" type="password" value=""
+            placeholder="Password">
+          <a class="pwd-edit" id="pwd-edit" href="javascript:void(0)" style="color:#495057;">Edit</a>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>First Name</label>
+        <div>
+          <input type="text" class="form-control" name="firstName" id="firstName" placeholder="<%= user.firstName %>">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <div>
+          <input type="text" class="form-control" name="lastName" id="lastName" placeholder="<%= user.lastName %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="infoState">Date Of Birth</label>
+        <div>
+          <input type="text" id="dateOfBirth" class="form-control" name="dateOfBirth"
+            placeholder="<%= user.dateOfBirth === "" ? user.dateOfBirth : "MM/DD/YY" %>">
+        </div>
+      </div>
+
+      <button id="x1" onclick="saveUserInfo()" type="button" class="btn btn-warning btn-block login-btn">Save</button>
+    </form>
+
+  </div>
+</div>
+<% } else { %>
+
+<!-- other users  -->
+
+<div class="row userinfo">
+  <div class="col-md-3 offset-md-2">
+    <div class=" navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link active nav-link-c" href="#mds" onclick="tabCk('informationForm', this)">
+            <i class="fas fa-user ml-2 mr-2"></i>Account Details
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-c" href="#mds" onclick="tabCk('cardForm', this)">
+            <i class="fas fa-credit-card ml-2 mr-2"></i>Payment Methods
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-c" href="#mds" onclick="tabCk('deliveryForm', this)">
+            <i class="fas fa-truck ml-2 mr-2"></i>Delivery Addresses
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div id="mds" style="margin-top: -62px;position: absolute;"></div>
+    <p class="content-title">
+      Account Details
+    </p>
+    <div>
+      <!-- Account Details -->
+      <form class="tab-form" id="informationForm" action="#">
+        <div class="form-group">
+          <label>Email</label>
+          <div>
+            <input type="email" class="form-control" name="infoEmail" id="infoEmail" placeholder="<%= user.email %>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div style="position: relative;">
+            <input disabled id="infoPwd" class="form-control" name="infoPwd" type="password" value="" placeholder="Password">
+            <a class="pwd-edit" id="pwd-edit" href="javascript:void(0)" style="color:#495057;" >Edit</a>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="infoState">Date Of Birth</label>
+          <div>
+            <input type="text" id="dateOfBirth" class="form-control" name="dateOfBirth" placeholder="<%= user.dateOfBirth === "" ? user.dateOfBirth : "MM/DD/YY" %>">
+          </div>
+        </div>
+        <label class="addr-other-x" for="infoState">Location</label>
+          <div class="form-group">
+            <label for="infoState">State</label>
+            <select id="infoState" class="form-control" name="infoState" placeholder="State">
+              <option value="" selected="">-Select-</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="infoCity">City</label>
+            <input type="text" class="form-control" name="infoCity" id="infoCity" placeholder="City">
+          </div>
+          <div class="form-group">
+            <label for="infoZip">Zip</label>
+            <input type="number" class="form-control" name="infoZip" id="infoZip" placeholder="Zip" oninput="if(value.length>5)value=value.slice(0,5)" />
+          </div>
+
+        <button id="x1" onclick="saveUserInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
+      </form>
+      <!-- Payment Methods -->
+      <form class="tab-form" style="display: none;" id="cardForm" action="#">
+        <div class="form-group">
+          <label>Card Number</label>
+          <div>
+            <input onkeyup="formatBankNo(this)"  type="text" class="form-control" name="cardNumber" id="cardNumber" placeholder="Card Number">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Expiration Date</label>
+          <div>
+            <input onkeyup="formatDate(this)"  type="text" class="form-control" name="expirationDate" id="expirationDate" placeholder="MM/YY" %>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Security Code</label>
+          <div>
+            <input type="number" class="form-control" name="securityCode" id="securityCode" placeholder="XXX" oninput="if(value.length>4)value=value.slice(0,4)" />
+          </div>
+        </div>
+
+        <button onclick="saveCardInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
+      </form>
+      <!-- Delivery Addresses -->
+      <form class="tab-form" style="display: none;" id="deliveryForm" action="#">
+        <div class="form-group">
+          <label>First Name</label>
+          <div>
+            <input type="text" class="form-control" name="firstName" id="firstName" placeholder="<%= user.firstName %>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <div>
+            <input type="text" class="form-control" name="lastName" id="lastName" placeholder="<%= user.lastName %>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="infoState">Street Address</label>
+            <input id="streetAddress" class="form-control" name="streetAddress" placeholder="Street Address">
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="infoCity">City</label>
+              <input type="text" class="form-control" name="infoCity" id="infoCity1" placeholder="City">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="infoZip">Zip</label>
+              <input type="number" class="form-control" name="infoZip" id="infoZip1" placeholder="Zip" oninput="if(value.length>5)value=value.slice(0,5)" />
+            </div>
+          </div>
+        </div>
+
+
+
+          <div class="form-group">
+            <label for="infoState">State</label>
+            <select id="infoState1" class="form-control" name="infoState" placeholder="State">
+              <option value="" selected="">-Select-</option>
+            </select>
+          </div>
+
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <div>
+            <input onkeyup="phone(this)" maxlength="12" type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="<%= user.phone %>">
+          </div>
+        </div>
+
+        <button onclick="saveDeliveryInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- /.row -->
+
+  <% } %>

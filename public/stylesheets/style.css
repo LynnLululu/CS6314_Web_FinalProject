@@ -109,11 +109,69 @@ button.btn.dropdown-toggle.btn-light.bs-placeholder{
 .error {
     color:#647C90 ;
 }
+button:focus {
+    outline: none;
+}
 label.error {
     font-size: 12px;
     margin-top: 12px;
     margin-bottom: 0px;
+    margin-top: 0px;
 }
-button:focus {
-    outline: none;
+.dro-info {
+    padding-left: 32px;
 }
+.dro-info a {
+    text-decoration: none;
+    color: #bdbdbd;
+}
+.dro-info a:hover {
+    color: #000;
+}
+#dro-info-one,
+.dro-info-one {
+    color: #ffc107;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+.location>div{
+    margin-bottom: 12px;
+}
+.pwd-edit {
+    position: absolute;
+    right: -42px;
+    top: 8px;
+    text-decoration: underline;
+}
+.addr-other {
+    font-size: 12px;
+    margin-bottom: 0;
+    color: #6c757d;
+}
+.addr-other-x {
+    font-size: 1.2rem;
+}
+
+.userinfo {
+    margin-top: 16px;
+    margin-bottom: 64px;
+}
+.userinfo .nav-link {
+    color: #9a9da0;
+    font-size: 20px;
+    font-weight: 600;
+}
+.userinfo .active,
+.userinfo .nav-link:hover {
+    color: #495057;
+}
+.userinfo .content-title {
+    color: #ffc107;
+    font-weight: 600;
+    font-size: 20px;
+    margin-top: 8px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button { -webkit-appearance: none; }
+input[type="number"]{ -moz-appearance: textfield; }
