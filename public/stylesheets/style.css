@@ -112,7 +112,6 @@ button.btn.dropdown-toggle.btn-light.bs-placeholder{
 button:focus {
     outline: none;
 }
-
 label.error {
     font-size: 12px;
     margin-top: 12px;
@@ -149,6 +148,9 @@ label.error {
     font-size: 12px;
     margin-bottom: 0;
     color: #6c757d;
+}
+.addr-other-x {
+    font-size: 1.2rem;
 }
 
 .userinfo {

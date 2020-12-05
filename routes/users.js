@@ -10,7 +10,7 @@ router.get('/', function(req, res) {
 		console.log("Show user details. 'tbd':");
         g.selectedPrint(mu.resolveUser(req.session.user));
     }
-    res.render('tbd', { "user": user });
+    res.render('user', { "user": user });
 });
 
 // sign in

@@ -42,10 +42,18 @@
   <!-- Custom styles for this template -->
   <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
 
+  <!-- Validate -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+  <!-- Date Picker -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
+
   <!-- Custome JS -->
   <script src="/javascripts/index.js" crossorigin="anonymous"></script>
   <script src="/javascripts/login.js"></script>
   <script src="/javascripts/show.js"></script>
+  <script src="/javascripts/user.js"></script>
+  <script src="/javascripts/orders.js"></script>
+
 
 </head>
 
@@ -75,7 +83,7 @@
                 <ul class="dropdown-menu dro-info" style="width: 200px;">
                   <li id="dro-info-one">Account</li>
                   <li style="margin-bottom: 6px;"><a href="#">Orders</a></li>
-                  <li style="margin-bottom: 6px;"><a href="#">Account Settings</a></li>
+                  <li style="margin-bottom: 6px;"><a href="/users">Account Settings</a></li>
                   <li style="margin-bottom: 6px;"><a href= "#" onclick="document.getElementById('signout').submit();">Log Out</a></li>
                 </ul>
                 <form id="signout" action="/users/signout" method="POST"></form>

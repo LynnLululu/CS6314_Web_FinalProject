@@ -1,22 +1,22 @@
-  <!-- Page Content -->
-  <div class="container">
+<!-- Page Content -->
+<div class="container">
     <!-- Page Features -->
     <div class="row userinfo">
       <div class="col-md-3 offset-md-2">
         <div class=" navbar-collapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link active nav-link-c" onclick="tabCk('informationForm', this)">
+              <a class="nav-link active nav-link-c" href="#mds" onclick="tabCk('informationForm', this)">
                 <i class="fas fa-user ml-2 mr-2"></i>Account Details
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-link-c" href="#" onclick="tabCk('cardForm', this)">
+              <a class="nav-link nav-link-c" href="#mds" onclick="tabCk('cardForm', this)">
                 <i class="fas fa-credit-card ml-2 mr-2"></i>Payment Methods
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-link-c" href="#" onclick="tabCk('deliveryForm', this)">
+              <a class="nav-link nav-link-c" href="#mds" onclick="tabCk('deliveryForm', this)">
                 <i class="fas fa-truck ml-2 mr-2"></i>Delivery Addresses
               </a>
             </li>
@@ -25,6 +25,7 @@
       </div>
 
       <div class="col-md-4">
+        <div id="mds" style="margin-top: -62px;position: absolute;"></div>
         <p class="content-title">
           Account Details
         </p>
@@ -40,17 +41,17 @@
             <div class="form-group">
               <label>Password</label>
               <div style="position: relative;">
-                <input disabled id="infoPwd" class="form-control" name="infoPwd" type="password" value="" placeholder="password">
-                <a class="pwd-edit" id="pwd-edit" href="javascript:void(0)" style="color:#495057;">Edit</a>
+                <input disabled id="infoPwd" class="form-control" name="infoPwd" type="password" value="" placeholder="Password">
+                <a class="pwd-edit" id="pwd-edit" href="javascript:void(0)" style="color:#495057;" >Edit</a>
               </div>
             </div>
             <div class="form-group">
-              <label for="infoState">Country</label>
+              <label for="infoState">Date Of Birth</label>
               <div>
-                <select id="infoCountry" class="form-control" name="infoCountry" placeholder="Country">
-                </select>
+                <input type="text" id="dateOfBirth" class="form-control" name="dateOfBirth" placeholder="MM/DD/YY">
               </div>
             </div>
+            <label class="addr-other-x" for="infoState">Location</label>
               <div class="form-group">
                 <label for="infoState">State</label>
                 <select id="infoState" class="form-control" name="infoState" placeholder="State">
@@ -85,7 +86,7 @@
             <div class="form-group">
               <label>Security Code</label>
               <div>
-                <input type="number" class="form-control" name="securityCode" id="securityCode" placeholder="Security Code">
+                <input type="number" class="form-control" name="securityCode" id="securityCode" placeholder="XXX">
               </div>
             </div>
 
@@ -106,24 +107,34 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="infoState">Country</label>
-                <select id="infoCountry1" class="form-control" name="infoCountry" placeholder="Country">
-                </select>
+              <label for="infoState">Street Address</label>
+                <input id="streetAddress" class="form-control" name="streetAddress" placeholder="Street Address">
             </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="infoCity">City</label>
+                  <input type="text" class="form-control" name="infoCity" id="infoCity1" placeholder="City">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="infoZip">Zip</label>
+                  <input type="text" class="form-control" name="infoZip" id="infoZip1" placeholder="Zip">
+                </div>
+              </div>
+            </div>
+
+
+
               <div class="form-group">
                 <label for="infoState">State</label>
                 <select id="infoState1" class="form-control" name="infoState" placeholder="State">
                   <option value="" selected="">-Select-</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label for="infoCity">City</label>
-                <input type="text" class="form-control" name="infoCity" id="infoCity1" placeholder="City">
-              </div>
-              <div class="form-group">
-                <label for="infoZip">Zip</label>
-                <input type="text" class="form-control" name="infoZip" id="infoZip1" placeholder="Zip">
-              </div>
+
 
             <div class="form-group">
               <label>Phone Number</label>
