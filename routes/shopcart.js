@@ -18,7 +18,7 @@ router.get('/', function(req, res) {
 		let asyncFunc = async (user) => {
 			let customerID = user["customerID"];
 			let results = {
-				"user" : mu.resolveUser(user),
+				"user" : user,
 				"bfavorite": req.session.bfavorite,
     			"carousel": req.session.carousel,
 			};
@@ -151,7 +151,7 @@ router.get('/checkout', function(req, res) {
 		let asyncFunc = async (user) => {
 			let customerID = user["customerID"];
 			let results = {
-				"user" : mu.resolveUser(user),
+				"user" : user,
 				"bfavorite": req.session.bfavorite,
     			"carousel": req.session.carousel,
 			};

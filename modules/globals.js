@@ -43,10 +43,4 @@ var selectedPrint = function(obj) {
 }
 exports.selectedPrint = selectedPrint;
 
-// date format
-function formatDate(date) {
-  return moment(date).format('YYYY-MM-DD HH:mm:ss');
-}
-
-
 

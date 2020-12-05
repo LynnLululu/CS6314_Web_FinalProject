@@ -1,18 +1,18 @@
 INSERT INTO ADMIN (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Phone)
-	VALUES (0, 'Charles', 'Lee', STR_TO_DATE('01/01/1997','%m/%d/%Y'), 'chalee@gmail.com', 'adminL', '$2b$10$OevNVIaABJZn/n9FNolEiurdtfyHnti/KKmuV6X488uXiIsBrDGgu', '9955654039');
+	VALUES (0, 'Charles', 'Lee', '01/01/1997', 'chalee@gmail.com', 'adminL', '$2b$10$OevNVIaABJZn/n9FNolEiurdtfyHnti/KKmuV6X488uXiIsBrDGgu', '9955654039');
 INSERT INTO ADMIN (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Phone)
-	VALUES (1, 'Admin', 'Test', STR_TO_DATE('01/01/2000','%m/%d/%Y'), 'admin@test.com', 'testa', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '5476014382');
+	VALUES (1, 'Admin', 'Test', '01/01/2000', 'admin@test.com', 'testa', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '5476014382');
 
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (100, 'Medhurst', 'Tess', STR_TO_DATE('01/29/1991','%m/%d/%Y'), 'medtes@gmail.com', 'medtes', '$2b$10$OevNVIaABJZn/n9FNolEiu.Urct5C5OsuBjai1sx4GMHVnUnQ1IZC', '4829571662449868', STR_TO_DATE('01/01/2022','%m/%d/%Y'), '457', '4494 Wilson Avenue', 'Plano', '75023', 'TX', '7112659193');
+	VALUES (100, 'Medhurst', 'Tess', '01/29/1991', 'medtes@gmail.com', 'medtes', '$2b$10$OevNVIaABJZn/n9FNolEiu.Urct5C5OsuBjai1sx4GMHVnUnQ1IZC', '4829571662449868', '01/2022', '457', '4494 Wilson Avenue', 'Plano', '75023', 'TX', '7112659193');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (101, 'Hayes', 'Mitchel', STR_TO_DATE('07/17/1972','%m/%d/%Y'), 'haymit@gmail.com', 'haymit', '$2b$10$OevNVIaABJZn/n9FNolEiufPFRtMIMll4ntHan9H9C2XbhkbSn/Yu', '5487744475243527', STR_TO_DATE('10/01/2023','%m/%d/%Y'), '876', '932 Worthington Drive', 'Plano',  '75074', 'TX', '6758447400');
+	VALUES (101, 'Hayes', 'Mitchel', '07/17/1972', 'haymit@gmail.com', 'haymit', '$2b$10$OevNVIaABJZn/n9FNolEiufPFRtMIMll4ntHan9H9C2XbhkbSn/Yu', '5487744475243527', '10/2023', '876', '932 Worthington Drive', 'Plano',  '75074', 'TX', '6758447400');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (102, 'Hegmann', 'Louie', STR_TO_DATE('12/28/1994','%m/%d/%Y'), 'heglou@outlook.com', 'heglou', '$2b$10$OevNVIaABJZn/n9FNolEiue80xxPcdZtpN2zv7QwUTjZA3apuXy.K', '5132304934743739', STR_TO_DATE('07/01/2023','%m/%d/%Y'), '283', '4223 Jones Street', 'Plano',  '75074', 'TX', '2668550710');
+	VALUES (102, 'Hegmann', 'Louie', '12/28/1994', 'heglou@outlook.com', 'heglou', '$2b$10$OevNVIaABJZn/n9FNolEiue80xxPcdZtpN2zv7QwUTjZA3apuXy.K', '5132304934743739', '07/2023', '283', '4223 Jones Street', 'Plano',  '75074', 'TX', '2668550710');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (103, 'Customer', 'Test', STR_TO_DATE('01/01/2000','%m/%d/%Y'), 'customer@test.com', 'testc', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', STR_TO_DATE('12/01/2048','%m/%d/%Y'), '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
+	VALUES (103, 'Customer', 'Test', '01/01/2000', 'customer@test.com', 'testc', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', '12/2048', '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (103, 'Customer', 'Test', STR_TO_DATE('01/01/2000','%m/%d/%Y'), 'customer2@test.com', 'testc2', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', STR_TO_DATE('12/01/2048','%m/%d/%Y'), '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
+	VALUES (104, 'Customer', 'Test', '01/01/2000', 'customer2@test.com', 'testc2', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', '12/2048', '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
 
 INSERT INTO PRODUCT(ProductID, Name, Price, Description, Image, Num, Visible)
 	VALUES(1001, 'Coconut Bread', 3.5, 'A soft bread with coconut and cheese filling, topped with sliced cashew.', 'CoconutBread.jpg', 20, 1);
@@ -92,17 +92,17 @@ INSERT INTO PRODUCT_OWN_CATEGORY(ProductID, CategoryID)
 	VALUES(3005, 2);
 
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
-	VALUES (80001, 100, STR_TO_DATE('11/18/2020','%m/%d/%Y'), 13.9);
+	VALUES (80001, 100, '11/18/2020', 13.9);
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
-	VALUES (80002, 100, STR_TO_DATE('11/20/2020','%m/%d/%Y'), 6.2);
+	VALUES (80002, 100, '11/20/2020', 6.2);
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
-	VALUES (80003, 100, STR_TO_DATE('11/22/2020','%m/%d/%Y'), 16.8);
+	VALUES (80003, 100, '11/22/2020', 16.8);
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
-	VALUES (80004, 101, STR_TO_DATE('11/25/2020','%m/%d/%Y'), 15.8);
+	VALUES (80004, 101, '11/25/2020', 15.8);
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
-	VALUES (80005, 101, STR_TO_DATE('11/25/2020','%m/%d/%Y'), 26.0);
+	VALUES (80005, 101, '11/25/2020', 26.0);
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
-	VALUES (80006, 102, STR_TO_DATE('11/25/2020','%m/%d/%Y'), 17.0);
+	VALUES (80006, 102, '11/25/2020', 17.0);
 
 INSERT INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num)
 	VALUES (80001, 1001, 3);
