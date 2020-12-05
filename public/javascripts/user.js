@@ -288,6 +288,55 @@ var countryData = '<option value="" selected="">-Select-</option>\n' +
     '<option value="ZW">Zimbabwe</option>'; 
 var noData = '<option value="" selected="">-Select-</option>';
 
+!function (a) {
+    "function" == typeof define && define.amd ? define(["jquery", "jquery.validate.min"], a) : a(jQuery)
+}(function (a) {
+    var icon = "<i class='fa fa-times-circle'></i>  ";
+    a.extend(a.validator.messages, {
+        required: icon + "必填",
+        remote: icon + "请修正此栏位",
+        email: icon + "Please enter a valid email",
+        url: icon + "请输入有效的网址",
+        date: icon + "Please enter a valid date",
+        dateISO: icon + "Please enter a valid email (YYYY-MM-DD)",
+        number: icon + "请输入正确的数字",
+        digits: icon + "Only number",
+        creditcard: icon + "Please enter a valid card number",
+        equalTo: icon + "你的输入不相同",
+        extension: icon + "请输入有效的后缀",
+        maxlength: a.validator.format(icon + "最多 {0} 个字"),
+        minlength: a.validator.format(icon + "最少 {0} 个字"),
+        rangelength: a.validator.format(icon + "请输入长度为 {0} 至 {1} 之间的字串"),
+        range: a.validator.format(icon + "请输入 {0} 至 {1} 之间的数值"),
+        max: a.validator.format(icon + "请输入不大于 {0} 的数值"),
+        min: a.validator.format(icon + "请输入不小于 {0} 的数值")
+    });
+    $.validator.addMethod("mm",function(value,element,params){
+        var mm = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+        return this.optional(element)||(mm.test(value));
+    },"<i class='fa fa-times-circle'></i>  必须包含大小写字母和数字的组合！");
+    $.validator.addMethod("username",function(value,element,params){
+        var username = /^[A-Za-z0-9]+$/;
+        return this.optional(element)||(username.test(value));
+    },"<i class='fa fa-times-circle'></i>  用户名只能包含字母和数字！");
+    $.validator.addMethod("phone",function(value,element,params){
+        var mobilereg1 = /^(\+?1)?[2-9]\d{2}[2-9](?!11)\d{6}$/;
+        value = value.replace(/\s/g, "");
+        return this.optional(element) || mobilereg1.test(value);
+    },"<i class='fa fa-times-circle'></i>  Please enter a valid phone number");
+    $.validator.addMethod("cardNumber",function(value,element,params){
+        var b = false;
+        $.ajax({
+            url: "https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=" + value.replace(/\s/g,''),
+            async: false,
+            success: function (data) {
+                b = data.validated;
+            }
+        });
+        return this.optional(element) || b;
+    },"<i class='fa fa-times-circle'></i>  请输入正确的银行卡号！");
+});
+
 $(function () {
     var icon = "<i class='fa fa-times-circle'></i> ";
     $("#informationForm").validate({
@@ -312,8 +361,6 @@ $(function () {
             },
             infoZip: {
                 required: true,
-                minlength: 5,
-                maxlength: 5
             }
         },
         messages: {
@@ -336,8 +383,6 @@ $(function () {
             },
             infoZip: {
                 required: icon + "Please enter your Zip Code",
-                minlength: icon + "Please enter a valid Zip",
-                maxlength: icon + "Please enter a valid Zip",
             }
         }
     });
@@ -354,7 +399,7 @@ $(function () {
                 required: true,
                 minlength: 3,
                 maxlength: 4
-            },
+            }
         },
         messages: {
             cardNumber: {
@@ -366,8 +411,8 @@ $(function () {
             },
             securityCode: {
                 required: icon + "Please enter the Security Code",
-                minlength: icon + "Please enter a valid Security Code",
-                maxlength: icon + "Please enter a valid Security Code",
+                minlength: icon + "Minimum of 3 characters",
+                maxlength: icon + "Maximum of 4 characters",
             }
         }
     });
@@ -390,14 +435,12 @@ $(function () {
             },
             infoZip: {
                 required: true,
-                minlength: 5,
                 maxlength: 5
             },
             phoneNumber: {
                 required: true,
-              
-                minlength: 10,
-                maxlength: 10
+                phone: true,
+                maxlength: 12
             }
         },
         messages: {
@@ -418,13 +461,11 @@ $(function () {
             },
             infoZip: {
                 required: icon + "Please enter your Zip",
-                minlength: icon + "Please enter a valid Zip",
-                maxlength: icon + "Please enter a valid Zip",
+                maxlength: icon + "Maximum of 5 characters"
             },
             phoneNumber: {
                 required: icon + "Please enter your Phone Number",
-                minlength: icon + "Please enter a valid phone number",
-                maxlength: icon + "Please enter a valid phone number",
+                maxlength: icon + "Maximum of 10 characters"
             }
         }
     });
@@ -542,7 +583,7 @@ function saveDeliveryInfo() {
             "streetAddress": streetAddress,
             "lastName": lastName,
             "firstName": firstName,
-            "phoneNumber": phoneNumber,
+            "phoneNumber": phoneNumber.replace(/\s/g, ""),
         },
         success: function(r) {
             if (r.code == 200) {
@@ -566,6 +607,27 @@ function tabCk(id, thzz) {
     } else if(id == 'deliveryForm') {
         $(".content-title").html("Delivery Addresses");
     }
+}
+function phone(tz) {
+    console.log(tz);
+    var $ph = $(tz);
+    var vs = $ph.val().replace(/\s/g, "").split("");
+    var ret = "";
+    for (var i = 0; i < vs.length; i++) {
+        var v = vs[i];
+        if (/^\d+$/.test(v)) {
+            ret += v;
+            if (i < 8) {
+                if (i == 2) {
+                    ret += " ";
+                } else if (i == 5) {
+                    ret += " ";
+                }
+            }
+        }
+    }
+    $ph.val(ret);
+    return ret;
 }
 function formatBankNo(BankNo) {
     var id = BankNo.id;
@@ -602,7 +664,7 @@ function formatDate(BankNo) {
     BankNo = $("#" + BankNo.id).val();
     if(BankNo == "") return;
     var account = new String(BankNo);
-    account = account.replace(" / ", "").substring(0, 6);
+    account = account.replace(" / ", "").substring(0, 4);
     if(account.match(".[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{7}") == null) {
         
         if(account.match(".[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{7}|" + ".[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{7}|" +

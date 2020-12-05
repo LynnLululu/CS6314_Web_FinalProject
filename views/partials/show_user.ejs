@@ -56,8 +56,8 @@
 <% } else { %>
 
 <!-- other users  -->
-<div class="row userinfo">
 
+<div class="row userinfo">
   <div class="col-md-3 offset-md-2">
     <div class=" navbar-collapse">
       <ul class="navbar-nav ml-auto">
@@ -97,60 +97,56 @@
         <div class="form-group">
           <label>Password</label>
           <div style="position: relative;">
-            <input disabled id="infoPwd" class="form-control" name="infoPwd" type="password" value=""
-              placeholder="Password">
-            <a class="pwd-edit" id="pwd-edit" href="javascript:void(0)" style="color:#495057;">Edit</a>
+            <input disabled id="infoPwd" class="form-control" name="infoPwd" type="password" value="" placeholder="Password">
+            <a class="pwd-edit" id="pwd-edit" href="javascript:void(0)" style="color:#495057;" >Edit</a>
           </div>
         </div>
         <div class="form-group">
           <label for="infoState">Date Of Birth</label>
           <div>
-            <input type="text" id="dateOfBirth" class="form-control" name="dateOfBirth"
-              placeholder="<%= user.dateOfBirth === "" ? user.dateOfBirth : "MM/DD/YY" %>">
+            <input type="text" id="dateOfBirth" class="form-control" name="dateOfBirth" placeholder="<%= user.dateOfBirth === "" ? user.dateOfBirth : "MM/DD/YY" %>">
           </div>
         </div>
         <label class="addr-other-x" for="infoState">Location</label>
-        <div class="form-group">
-          <label for="infoState">State</label>
-          <select id="infoState" class="form-control" name="infoState" placeholder="State">
-            <option value="" selected="">-Select-</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="infoCity">City</label>
-          <input type="text" class="form-control" name="infoCity" id="infoCity" placeholder="City">
-        </div>
-        <div class="form-group">
-          <label for="infoZip">Zip</label>
-          <input type="text" class="form-control" name="infoZip" id="infoZip" placeholder="Zip">
-        </div>
+          <div class="form-group">
+            <label for="infoState">State</label>
+            <select id="infoState" class="form-control" name="infoState" placeholder="State">
+              <option value="" selected="">-Select-</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="infoCity">City</label>
+            <input type="text" class="form-control" name="infoCity" id="infoCity" placeholder="City">
+          </div>
+          <div class="form-group">
+            <label for="infoZip">Zip</label>
+            <input type="number" class="form-control" name="infoZip" id="infoZip" placeholder="Zip" oninput="if(value.length>5)value=value.slice(0,5)" />
+          </div>
 
-        <button id="x1" onclick="saveUserInfo()" type="button" class="btn btn-warning btn-block login-btn">Save</button>
+        <button id="x1" onclick="saveUserInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
       </form>
       <!-- Payment Methods -->
       <form class="tab-form" style="display: none;" id="cardForm" action="#">
         <div class="form-group">
           <label>Card Number</label>
           <div>
-            <input onkeyup="formatBankNo(this)" type="text" class="form-control" name="cardNumber" id="cardNumber"
-              placeholder="Card Number">
+            <input onkeyup="formatBankNo(this)"  type="text" class="form-control" name="cardNumber" id="cardNumber" placeholder="Card Number">
           </div>
         </div>
         <div class="form-group">
           <label>Expiration Date</label>
           <div>
-            <input onkeyup="formatDate(this)" type="text" class="form-control" name="expirationDate" id="expirationDate"
-              placeholder="MM/YY">
+            <input onkeyup="formatDate(this)"  type="text" class="form-control" name="expirationDate" id="expirationDate" placeholder="MM/YY" %>">
           </div>
         </div>
         <div class="form-group">
           <label>Security Code</label>
           <div>
-            <input type="number" class="form-control" name="securityCode" id="securityCode" placeholder="XXX">
+            <input type="number" class="form-control" name="securityCode" id="securityCode" placeholder="XXX" oninput="if(value.length>4)value=value.slice(0,4)" />
           </div>
         </div>
 
-        <button onclick="saveCardInfo()" type="button" class="btn btn-warning btn-block login-btn">Save</button>
+        <button onclick="saveCardInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
       </form>
       <!-- Delivery Addresses -->
       <form class="tab-form" style="display: none;" id="deliveryForm" action="#">
@@ -168,7 +164,7 @@
         </div>
         <div class="form-group">
           <label for="infoState">Street Address</label>
-          <input id="streetAddress" class="form-control" name="streetAddress" placeholder="Street Address">
+            <input id="streetAddress" class="form-control" name="streetAddress" placeholder="Street Address">
         </div>
 
         <div class="row">
@@ -181,33 +177,33 @@
           <div class="col-sm-6">
             <div class="form-group">
               <label for="infoZip">Zip</label>
-              <input type="text" class="form-control" name="infoZip" id="infoZip1" placeholder="Zip">
+              <input type="number" class="form-control" name="infoZip" id="infoZip1" placeholder="Zip" oninput="if(value.length>5)value=value.slice(0,5)" />
             </div>
           </div>
         </div>
 
 
 
-        <div class="form-group">
-          <label for="infoState">State</label>
-          <select id="infoState1" class="form-control" name="infoState" placeholder="State">
-            <option value="" selected="">-Select-</option>
-          </select>
-        </div>
+          <div class="form-group">
+            <label for="infoState">State</label>
+            <select id="infoState1" class="form-control" name="infoState" placeholder="State">
+              <option value="" selected="">-Select-</option>
+            </select>
+          </div>
 
 
         <div class="form-group">
           <label>Phone Number</label>
           <div>
-            <input type="number" class="form-control" name="phoneNumber" id="phoneNumber"
-              placeholder="<%= user.phone %>">
+            <input onkeyup="phone(this)" maxlength="12" type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="<%= user.phone %>">
           </div>
         </div>
 
-        <button onclick="saveDeliveryInfo()" type="button" class="btn btn-warning btn-block login-btn">Save</button>
+        <button onclick="saveDeliveryInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
       </form>
     </div>
   </div>
-  <!-- /.row -->
+</div>
+<!-- /.row -->
 
   <% } %>
