@@ -44,7 +44,7 @@ app.use(session({
     	path : '/',
     	httpOnly : true,
     	secure : false,
-        maxAge : 1000 * 60 * 3, // set session's valid time
+      maxAge : 1000 * 60 * 60, // set session's valid time in ms
     }
 }));
 

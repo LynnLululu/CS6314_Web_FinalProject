@@ -11,6 +11,8 @@ INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Pas
 	VALUES (102, 'Hegmann', 'Louie', STR_TO_DATE('12/28/1994','%m/%d/%Y'), 'heglou@outlook.com', 'heglou', '$2b$10$OevNVIaABJZn/n9FNolEiue80xxPcdZtpN2zv7QwUTjZA3apuXy.K', '5132304934743739', STR_TO_DATE('07/01/2023','%m/%d/%Y'), '283', '4223 Jones Street', 'Plano',  '75074', 'TX', '2668550710');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
 	VALUES (103, 'Customer', 'Test', STR_TO_DATE('01/01/2000','%m/%d/%Y'), 'customer@test.com', 'testc', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', STR_TO_DATE('12/01/2048','%m/%d/%Y'), '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
+INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
+	VALUES (103, 'Customer', 'Test', STR_TO_DATE('01/01/2000','%m/%d/%Y'), 'customer2@test.com', 'testc2', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', STR_TO_DATE('12/01/2048','%m/%d/%Y'), '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
 
 INSERT INTO PRODUCT(ProductID, Name, Price, Description, Image, Num, Visible)
 	VALUES(1001, 'Coconut Bread', 3.5, 'A soft bread with coconut and cheese filling, topped with sliced cashew.', 'CoconutBread.jpg', 20, 1);
