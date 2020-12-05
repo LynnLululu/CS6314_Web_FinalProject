@@ -26,6 +26,7 @@ var testSQLs = function(dic) {
         }, function(err) {  // callback after all queries
             if (err) {
                 console.log(err);
+                throw err;
             } else {
                 resolve();
             }

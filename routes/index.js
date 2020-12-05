@@ -8,7 +8,7 @@ var mo = require('../modules/m_order');
 
 // root
 router.get('/', function(req, res) {
-	res.redirect('/products');
+	res.status(200).redirect('/products');
 });
 
 // show all products
@@ -51,19 +51,20 @@ router.get('/products', function(req, res) {
             console.log("Show products. 'index':");
             g.selectedPrint(results);
         }
-        res.render('index', results); 
+        res.status(200).render('index', results); 
 	})
 });
 
 // show one product
 router.get('/products/:id', function(req, res) {
 	let productID = req.params.id;
-	if (isNaN(Number(productID))) {
-		res.send("Unvalid input in get products/:id.")
-	}
 	let user = mu.resolveUser(req.session.user);
-	if (isNaN(Number(productID))) {  // unvalid productID
-		res.send("Unvalid productID: " + productID);
+	if (isNaN(Number(productID))) {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Unvalid input in get products/:id");
+            g.selectedPrint(results);
+        }
+        res.status(400).redirect('/products');
 	} else {
 		let asyncFunc = async (user, productID) => {
 			let results = {}
@@ -87,20 +88,25 @@ router.get('/products/:id', function(req, res) {
 	            console.log("Show a product. 'show':");
 	            g.selectedPrint(results);
 	        }
-	        res.render('show', results); 
+	        res.status(200).render('show', results); 
 		})
 	}
 });
 
 // show one product
 router.get('/products/:id/edit', function(req, res) {
-	let productID = req.params.id
-	if (isNaN(Number(productID))) {
-		res.send("Unvalid input in get products/:id/edit/edit.")
-	}
+	let productID = req.params.id;
 	let user = mu.resolveUser(req.session.user);
-	if (isNaN(Number(productID))) {  // unvalid productID
-		res.send("Unvalid productID: " + productID);
+	if (isNaN(Number(productID))) {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Unvalid input in get products/:id/edit");
+        }
+        res.status(400).redirect('/products/' + results["productID"]); 
+	} else if (user["category"] != "admin") {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Only admins can edit product");
+        }
+		res.status(400).redirect('/products/' + results["productID"]); 
 	} else {
 		let asyncFunc = async (user, productID) => {
 			let results = {}
@@ -120,7 +126,7 @@ router.get('/products/:id/edit', function(req, res) {
 	            console.log("Edit a product. 'tbd':");
 	            g.selectedPrint(results);
 	        }
-	        res.render('tbd', results); 
+	        res.status(200).render('tbd', results); 
 		})
 	}
 });
@@ -128,14 +134,17 @@ router.get('/products/:id/edit', function(req, res) {
 // update one product
 router.post('/products/:id/edit/update', function(req, res) {
 	let productID = req.params.id;
-	if (isNaN(Number(productID))) {
-		res.send("Unvalid input in post products/:id/edit/update.")
-	}
 	let user = mu.resolveUser(req.session.user);
-	if (isNaN(Number(productID))) {  // unvalid productID
-		res.send("Unvalid productID: " + productID);
+	if (isNaN(Number(productID))) {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Unvalid input in post products/:id/edit/update");
+        }
+        res.status(400).send("Unvalid input in post products/:id/edit/update");
 	} else if (user["category"] != "admin") {
-		res.send("Unvalid user: " + user["category"] + user["email"]);
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Only admins can edit product");
+        }
+        res.status(400).send("Only admins can edit product");
 	} else {
 		let asyncFunc = async (productID) => {
 			let results = {};
@@ -158,7 +167,7 @@ router.post('/products/:id/edit/update', function(req, res) {
 	            console.log("Update a product.:");
 	            g.selectedPrint(results);
 	        }
-	        res.redirect('/products/' + results["productID"]); 
+	        res.status(200).redirect('/products/' + results["productID"]); 
 		})
 	}
 });
@@ -166,14 +175,17 @@ router.post('/products/:id/edit/update', function(req, res) {
 // remove one product (soft delete)
 router.post('/products/:id/edit/remove', function(req, res) {
 	let productID = req.params.id;
-	if (isNaN(Number(productID))) {
-		res.send("Unvalid input in post products/:id/edit/remove.")
-	}
 	let user = mu.resolveUser(req.session.user);
-	if (isNaN(Number(productID))) {  // unvalid productID
-		res.send("Unvalid productID: " + productID);
+	if (isNaN(Number(productID))) {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Unvalid input in post products/:id/edit/remove");
+        }
+        res.status(400).send("Unvalid input in post products/:id/edit/remove");
 	} else if (user["category"] != "admin") {
-		res.send("Unvalid user: " + user["category"] + user["email"]);
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Only admins can edit product");
+        }
+        res.status(400).send("Only admins can edit product");
 	} else {
 		let asyncFunc = async (productID) => {
 			let p1 = await mp.deleteProduct(productID);
@@ -183,7 +195,7 @@ router.post('/products/:id/edit/remove', function(req, res) {
 			if (g.logLevel <= g.Level.DEBUGGING) {
 	            console.log("Soft-Delete a product.:");
 	        }
-	        res.redirect('/products');
+	        res.status(200).redirect('/products');
 		})
 	}
 });
@@ -192,12 +204,15 @@ router.post('/products/:id/edit/remove', function(req, res) {
 router.get('/products/new', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
 	if (user["category"] != "admin") {
-		res.send("Unvalid user: " + user["category"] + user["email"]);
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Only admins can new product");
+        }
+		res.status(400).redirect('/products');
 	} else {
 		if (g.logLevel <= g.Level.DEBUGGING) {
 	            console.log("Edit a new product. 'tbd':");
 	        }
-		res.render('tbd', results); 
+		res.status(200).render('tbd', results); 
 	}
 });
 
@@ -205,7 +220,10 @@ router.get('/products/new', function(req, res) {
 router.post('/products/new/add', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
 	if (user["category"] != "admin") {
-		res.send("Unvalid user: " + user["category"] + user["email"]);
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Only admins can new product");
+        }
+        res.status(400).send("Only admins can new product");
 	} else {
 		let asyncFunc = async (productID) => {
 			let product = {
@@ -228,7 +246,7 @@ router.post('/products/new/add', function(req, res) {
 	            console.log("Add a new product.:");
 	            g.selectedPrint(results);
 	        }
-	        res.redirect('/products/' + results["productID"]); 
+	        res.status(200).redirect('/products/' + results["productID"]); 
 		})
 	}
 });
