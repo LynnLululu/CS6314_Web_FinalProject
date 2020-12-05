@@ -45,7 +45,9 @@
   <!-- Validate -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
   <!-- Date Picker -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+    integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+    crossorigin="anonymous"></script>
 
   <!-- Custome JS -->
   <script src="/javascripts/index.js" crossorigin="anonymous"></script>
@@ -71,32 +73,61 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item" style="height: 40px;">
+
             <!-- Button trigger modal -->
-            <% if (user.category == "anonymous") { %>
-            <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-              <i class="fas fa-user ml-2 mr-2"></i>Sign In
-            </a>
-              <% } else { %>
+
+            <!-- admin -->
+            <% if (user.category == "admin") { %>
+              <a id="sign-txt2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">
+                <i class="fas fa-user ml-2 mr-2"></i>Admin</a>
+              <div class="btn-group">
+                <ul class="dropdown-menu dro-info" style="width: 200px;">
+                  <li id="dro-info-one">Account</li>
+                  <li style="margin-bottom: 6px;"><a href="/users">Account Settings</a></li>
+                  <li style="margin-bottom: 6px;"><a href="#" onclick="document.getElementById('signout').submit();">Log
+                      Out</a></li>
+                </ul>
+                <form id="signout" action="/users/signout" method="POST"></form>
+              </div>
+
+            <!-- anonymous -->
+            <% } else if (user.category == "anonymous") { %>
+              <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                <i class="fas fa-user ml-2 mr-2"></i>Sign In
+              </a>
+
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-heart ml-2 mr-2"></i>Favorite</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-shopping-cart ml-2 mr-2"></i>Shop Cart</a>
+  
+
+              <!-- customer -->
+            <% } else if (user.category == "customer") { %>
               <a id="sign-txt2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">
                 <i class="fas fa-user ml-2 mr-2"></i>My Account</a>
               <div class="btn-group">
                 <ul class="dropdown-menu dro-info" style="width: 200px;">
                   <li id="dro-info-one">Account</li>
-                  <li style="margin-bottom: 6px;"><a href="#">Orders</a></li>
+                  <li style="margin-bottom: 6px;"><a href="/orders">Orders</a></li>
                   <li style="margin-bottom: 6px;"><a href="/users">Account Settings</a></li>
-                  <li style="margin-bottom: 6px;"><a href= "#" onclick="document.getElementById('signout').submit();">Log Out</a></li>
+                  <li style="margin-bottom: 6px;"><a href="#" onclick="document.getElementById('signout').submit();">Log
+                      Out</a></li>
                 </ul>
                 <form id="signout" action="/users/signout" method="POST"></form>
               </div>
-              <% } %>
+            </li>
 
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/favorite"><i class="fas fa-heart ml-2 mr-2"></i>Favorite</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/shopcart"><i class="fas fa-shopping-cart ml-2 mr-2"></i>Shop Cart</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/favorite"><i class="fas fa-heart ml-2 mr-2"></i>Favorite</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/shopcart"><i class="fas fa-shopping-cart ml-2 mr-2"></i>Shop Cart</a>
+            
+            <% } %>
+
+        </li>
         </ul>
       </div>
     </div>

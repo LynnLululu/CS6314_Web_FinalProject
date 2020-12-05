@@ -312,6 +312,8 @@ $(function () {
             },
             infoZip: {
                 required: true,
+                minlength: 5,
+                maxlength: 5
             }
         },
         messages: {
@@ -334,6 +336,8 @@ $(function () {
             },
             infoZip: {
                 required: icon + "Please enter your Zip Code",
+                minlength: icon + "Please enter a valid Zip",
+                maxlength: icon + "Please enter a valid Zip",
             }
         }
     });
@@ -349,8 +353,8 @@ $(function () {
             securityCode: {
                 required: true,
                 minlength: 3,
-                maxlength: 3
-            }
+                maxlength: 4
+            },
         },
         messages: {
             cardNumber: {
@@ -362,8 +366,8 @@ $(function () {
             },
             securityCode: {
                 required: icon + "Please enter the Security Code",
-                minlength: icon + "Minimum of 3 characters",
-                maxlength: icon + "Maximum of 3 characters",
+                minlength: icon + "Please enter a valid Security Code",
+                maxlength: icon + "Please enter a valid Security Code",
             }
         }
     });
@@ -386,10 +390,14 @@ $(function () {
             },
             infoZip: {
                 required: true,
+                minlength: 5,
+                maxlength: 5
             },
             phoneNumber: {
                 required: true,
-                phone: true
+              
+                minlength: 10,
+                maxlength: 10
             }
         },
         messages: {
@@ -410,9 +418,13 @@ $(function () {
             },
             infoZip: {
                 required: icon + "Please enter your Zip",
+                minlength: icon + "Please enter a valid Zip",
+                maxlength: icon + "Please enter a valid Zip",
             },
             phoneNumber: {
                 required: icon + "Please enter your Phone Number",
+                minlength: icon + "Please enter a valid phone number",
+                maxlength: icon + "Please enter a valid phone number",
             }
         }
     });
