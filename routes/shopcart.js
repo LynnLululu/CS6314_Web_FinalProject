@@ -17,7 +17,11 @@ router.get('/', function(req, res) {
 	} else {
 		let asyncFunc = async (user) => {
 			let customerID = user["customerID"];
-			let results = { "user" : mu.resolveUser(user) };
+			let results = {
+				"user" : mu.resolveUser(user),
+				"bfavorite": req.session.bfavorite,
+    			"carousel": req.session.carousel,
+			};
 			let p1 = await msc.getCart(results, "cart", customerID);
 			let p2 = await mp.addCategories(results, "cart");
 			let cart = results["cart"];
@@ -146,7 +150,11 @@ router.get('/checkout', function(req, res) {
 	} else {
 		let asyncFunc = async (user) => {
 			let customerID = user["customerID"];
-			let results = { "user" : mu.resolveUser(user) };
+			let results = {
+				"user" : mu.resolveUser(user),
+				"bfavorite": req.session.bfavorite,
+    			"carousel": req.session.carousel,
+			};
 			let p1 = await msc.getCart(results, "cart", customerID);
 			let p2 = await mp.addCategories(results, "cart");
 			let cart = results["cart"];

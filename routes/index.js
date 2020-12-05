@@ -53,6 +53,9 @@ router.get('/products', function(req, res) {
 	    	}
 		req.session.save();
         let dateframe = {
+        	"user": user,
+        	"bfavorite": req.session.bfavorite,
+        	"carousel": req.session.carousel,
         	"selected": results["selected"],
         	"categories": results["categories"],
         	"products": results["products"],
@@ -60,9 +63,6 @@ router.get('/products', function(req, res) {
         	"lastSearchText": results["lastSearchText"],
         	"lastFilterString": results["lastFilterString"],
         	"lastSearchText": results["lastSearchText"],
-        	"user": user,
-        	"bfavorite": req.session.bfavorite,
-        	"carousel": req.session.carousel,
         }
         if (g.logLevel <= g.Level.DEBUGGING) {
             console.log("Show products. 'index':");
@@ -87,7 +87,11 @@ router.get('/products/:id', function(req, res) {
         res.status(400).redirect('/products');
 	} else {
 		let asyncFunc = async (user, productID) => {
-			let results = {}
+			let results = {
+				"user" : mu.resolveUser(user),
+				"bfavorite": req.session.bfavorite,
+    			"carousel": req.session.carousel,
+			};
 			let p1 = await mp.getProducts(results, "products");
 			let p2 = await mp.addCategories(results, "products");
 			let p3 = await mp.getCategories(results, "categories");
@@ -97,7 +101,6 @@ router.get('/products/:id', function(req, res) {
 				results["product"] = mp.EMPTYPRODUCT;
 			}
 			results["product"]["productID"] = productID;  // reorganize for convenient
-			results["user"] = user;
 			results["lastCategories"] = [];
 			results["lastSearchText"] = "";
 			results["lastFilterString"] = "";
@@ -129,7 +132,11 @@ router.get('/products/:id/edit', function(req, res) {
 		res.status(400).redirect('/products/' + results["productID"]); 
 	} else {
 		let asyncFunc = async (user, productID) => {
-			let results = {}
+			let results = {
+				"user" : mu.resolveUser(user),
+				"bfavorite": req.session.bfavorite,
+    			"carousel": req.session.carousel,
+			};
 			let p1 = await mp.getProducts(results, "products");
 			let p2 = await mp.addCategories(results, "products");
 			let p3 = await mp.getCategories(results, "categories");
@@ -223,6 +230,11 @@ router.post('/products/:id/edit/remove', function(req, res) {
 // new product
 router.get('/products/new', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
+	let results = {
+		"user" : mu.resolveUser(user),
+		"bfavorite": req.session.bfavorite,
+		"carousel": req.session.carousel,
+	};
 	if (user["category"] != "admin") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only admins can new product");

@@ -16,7 +16,11 @@ router.get('/', function(req, res) {
 	} else {
 		let asyncFunc = async (user) => {
 			let customerID = user["customerID"];
-			let results = { "user" : mu.resolveUser(user) };
+			let results = {
+				"user" : mu.resolveUser(user),
+				"bfavorite": req.session.bfavorite,
+    			"carousel": req.session.carousel,
+			};
 			let p1 = await mp.getProducts(results, "products");
 			let p2 = await mp.addCategories(results, "products");
 			let p3 = await mo.getOrderDetails(results, "orderDetails")
@@ -52,7 +56,11 @@ router.get('/:id', function(req, res) {
 	} else {
 		let asyncFunc = async (user, orderID) => {
 			let customerID = user["customerID"];
-			let results = { "user" : mu.resolveUser(user) };
+			let results = {
+				"user" : mu.resolveUser(user),
+				"bfavorite": req.session.bfavorite,
+    			"carousel": req.session.carousel,
+			};
 			let p1 = await mp.getProducts(results, "products");
 			let p2 = await mp.addCategories(results, "products");
 			let p3 = await mo.getOrderDetails(results, "orderDetails")

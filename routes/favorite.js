@@ -16,7 +16,11 @@ router.get('/', function(req, res) {
 	} else {
 		let asyncFunc = async (user) => {
 			let customerID = user["customerID"];
-			let results = { "user" : mu.resolveUser(user) };
+			let results = {
+				"user" : mu.resolveUser(user),
+				"bfavorite": req.session.bfavorite,
+    			"carousel": req.session.carousel,
+			};
 			let p1 = await mf.getFavorite(results, "favorite", customerID);
 			let p2 = await mp.addCategories(results, "favorite");
 			return Promise.resolve(results);
