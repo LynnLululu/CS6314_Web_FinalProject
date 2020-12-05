@@ -10,23 +10,23 @@
     <div class="card h-100 pb-0">
 
       <!-- product image -->
-      <a href="products/<%= product.productID %>" class="card-link text-dark">
-        <img class="card-img-top" src="images/<%= product.image %>" alt="<%= product.productName %>">
+      <a href="products/<%= favorite[productID].productID %>" class="card-link text-dark">
+        <img class="card-img-top" src="images/<%= favorite[productID].image %>" alt="<%= favorite[productID].productName %>">
       </a>
 
       <div class="card-body text-left">
 
         <!-- product link -->
-        <a href="products/<%= product.productID %>" class="card-link text-dark">
+        <a href="products/<%= favorite[productID].productID %>" class="card-link text-dark">
 
           <!-- product name -->
-          <h5 class="card-title text-truncate"><%= product.productName %></h5>
+          <h5 class="card-title text-truncate"><%= favorite[productID].productName %></h5>
 
           <!-- description -->
-          <p class="card-text truncate"><%= product.description %></p>
+          <p class="card-text truncate"><%= favorite[productID].description %></p>
 
           <!-- price -->
-          <p class="card-text text-right font-weight-bold float-right mb-0"> $<%= product.productPrice %></p>
+          <p class="card-text text-right font-weight-bold float-right mb-0"> $<%= favorite[productID].productPrice %></p>
         </a>
 
         <!-- delete button -->
@@ -45,7 +45,7 @@
                 &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;
               </button>
               <div class="dropdown-menu overflow-auto" style="max-height: 140px;" aria-labelledby="dropdownMenuButton">
-                <% for (var i = 1; i <= product.num; i++) {%>
+                <% for (var i = 1; i <= favorite[productID].num; i++) {%>
                 <a class="dropdown-item"><%= i %></a>
                 <% } %>
               </div>

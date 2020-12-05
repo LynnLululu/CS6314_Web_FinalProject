@@ -27,6 +27,7 @@ var getProducts = function(dic, key) {
                 for (let elem of rows) {
                     let tmp = {};
                     let productID = elem['ProductID'];
+                    tmp["productID"] = elem['ProductID'];
                     tmp["productName"] = elem['Name'];
                     tmp["categories"] = [];
                     tmp["productPrice"] = elem['Price'];
@@ -51,6 +52,46 @@ var getProducts = function(dic, key) {
     });
 };
 exports.getProducts = getProducts;
+
+// get all products by ids
+var getProductsByIDS = function(dic, key, idDic) {
+    return new Promise((resolve, reject) => {
+        let sql = "select * from PRODUCT";
+        db.query(sql, (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            else {
+                let results = {};
+                for (let elem of rows) {
+                    let tmp = {};
+                    let productID = elem['ProductID'];
+                    if (idDic.hasOwnProperty(productID)) {
+                        tmp["productName"] = elem['Name'];
+                        tmp["categories"] = [];
+                        tmp["productPrice"] = elem['Price'];
+                        tmp["description"] = elem['Description'];
+                        tmp["image"] = elem['Image'];
+                        tmp["storeNum"] = elem['Num'];
+                        if (elem['Visible'] == 0) {
+                            tmp["visible"] = false;
+                        } else {
+                            tmp["visible"] = true;
+                        }
+                        results[productID] = tmp;
+                    }
+                }
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("getProductsByIDS");
+                    console.log(results);
+                }
+                dic[key] = results;
+                resolve();
+            }
+        });
+    });
+};
+exports.getProductsByIDS = getProductsByIDS;
 
 // fill categories for all products
 var addCategories = function(dic, key) {
