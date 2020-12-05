@@ -27,6 +27,7 @@ var getProducts = function(dic, key) {
                 for (let elem of rows) {
                     let tmp = {};
                     let productID = elem['ProductID'];
+                    tmp["productID"] = elem['ProductID'];
                     tmp["productName"] = elem['Name'];
                     tmp["categories"] = [];
                     tmp["productPrice"] = elem['Price'];

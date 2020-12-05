@@ -3,6 +3,7 @@ var router = express.Router();
 
 // 
 router.get('/', function(req, res) {
+	let user = mu.resolveUser(req.session.user);
     let dataframe = {
         "user": user,
         "bfavorite": req.session.bfavorite,
