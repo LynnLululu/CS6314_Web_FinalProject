@@ -34,10 +34,11 @@
 
   <!-- bootstrap-select -->
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
- 
+
   <!-- Custom styles for this template -->
   <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
 
@@ -61,11 +62,26 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <li class="nav-item" style="height: 40px;">
             <!-- Button trigger modal -->
+            <% if (user.category == "anonymous") { %>
             <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
               <i class="fas fa-user ml-2 mr-2"></i>Sign In
             </a>
+              <% } else { %>
+              <a id="sign-txt2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">
+                <i class="fas fa-user ml-2 mr-2"></i>My Account</a>
+              <div class="btn-group">
+                <ul class="dropdown-menu dro-info" style="width: 200px;">
+                  <li id="dro-info-one">Account</li>
+                  <li style="margin-bottom: 6px;"><a href="#">Orders</a></li>
+                  <li style="margin-bottom: 6px;"><a href="#">Account Settings</a></li>
+                  <li style="margin-bottom: 6px;"><a href= "#" onclick="document.getElementById('signout').submit();">Log Out</a></li>
+                </ul>
+                <form id="signout" action="/users/signout" method="POST"></form>
+              </div>
+              <% } %>
+
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/favorite"><i class="fas fa-heart ml-2 mr-2"></i>Favorite</a>
