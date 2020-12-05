@@ -12,11 +12,11 @@ $(function() {
     validateRule();
 });
 
-$.validator.setDefaults({
-    submitHandler: function() {
-        // register();
-    }
-});
+// $.validator.setDefaults({
+//     submitHandler: function() {
+//         // register();
+//     }
+// });
 $.validator.addMethod("mm",function(value,element,params){
     var mm = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
     return this.optional(element)||(mm.test(value));
