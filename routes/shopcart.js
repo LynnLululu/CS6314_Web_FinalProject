@@ -69,7 +69,7 @@ router.post('/add', function(req, res) {
 	            console.log("Add " + num + " product " + pid + "s to shopcart.");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).send("Add " + num + " product " + pid + "s to shopcart."); 
+	        res.status(200).redirect("/shopcart"); 
 		})
 	}
 });

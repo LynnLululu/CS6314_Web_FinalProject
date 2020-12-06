@@ -7,7 +7,7 @@ const Level = {
     OPERATING: 2,
     TESTING: 3,
 }
-var logLevel = Level.OPERATING;
+var logLevel = Level.DEBUGGING;
 exports.Level = Level;
 exports.logLevel = logLevel;
 
