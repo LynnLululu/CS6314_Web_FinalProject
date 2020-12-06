@@ -67,38 +67,44 @@ router.post('/signin', function(req, res) {
 // check if email already existed
 router.post('/check/email', function(req, res) {
 	let email = req.body.email;
+	res.send(JSON.stringify({ "success":false, "message": "test" }));
+	/*
 	if (!email) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/check/email");
         }
-        res.status(400).send("Unvalid input in post users/check/email");
+        res.status(400).write("Unvalid input");
 	} else {
 		let asyncFunc = async (email) => {
 			let results = {}
-			let p1 = await mu.checkInCUSTOMER(results, "emailsInC", "email", email);
-			let p2 = await mu.checkInADMIN(results, "emailsInA", "email", email);
+			let p1 = await mu.checkInCUSTOMER(results, "emailsInC", "Email", email);
+			let p2 = await mu.checkInADMIN(results, "emailsInA", "Email", email);
 			return Promise.resolve(results);
 		}
 		asyncFunc(email).then(results => {
-			let c = results["inCUSTOMER"];
-	        let a = results["inADMIN"];
+			let c = results["emailsInC"];
+	        let a = results["emailsInA"];
 	        if (a.length > 0) {
-	        	if (g.logLevel <= g.Level.DEVELOPING) {
+	        	if (g.logLevel <= g.Level.OPERATING) {
 	                console.log("Email already existed in admins");
 	                console.log(a);
 	            }
-	            res.status(400).send("Email already existed in admins");
-	        }
-	        if (c.length > 0) {
-	        	if (g.logLevel <= g.Level.DEVELOPING) {
+	            res.status(400).write("Email already existed in customers");
+	        } else if (c.length > 0) {
+	        	if (g.logLevel <= g.Level.OPERATING) {
 	                console.log("Email already existed in customers");
 	                console.log(c);
 	            }
-	            res.status(400).send("Email already existed in customers");
+	            res.status(400).write("Email already existed in customers");
+	        } else {
+	        	if (g.logLevel <= g.Level.OPERATING) {
+	                console.log("Email available");
+	            }
+	        	res.status(200).write(true);
 	        }
-	        res.status(200).send("Email available");
 		})
 	}
+	*/
 });
 
 // check if username already existed
@@ -108,33 +114,37 @@ router.post('/check/username', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/check/username");
         }
-        res.status(400).send("Unvalid input in post users/check/username");
+        res.status(400).send(false);
 	} else {
-			let asyncFunc = async (username) => {
+		console.log("####");
+		let asyncFunc = async (username) => {
 			let results = {}
-			let p1 = await mu.checkInCUSTOMER(results, "usernameInC", "username", username);
-			let p2 = await mu.checkInADMIN(results, "usernameInA", "username", username);
+			let p1 = await mu.checkInCUSTOMER(results, "usernameInC", "UserName", username);
+			let p2 = await mu.checkInADMIN(results, "usernameInA", "UserName", username);
 			return Promise.resolve(results);
 		}
 		asyncFunc(username).then(results => {
-			let c = results["inCUSTOMER"];
-	        let a = results["inADMIN"];
+			let c = results["usernameInC"];
+	        let a = results["usernameInA"];
 	        let flag = true;
 	        if (a.length > 0) {
-	        	if (g.logLevel <= g.Level.DEVELOPING) {
+	        	if (g.logLevel <= g.Level.OPERATING) {
 	                console.log("Username already existed in admins");
 	                console.log(a);
 	            }
-	            res.status(400).send("Username already existed in admins");
-	        }
-	        if (c.length > 0) {
-	        	if (g.logLevel <= g.Level.DEVELOPING) {
+	            res.status(400).send(false);
+	        } else if (c.length > 0) {
+	        	if (g.logLevel <= g.Level.OPERATING) {
 	                console.log("Username already existed in customers");
 	                console.log(c);
 	            }
-	            res.status(400).send("Username already existed in customers");
+	            res.status(400).send(false);
+	        } else {
+	        	if (g.logLevel <= g.Level.OPERATING) {
+	                console.log("Username available");
+	            }
+	        	res.status(200).send(true);
 	        }
-	        res.status(200).send("Username available");
 		})
 	}
 });
@@ -331,8 +341,6 @@ router.post('/update/account', function(req, res) {
 	let newFName = req.body.newFName;
 	let newLName = req.body.newLName;
 	let newDob = req.body.dateOfBirth;
-	console.log(newDob);
-	res.send(0);
 	let newPhone = req.body.newPhone;
 	let user = mu.resolveUser(req.session.user);
 	if (!newFName || !newLName || !newDob || !newPhone) {

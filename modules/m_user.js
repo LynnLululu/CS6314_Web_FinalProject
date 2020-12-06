@@ -32,6 +32,7 @@ var getCustomers = function(dic, key, email) {
         }
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getCustomers");
                 throw err;
             }
             else {
@@ -83,6 +84,7 @@ var checkInCUSTOMER = function(dic, key, attrname, attrvalue) {
         }
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("checkInCUSTOMER");
                 throw err;
             }
             else {
@@ -114,6 +116,7 @@ var getAdmins = function(dic, key, email) {
         }
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getAdmins");
                 throw err;
             }
             else {
@@ -158,6 +161,7 @@ var checkInADMIN = function(dic, key, attrname, attrvalue) {
         }
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("checkInADMIN");
                 throw err;
             }
             else {
@@ -230,6 +234,7 @@ var checkPassword = function(dic, key, input, user) {
         }
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("checkPassword");
                 throw err;
             }
             else {
@@ -261,6 +266,7 @@ var getNextCustomerID = function(dic, key) {
         let sql = "select AccountID from CUSTOMER order by AccountID ASC";
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getNextCustomerID");
                 throw err;
             }
             else {
@@ -290,6 +296,7 @@ var createCustomer = function(dic, key, newID, email, username, password) {
             let sql = "replace INTO CUSTOMER (AccountID, Email, UserName, Password) VALUES (" + newID + ", '" + email + "', '" + username + "', '" + hashed + "');";
             db.query(sql, (err, rows) => {
                 if (err) {
+                    console.log("createCustomer");
                     throw err;
                 }
                 else {
@@ -333,10 +340,7 @@ var updateUsername = function(dic, key, newUsername, user) {
         }
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = false;
-                if (g.logLevel <= g.Level.DEVELOPING) {
-                    console.log("updateUsername: " + dic[key]);
-                }
+                console.log("updateUsername");
                 throw err;
             }
             else {
@@ -361,10 +365,7 @@ var updatePassword = function(dic, key, keyHahsed, newPassword, user) {
             }
             db.query(sql, (err, rows) => {
                 if (err) {
-                    dic[key] = false;
-                    if (g.logLevel <= g.Level.DEVELOPING) {
-                        console.log("updatePassword: " + dic[key]);
-                    }
+                    console.log("updatePassword");
                     throw err;
                 }
                 else {
@@ -389,10 +390,7 @@ var updateAccountDetails = function(dic, key, newFName, newLName, newDob, newPho
         }
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = false;
-                if (g.logLevel <= g.Level.DEVELOPING) {
-                    console.log("updateAccountDetails: " + dic[key]);
-                }
+                console.log("updateAccountDetails");
                 throw err;
             }
             else {
@@ -415,10 +413,7 @@ var updatePaymentMethods = function(dic, key, newCard, newEDate, newSCode, user)
         }
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = false;
-                if (g.logLevel <= g.Level.DEVELOPING) {
-                    console.log("updatePaymentMethods: " + dic[key]);
-                }
+                console.log("updatePaymentMethods");
                 throw err;
             }
             else {
@@ -441,10 +436,7 @@ var updateDeliveryAddress = function(dic, key, newStreet, newCity, newZip, newSt
         }
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = false;
-                if (g.logLevel <= g.Level.DEVELOPING) {
-                    console.log("updateDeliveryAddress: " + dic[key]);
-                }
+                console.log("updateDeliveryAddress");
                 throw err;
             }
             else {

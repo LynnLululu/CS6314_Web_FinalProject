@@ -19,6 +19,7 @@ var getOrderDetails = function(dic, key) {
         let sql = "select * from ORDER_DETAIL";
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getOrderDetails");
                 throw err;
             }
             else {
@@ -55,6 +56,7 @@ var getOrders = function(dic, key, cid) {
         let sql = "select * from FOOD_ORDER where AccountID=" + cid + " order by PurchaseDate DESC";  // new orders at the front
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getOrders");
                 throw err;
             }
             else {
@@ -114,6 +116,7 @@ var updateComments = function(dic, key, oid, comments) {
         let sql = "update FOOD_ORDER SET Comments='" + comments + " where OrderID=" + oid;
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("updateComments");
                 throw err;
             }
             else {
@@ -135,6 +138,7 @@ var getNextOrderID = function(dic, key) {
         let sql = "select MAX(OrderID) from FOOD_ORDER";
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getNextOrderID");
                 throw err;
             }
             else {
@@ -154,7 +158,7 @@ var getNextOrderID = function(dic, key) {
 exports.getNextOrderID = getNextOrderID;
 
 // save new order
-var newOrder = function(newID, cid, total, purchase) {
+var newOrder = function(dic, key, newID, cid, total, purchase) {
     return new Promise((resolve, reject) => {
         let now = new Date().toLocaleDateString('en-US');
         let sqls = ["insert INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice, Comments) VALUES (" + newID + ", " + cid + ", '" + now + "', " + total + ", 'No comments yet.')"];
@@ -165,7 +169,8 @@ var newOrder = function(newID, cid, total, purchase) {
         async.eachSeries(sqls, function(sql, callback) {
             db.query(sql, (err, rows) => {
                 if (err) {
-                    callback(err);
+                    console.log("getNextOrderID");
+                    throw err;
                 } else {
                     callback();
                 }
@@ -177,6 +182,7 @@ var newOrder = function(newID, cid, total, purchase) {
                 if (g.logLevel <= g.Level.DEBUGGING) {
                     console.log("newOrder");
                 }
+                dic[key] = true;
                 resolve();
             }
         });
@@ -190,6 +196,7 @@ var findHotProducts = function(dic, key) {
         let sql = "select ProductID, SUM(Num) from ORDER_OWN_PRODUCT group by ProductID order by SUM(Num) DESC";
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("findHotProducts");
                 throw err;
             }
             else {
