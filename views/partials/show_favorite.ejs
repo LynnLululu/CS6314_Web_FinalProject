@@ -37,7 +37,10 @@
         </a>
 
         <!-- delete button -->
-        <a class="btn p-0">
+        <form id="favoriteRemove" action="/favorite/remove" method="POST">
+          <input type="hidden" name="productID" value="<%= productID %>">
+        </form>
+        <a class="btn p-0" onclick="document.getElementById('favoriteRemove').submit();">
           <p class="float-left mb-0"><i class="fas fa-trash-alt text-secondary"></i></p>
         </a>
       </div>
@@ -45,21 +48,11 @@
       <div class="card-footer">
         <div class="row">
           <div class="col col-lg-6">
-            <!-- select number -->
-            <div class="dropdown h-100">
-              <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;
-              </button>
-              <div class="dropdown-menu overflow-auto" style="max-height: 140px;" aria-labelledby="dropdownMenuButton">
-                <% for (var i = 1; i <= favorite[productID].num; i++) {%>
-                <a class="dropdown-item"><%= i %></a>
-                <% } %>
-              </div>
-            </div>
-          </div>
-          <div class="col col-lg-6">
             <!-- shop button -->
+            <form action="/shopcart/add" method="POST">
+              <input type="hidden" name="productID" value="<%= productID %>">
+              <input type="hidden" name="num" value="1">
+            </form>
             <a href="#" class="btn btn-warning w-100"><i class="fas fa-shopping-cart mr-2"></i>Add</a>
           </div>
         </div>
