@@ -4,15 +4,15 @@ INSERT INTO ADMIN (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Passwo
 	VALUES (1, 'Admin', 'Test', '01/01/2000', 'admin@test.com', 'testa', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '5476014382');
 
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (100, 'Medhurst', 'Tess', '01/29/1991', 'medtes@gmail.com', 'medtes', '$2b$10$OevNVIaABJZn/n9FNolEiu.Urct5C5OsuBjai1sx4GMHVnUnQ1IZC', '4829571662449868', '01/2022', '457', '4494 Wilson Avenue', 'Plano', '75023', 'TX', '7112659193');
+	VALUES (100, 'Medhurst', 'Tess', '01/29/1991', 'medtes@gmail.com', 'medtes', '$2b$10$OevNVIaABJZn/n9FNolEiu.Urct5C5OsuBjai1sx4GMHVnUnQ1IZC', '4829571662449868', '01/22', '457', '4494 Wilson Avenue', 'Plano', '75023', 'TX', '7112659193');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (101, 'Hayes', 'Mitchel', '07/17/1972', 'haymit@gmail.com', 'haymit', '$2b$10$OevNVIaABJZn/n9FNolEiufPFRtMIMll4ntHan9H9C2XbhkbSn/Yu', '5487744475243527', '10/2023', '876', '932 Worthington Drive', 'Plano',  '75074', 'TX', '6758447400');
+	VALUES (101, 'Hayes', 'Mitchel', '07/17/1972', 'haymit@gmail.com', 'haymit', '$2b$10$OevNVIaABJZn/n9FNolEiufPFRtMIMll4ntHan9H9C2XbhkbSn/Yu', '5487744475243527', '10/23', '876', '932 Worthington Drive', 'Plano',  '75074', 'TX', '6758447400');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (102, 'Hegmann', 'Louie', '12/28/1994', 'heglou@outlook.com', 'heglou', '$2b$10$OevNVIaABJZn/n9FNolEiue80xxPcdZtpN2zv7QwUTjZA3apuXy.K', '5132304934743739', '07/2023', '283', '4223 Jones Street', 'Plano',  '75074', 'TX', '2668550710');
+	VALUES (102, 'Hegmann', 'Louie', '12/28/1994', 'heglou@outlook.com', 'heglou', '$2b$10$OevNVIaABJZn/n9FNolEiue80xxPcdZtpN2zv7QwUTjZA3apuXy.K', '5132304934743739', '07/23', '283', '4223 Jones Street', 'Plano',  '75074', 'TX', '2668550710');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (103, 'Customer', 'Test', '01/01/2000', 'customer@test.com', 'testc', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', '12/2048', '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
+	VALUES (103, 'Customer', 'Test', '01/01/2000', 'customer@test.com', 'testc', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', '12/48', '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
 INSERT INTO CUSTOMER (AccountID, Fname, Lname, DateOfBirth, Email, UserName, Password, Card, ExpDate, SecCode, Street, City, Zip, State, Phone)
-	VALUES (104, 'Customer', 'Test', '01/01/2000', 'customer2@test.com', 'testc2', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', '12/2048', '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
+	VALUES (104, 'Customer', 'Test', '01/01/2000', 'customer2@test.com', 'testc2', '$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.', '1111222233334444', '12/28', '123', '1234 Test Street', 'Plano',  '75080', 'TX', '1112223333');
 
 INSERT INTO PRODUCT(ProductID, Name, Price, Description, Image, Num, Visible)
 	VALUES(1001, 'Coconut Bread', 3.5, 'A soft bread with coconut and cheese filling, topped with sliced cashew.', 'CoconutBread.jpg', 20, 1);

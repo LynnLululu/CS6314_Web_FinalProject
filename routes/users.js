@@ -422,6 +422,7 @@ router.post('/update/payment', function(req, res) {
 });
 
 router.post('/update/address', function(req, res) {
+	console.log(req.body.infoState);
 	let newStreet = req.body.streetAddress;
 	let newCity = req.body.infoCity;
 	let newZip = req.body.infoZip;
