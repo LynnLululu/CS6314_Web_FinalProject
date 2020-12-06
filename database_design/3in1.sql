@@ -217,9 +217,9 @@ INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
 	VALUES (80003, 100, '11/22/2020', 16.8);
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
-	VALUES (80004, 101, '11/25/2020', 15.8);
+	VALUES (80004, 103, '11/25/2020', 15.8);
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
-	VALUES (80005, 101, '11/25/2020', 26.0);
+	VALUES (80005, 103, '11/25/2020', 26.0);
 INSERT INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice)
 	VALUES (80006, 102, '11/25/2020', 17.0);
 

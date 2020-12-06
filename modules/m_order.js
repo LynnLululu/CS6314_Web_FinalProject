@@ -66,9 +66,9 @@ var getOrders = function(dic, key, cid) {
                     let orderID = elem['OrderID'];
                     tmp["orderID"] = elem['OrderID'];
                     tmp["customerID"] = elem['AccountID'];
-                    tmp["productName"] = elem['PurchaseDate'];
-                    tmp["productPrice"] = elem['TotalPrice'];
-                    tmp["description"] = elem['Comments'];
+                    tmp["purchaseDate"] = elem['PurchaseDate'];
+                    tmp["totalPrice"] = elem['TotalPrice'];
+                    tmp["comments"] = elem['Comments'];
                     tmp["products"] = {};
                     results[orderID] = tmp;
                 }
