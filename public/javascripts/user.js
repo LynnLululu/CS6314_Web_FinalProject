@@ -293,32 +293,32 @@ var noData = '<option value="" selected="">-Select-</option>';
 }(function (a) {
     var icon = "<i class='fa fa-times-circle'></i>  ";
     a.extend(a.validator.messages, {
-        required: icon + "必填",
-        remote: icon + "请修正此栏位",
+        required: icon + "This field is required",
+        remote: icon + "Please modify this field",
         email: icon + "Please enter a valid email",
-        url: icon + "请输入有效的网址",
+        url: icon + "lease enter a valid URL",
         date: icon + "Please enter a valid date",
-        dateISO: icon + "Please enter a valid email (YYYY-MM-DD)",
-        number: icon + "请输入正确的数字",
-        digits: icon + "Only number",
+        dateISO: icon + "Please enter a valid date (YYYY-MM-DD)",
+        number: icon + "Please enter correct number",
+        digits: icon + "Number only",
         creditcard: icon + "Please enter a valid card number",
-        equalTo: icon + "你的输入不相同",
-        extension: icon + "请输入有效的后缀",
-        maxlength: a.validator.format(icon + "最多 {0} 个字"),
-        minlength: a.validator.format(icon + "最少 {0} 个字"),
-        rangelength: a.validator.format(icon + "请输入长度为 {0} 至 {1} 之间的字串"),
-        range: a.validator.format(icon + "请输入 {0} 至 {1} 之间的数值"),
-        max: a.validator.format(icon + "请输入不大于 {0} 的数值"),
-        min: a.validator.format(icon + "请输入不小于 {0} 的数值")
+        equalTo: icon + "The two inputs are different",
+        extension: icon + "Please enter a valid extension",
+        maxlength: a.validator.format(icon + "Maxmum of 0 charater"),
+        minlength: a.validator.format(icon + "Minmum of 0 charater"),
+        rangelength: a.validator.format(icon + "Please enter a string of length 0 to 1"),
+        range: a.validator.format(icon + "Please enter a value between 0 and 1"),
+        max: a.validator.format(icon + "Please enter a value not greater than 0"),
+        min: a.validator.format(icon + "Please enter a value not less than 0")
     });
     $.validator.addMethod("mm",function(value,element,params){
         var mm = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
         return this.optional(element)||(mm.test(value));
-    },"<i class='fa fa-times-circle'></i>  必须包含大小写字母和数字的组合！");
+    },"<i class='fa fa-times-circle'></i>  Must contain a combination of upper and lower case letters and numbers!");
     $.validator.addMethod("username",function(value,element,params){
         var username = /^[A-Za-z0-9]+$/;
         return this.optional(element)||(username.test(value));
-    },"<i class='fa fa-times-circle'></i>  用户名只能包含字母和数字！");
+    },"<i class='fa fa-times-circle'></i>  User names can only contain letters and numbers!");
     $.validator.addMethod("phone",function(value,element,params){
         var mobilereg1 = /^(\+?1)?[2-9]\d{2}[2-9](?!11)\d{6}$/;
         value = value.replace(/\s/g, "");
@@ -334,7 +334,7 @@ var noData = '<option value="" selected="">-Select-</option>';
             }
         });
         return this.optional(element) || b;
-    },"<i class='fa fa-times-circle'></i>  请输入正确的银行卡号！");
+    },"<i class='fa fa-times-circle'></i>  Please enter a valid card number");
 });
 
 $(function () {
@@ -365,15 +365,15 @@ $(function () {
         },
         messages: {
             infoEmail: {
-                required: icon + "Please enter your email",
+                required: icon + "Please enter your Email",
                 remote: "Email already exists"
             },
             infoPwd: {
-                required: icon + "Please enter your password",
+                required: icon + "Please enter your Password",
                 minlength: icon + "Minimum of 6 characters"
             },
             dateOfBirth: {
-                required: icon + "Please enter your date of birth",
+                required: icon + "Please enter your Date of Birth",
             },
             infoState: {
                 required: icon + "Please enter your State",
@@ -404,7 +404,7 @@ $(function () {
         messages: {
             cardNumber: {
                 required: icon + "Please enter your Card Number",
-                cardNumber: icon + "请输入正确Card Number",
+                cardNumber: icon + "Please enter a valid Card Number",
             },
             expirationDate: {
                 required: icon + "Please enter the Expiration Date",
@@ -494,9 +494,9 @@ $(function () {
         }
     });
     $('#dateOfBirth').datepicker({
-        autoclose: true, //选择后自动关闭
-        clearBtn: true,//清除按钮
-        format: "mm/dd/yyyy"//日期格式
+        autoclose: true,  // Select and close automatically
+        clearBtn: true,   // button for clear
+        format: "mm/dd/yyyy" // form of date
     });
     $("#infoState").html(noData + stateData);
     $("#infoState1").html(noData + stateData);
@@ -518,7 +518,7 @@ function saveUserInfo() {
 
     $.ajax({
         type: "POST",
-        url: "/user/save", // 保存用户的信息
+        url: "/user/save", // Save user information
         data: {
             "infoZip": infoZip,
             "infoCity": infoCity,
@@ -529,9 +529,9 @@ function saveUserInfo() {
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("保存成功！");
+                alert("Save successful!");
             } else {
-                alert("保存失败！");
+                alert("Fail to save");
             }
         }
     });
@@ -546,7 +546,7 @@ function saveCardInfo() {
     var securityCode = $("input[name='securityCode']").val();
     $.ajax({
         type: "POST",
-        url: "/user/saveCard", // 保存信用卡的信息
+        url: "/user/saveCard", // Save credit card information
         data: {
             "cardNumber": cardNumber.replace(/\s/g,''),
             "expirationDate": expirationDate,
@@ -554,9 +554,9 @@ function saveCardInfo() {
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("保存成功！");
+                alert("Save successful!");
             } else {
-                alert("保存失败！");
+                alert("Fail to save");
             }
         }
     });
@@ -575,7 +575,7 @@ function saveDeliveryInfo() {
     var phoneNumber = $("input[name='phoneNumber']").val();
     $.ajax({
         type: "POST",
-        url: "/user/saveDelivery", // 保存收货的信息
+        url: "/user/saveDelivery", // Save the informatio of delivery address
         data: {
             "infoZip": infoZip,
             "infoCity": infoCity,
@@ -587,9 +587,9 @@ function saveDeliveryInfo() {
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("保存成功！");
+                alert("Save successful!");
             } else {
-                alert("保存失败！");
+                alert("Fail to save");
             }
         }
     });

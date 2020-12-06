@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
 		console.log("Show user details. 'tbd':");
         g.selectedPrint(mu.resolveUser(req.session.user));
     }
-    res.status(200).render('tbd', {
+    res.status(200).render('user', {
     	"user": user,
     	"bfavorite": req.session.bfavorite,
     	"carousel": req.session.carousel,
