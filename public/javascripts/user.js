@@ -1,54 +1,54 @@
 var stateData = 
-    '<option value="Alabama">Alabama</option>\n' +
-    '<option value="Alaska">Alaska</option>\n' +
-    '<option value="Arizona">Arizona</option>\n' +
-    '<option value="Arkansas">Arkansas</option>\n' +
-    '<option value="California">California</option>\n' +
-    '<option value="Colorado">Colorado</option>\n' +
-    '<option value="Connecticut">Connecticut</option>\n' +
-    '<option value="Delaware">Delaware</option>\n' +
-    '<option value="Florida">Florida</option>\n' +
-    '<option value="Georgia">Georgia</option>\n' +
-    '<option value="Hawaii">Hawaii</option>\n' +
-    '<option value="Idaho">Idaho</option>\n' +
-    '<option value="Illinois">Illinois</option>\n' +
-    '<option value="Indiana">Indiana</option>\n' +
-    '<option value="Iowa">Iowa</option>\n' +
-    '<option value="Kansas">Kansas</option>\n' +
-    '<option value="Kentucky">Kentucky</option>\n' +
-    '<option value="Louisiana">Louisiana</option>\n' +
-    '<option value="Maine">Maine</option>\n' +
-    '<option value="Maryland">Maryland</option>\n' +
-    '<option value="Massachusetts">Massachusetts</option>\n' +
-    '<option value="Michigan">Michigan</option>\n' +
-    '<option value="Minnesota">Minnesota</option>\n' +
-    '<option value="Mississippi">Mississippi</option>\n' +
-    '<option value="Missouri">Missouri</option>\n' +
-    '<option value="Montana">Montana</option>\n' +
-    '<option value="Nebraska">Nebraska</option>\n' +
-    '<option value="Nevada">Nevada</option>\n' +
-    '<option value="NewHampshire">NewHampshire</option>\n' +
-    '<option value="NewJersey">NewJersey</option>\n' +
-    '<option value="NewMexico">NewMexico</option>\n' +
-    '<option value="NewYork">NewYork</option>\n' +
-    '<option value="NorthCarolina">NorthCarolina</option>\n' +
-    '<option value="NorthDakota">NorthDakota</option>\n' +
-    '<option value="Ohio">Ohio</option>\n' +
-    '<option value="Oklahoma">Oklahoma</option>\n' +
-    '<option value="Oregon">Oregon</option>\n' +
-    '<option value="Pennsylvania">Pennsylvania</option>\n' +
-    '<option value="RhodeIsland">RhodeIsland</option>\n' +
-    '<option value="SouthCarolina">SouthCarolina</option>\n' +
-    '<option value="SouthDakota">SouthDakota</option>\n' +
-    '<option value="Tennessee">Tennessee</option>\n' +
-    '<option value="Texas">Texas</option>\n' +
-    '<option value="Utah">Utah</option>\n' +
-    '<option value="Vermont">Vermont</option>\n' +
-    '<option value="Virginia">Virginia</option>\n' +
-    '<option value="Washington">Washington</option>\n' +
-    '<option value="WestVirginia">WestVirginia</option>\n' +
-    '<option value="Wisconsin">Wisconsin</option>\n' +
-    '<option value="Wyoming">Wyoming</option>';
+    '<option value="AL">AL</option>\n' +
+    '<option value="AK">AK</option>\n' +
+    '<option value="AZ">AZ</option>\n' +
+    '<option value="AR">AR</option>\n' +
+    '<option value="CA">CA</option>\n' +
+    '<option value="CO">CO</option>\n' +
+    '<option value="CT">CT</option>\n' +
+    '<option value="DE">DE</option>\n' +
+    '<option value="FL">FL</option>\n' +
+    '<option value="GA">GA</option>\n' +
+    '<option value="HI">HI</option>\n' +
+    '<option value="ID">ID</option>\n' +
+    '<option value="IL">IL</option>\n' +
+    '<option value="IN">IN</option>\n' +
+    '<option value="IA">IA</option>\n' +
+    '<option value="KS">KS</option>\n' +
+    '<option value="KY">KY</option>\n' +
+    '<option value="LA">LA</option>\n' +
+    '<option value="ME">ME</option>\n' +
+    '<option value="MD">MD</option>\n' +
+    '<option value="MA">MA</option>\n' +
+    '<option value="MI">MI</option>\n' +
+    '<option value="MN">MN</option>\n' +
+    '<option value="MS">MS</option>\n' +
+    '<option value="MO">MO</option>\n' +
+    '<option value="MT">MT</option>\n' +
+    '<option value="NE">NE</option>\n' +
+    '<option value="NV">NV</option>\n' +
+    '<option value="NH">NH</option>\n' +
+    '<option value="NJ">NJ</option>\n' +
+    '<option value="NM">NM</option>\n' +
+    '<option value="NY">NY</option>\n' +
+    '<option value="NC">NC</option>\n' +
+    '<option value="ND">ND</option>\n' +
+    '<option value="OH">OH</option>\n' +
+    '<option value="OK">OK</option>\n' +
+    '<option value="OR">OR</option>\n' +
+    '<option value="PA">PA</option>\n' +
+    '<option value="RI">RI</option>\n' +
+    '<option value="SC">SC</option>\n' +
+    '<option value="SD">SD</option>\n' +
+    '<option value="TN">TN</option>\n' +
+    '<option value="TX">TX</option>\n' +
+    '<option value="UT">UT</option>\n' +
+    '<option value="VT">VT</option>\n' +
+    '<option value="VA">VA</option>\n' +
+    '<option value="WA">WA</option>\n' +
+    '<option value="WV">WV</option>\n' +
+    '<option value="WI">WI</option>\n' +
+    '<option value="WY">WY</option>';
 var countryData = '<option value="" selected="">-Select-</option>\n' +
     '<option value="US">United States of America</option>\n' +
     '<option value="AF">Afghanistan</option>\n' +
@@ -470,10 +470,24 @@ $(function () {
         }
     });
 
+    // handle password changing
     $("#pwd-edit").on("click", function () {
         $("#infoPwd").prop("disabled", false);
         $("#pwd-edit").hide();
+        $("#pwd-save").show();        
     });
+
+    $("#pwd-save").on("click", function(){
+        $("#infoPwd").prop("disabled", true);
+        $("#pwd-edit").show();
+        $("#pwd-save").hide();
+        var newPwd = $("#infoPwd").val();
+        console.log(newPwd);
+        $.post("/users/update/password", {newPwd: newPwd})  
+    })
+
+    // handle username changing
+    
 
     $("#infoCountry").html(countryData);
     $("#infoCountry").on("change", function () {
