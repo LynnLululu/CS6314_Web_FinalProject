@@ -5,7 +5,7 @@
         </h2>
         <div>
             <!-- Update Product form -->
-            <form action="/products/<%= product.productID %>/edit/update" method="POST">
+            <form action="/products/<%= product.productID %>/edit/update" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="productName">Product Name</label>
                     <input class="form-control" id="productName" aria-describedby="emailHelp" value="<%= product.productName %>">
@@ -34,8 +34,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="image">Image</label>
-                    <input type="file" class="form-control-file" id="image">
+                    <label for="image">Image</label>    
+
+                    <div class="mb-3">
+                        <img id="previewImage" src="/images/<%= product.image %>">
+                    </div>
+                    
+                    <input id="file" onchange="changepic(this)" type="file" accept=".jpg, .jpeg, .png" class="form-control-file" name="image">
                 </div>
 
                 <!-- Update Product button -->
