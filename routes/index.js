@@ -75,6 +75,27 @@ router.get('/products', function(req, res) {
 	})
 });
 
+// new product
+router.get('/products/new', function(req, res) {
+	let user = mu.resolveUser(req.session.user);
+	let results = {
+		"user" : user,
+		"bfavorite": req.session.bfavorite,
+		"carousel": req.session.carousel,
+	};
+	if (user["category"] != "admin") {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Only admins can new product");
+        }
+		res.status(400).redirect('/products');
+	} else {
+		if (g.logLevel <= g.Level.DEBUGGING) {
+	            console.log("Edit a new product. 'new':");
+	        }
+		res.status(200).render('new', results); 
+	}
+});
+
 // show one product
 router.get('/products/:id', function(req, res) {
 	let productID = req.params.id;
@@ -253,26 +274,7 @@ router.post('/products/:id/edit/remove', function(req, res) {
 	}
 });
 
-// new product
-router.get('/products/new', function(req, res) {
-	let user = mu.resolveUser(req.session.user);
-	let results = {
-		"user" : user,
-		"bfavorite": req.session.bfavorite,
-		"carousel": req.session.carousel,
-	};
-	if (user["category"] != "admin") {
-		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Only admins can new product");
-        }
-		res.status(400).redirect('/products');
-	} else {
-		if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Edit a new product. 'new':");
-	        }
-		res.status(200).render('new', results); 
-	}
-});
+
 
 // add product
 router.post('/products/new/add', function(req, res) {
