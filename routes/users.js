@@ -252,8 +252,7 @@ router.post('/signout', function(req, res) {
 });
 
 router.post('/update/username', function(req, res) {
-	console.log(req.body.username);
-	let newUsername = req.body.newUsername;
+	let newUsername = req.body.newUsn;
 	let user = mu.resolveUser(req.session.user);
 	if (!newUsername) {
 		if (g.logLevel <= g.Level.OPERATING) {
@@ -317,7 +316,7 @@ router.post('/update/password', function(req, res) {
 	} else {
 		let asyncFunc = async (newPassword, user) => {
 			let results = {}
-			let p1 = await mu.updatePassword(results, "state", newPassword, user);
+			let p1 = await mu.updatePassword(results, "hashed", newPassword, user);
 			return Promise.resolve(results);
 		}
 		asyncFunc(newPassword, user).then(results => {
@@ -342,7 +341,7 @@ router.post('/update/account', function(req, res) {
 	let newFName = req.body.firstName;
 	let newLName = req.body.lastName;
 	let newDob = req.body.dateOfBirth;
-	let newPhone = req.body.newPhone;
+	let newPhone = req.body.phoneNumber.replace(/\s/g, '');
 	let user = mu.resolveUser(req.session.user);
 	if (!newFName || !newLName || !newDob || !newPhone) {
 		if (g.logLevel <= g.Level.OPERATING) {
@@ -382,7 +381,7 @@ router.post('/update/account', function(req, res) {
 });
 
 router.post('/update/payment', function(req, res) {
-	let newCard = req.body.cardNumber;
+	let newCard = req.body.cardNumber.replace(/\s/g, '');
 	let newEDate = req.body.expirationDate;
 	let newSCode = req.body.securityCode;
 	let user = mu.resolveUser(req.session.user);

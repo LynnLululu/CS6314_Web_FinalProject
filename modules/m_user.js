@@ -356,7 +356,7 @@ var updateUsername = function(dic, key, newUsername, user) {
 exports.updateUsername = updateUsername;
 
 // change password
-var updatePassword = function(dic, key, keyHahsed, newPassword, user) {
+var updatePassword = function(dic, key, newPassword, user) {
     return new Promise((resolve, reject) => {
         h.hash(newPassword, (hashed) => {
             let sql = "update CUSTOMER SET Password='" + hashed + "' where AccountID=" + user["customerID"];
@@ -369,8 +369,7 @@ var updatePassword = function(dic, key, keyHahsed, newPassword, user) {
                     throw err;
                 }
                 else {
-                    dic[key] = true;
-                    dic[keyHahsed] = hashed;
+                    dic[key] = hashed;
                     if (g.logLevel <= g.Level.DEVELOPING) {
                         console.log("updatePassword: " + dic[key]);
                     }
@@ -384,7 +383,7 @@ exports.updatePassword = updatePassword;
 
 var updateAccountDetails = function(dic, key, newFName, newLName, newDob, newPhone, user) {
     return new Promise((resolve, reject) => {
-        let sql = "update CUSTOMER SET Fname='" + newFName + "', Lname='" + newLName + "', DateOfBirth=" + newDob + ", Phone='" + newPhone + "' where AccountID=" + user["customerID"];
+        let sql = "update CUSTOMER SET Fname='" + newFName + "', Lname='" + newLName + "', DateOfBirth='" + newDob + "', Phone='" + newPhone + "' where AccountID=" + user["customerID"];
         if (user["category"] === "admin") {
             sql = "update ADMIN SET Fname='" + newFName + "', Lname='" + newLName + "', DateOfBirth=" + newDob + ", Phone='" + newPhone + "' where AccountID=" + user["customerID"];
         }
@@ -407,9 +406,9 @@ exports.updateAccountDetails = updateAccountDetails;
 
 var updatePaymentMethods = function(dic, key, newCard, newEDate, newSCode, user) {
     return new Promise((resolve, reject) => {
-        let sql = "update CUSTOMER SET Card='" + newCard + "' ExpCard=" + newEDate + ", SecCode='" + newSCode + "' where AccountID=" + user["customerID"];
+        let sql = "update CUSTOMER SET Card='" + newCard + "', ExpDate='" + newEDate + "', SecCode='" + newSCode + "' where AccountID=" + user["customerID"];
         if (user["category"] === "admin") {
-            sql = "update ADMIN SET Card='" + newCard + "' ExpCard=" + newEDate + ", SecCode='" + newSCode + "' where AccountID=" + user["customerID"];
+            sql = "update ADMIN SET Card='" + newCard + "', ExpDate='" + newEDate + "', SecCode='" + newSCode + "' where AccountID=" + user["customerID"];
         }
         db.query(sql, (err, rows) => {
             if (err) {
@@ -430,10 +429,11 @@ exports.updatePaymentMethods = updatePaymentMethods;
 
 var updateDeliveryAddress = function(dic, key, newStreet, newCity, newZip, newState, user) {
     return new Promise((resolve, reject) => {
-        let sql = "update CUSTOMER SET Street='" + newStreet + "', '" + newCity + "', '" + newZip + "', '" + newState + "' where AccountID=" + user["customerID"];
+        let sql = "update CUSTOMER SET Street='" + newStreet + "', City='" + newCity + "', Zip='" + newZip + "', State='" + newState + "' where AccountID=" + user["customerID"];
         if (user["category"] === "admin") {
-            sql = "update ADMIN SET Street='" + newStreet + "', '" + newCity + "', '" + newZip + "', '" + newState + "' where AccountID=" + user["customerID"];
+            sql = "update ADMIN SET Street='" + newStreet + "', City='" + newCity + "', Zip='" + newZip + "', State='" + newState + "' where AccountID=" + user["customerID"];
         }
+        console.log(sql);
         db.query(sql, (err, rows) => {
             if (err) {
                 console.log("updateDeliveryAddress");

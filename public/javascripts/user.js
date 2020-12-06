@@ -49,6 +49,243 @@ var stateData =
     '<option value="WV">WV</option>\n' +
     '<option value="WI">WI</option>\n' +
     '<option value="WY">WY</option>';
+var countryData = '<option value="" selected="">-Select-</option>\n' +
+    '<option value="US">United States of America</option>\n' +
+    '<option value="AF">Afghanistan</option>\n' +
+    '<option value="AX">Aland Islands</option>\n' +
+    '<option value="AL">Albania</option>\n' +
+    '<option value="DZ">Algeria</option>\n' +
+    '<option value="AS">American Samoa</option>\n' +
+    '<option value="AD">Andorra</option>\n' +
+    '<option value="AO">Angola</option>\n' +
+    '<option value="AQ">Antarctica</option>\n' +
+    '<option value="AG">Antigua and Barbuda</option>\n' +
+    '<option value="AR">Argentina</option>\n' +
+    '<option value="AM">Armenia</option>\n' +
+    '<option value="AW">Aruba</option>\n' +
+    '<option value="AU">Australia</option>\n' +
+    '<option value="AT">Austria</option>\n' +
+    '<option value="AZ">Azerbaijan</option>\n' +
+    '<option value="BS">Bahamas</option>\n' +
+    '<option value="BH">Bahrain</option>\n' +
+    '<option value="BD">Bangladesh</option>\n' +
+    '<option value="BB">Barbados</option>\n' +
+    '<option value="BY">Belarus</option>\n' +
+    '<option value="BE">Belgium</option>\n' +
+    '<option value="BZ">Belize</option>\n' +
+    '<option value="BJ">Benin</option>\n' +
+    '<option value="BM">Bermuda</option>\n' +
+    '<option value="BT">Bhutan</option>\n' +
+    '<option value="BO">Bolivia (Plurinational State of)</option>\n' +
+    '<option value="BQ">Bonaire, Sint Eustatius and Saba</option>\n' +
+    '<option value="BA">Bosnia and Herzegovina</option>\n' +
+    '<option value="BW">Botswana</option>\n' +
+    '<option value="BR">Brazil</option>\n' +
+    '<option value="IO">British Indian Ocean Territory</option>\n' +
+    '<option value="BN">Brunei Darussalam</option>\n' +
+    '<option value="BG">Bulgaria</option>\n' +
+    '<option value="BF">Burkina Faso</option>\n' +
+    '<option value="BI">Burundi</option>\n' +
+    '<option value="CV">Cabo Verde</option>\n' +
+    '<option value="KH">Cambodia</option>\n' +
+    '<option value="CM">Cameroon</option>\n' +
+    '<option value="CA">Canada</option>\n' +
+    '<option value="KY">Cayman Islands</option>\n' +
+    '<option value="CF">Central African Republic</option>\n' +
+    '<option value="TD">Chad</option>\n' +
+    '<option value="CL">Chile</option>\n' +
+    '<option value="CN">China</option>\n' +
+    '<option value="CO">Colombia</option>\n' +
+    '<option value="KM">Comoros</option>\n' +
+    '<option value="CG">Congo</option>\n' +
+    '<option value="CD">Congo (Democratic Republic of the)</option>\n' +
+    '<option value="CK">Cook Islands</option>\n' +
+    '<option value="CR">Costa Rica</option>\n' +
+    '<option value="CI">Cote d\'Ivoire</option>\n' +
+    '<option value="HR">Croatia</option>\n' +
+    '<option value="CU">Cuba</option>\n' +
+    '<option value="CW">Curaçao</option>\n' +
+    '<option value="CY">Cyprus</option>\n' +
+    '<option value="CZ">Czechia</option>\n' +
+    '<option value="DK">Denmark</option>\n' +
+    '<option value="DJ">Djibouti</option>\n' +
+    '<option value="DM">Dominica</option>\n' +
+    '<option value="DO">Dominican Republic</option>\n' +
+    '<option value="EC">Ecuador</option>\n' +
+    '<option value="EG">Egypt</option>\n' +
+    '<option value="SV">El Salvador</option>\n' +
+    '<option value="GQ">Equatorial Guinea</option>\n' +
+    '<option value="ER">Eritrea</option>\n' +
+    '<option value="EE">Estonia</option>\n' +
+    '<option value="SZ">Eswatini</option>\n' +
+    '<option value="ET">Ethiopia</option>\n' +
+    '<option value="FO">Faroe Islands</option>\n' +
+    '<option value="FJ">Fiji</option>\n' +
+    '<option value="FI">Finland</option>\n' +
+    '<option value="FR">France</option>\n' +
+    '<option value="GF">French Guiana</option>\n' +
+    '<option value="PF">French Polynesia</option>\n' +
+    '<option value="TF">French Southern Territories</option>\n' +
+    '<option value="GA">Gabon</option>\n' +
+    '<option value="GM">Gambia</option>\n' +
+    '<option value="GE">Georgia</option>\n' +
+    '<option value="DE">Germany</option>\n' +
+    '<option value="GH">Ghana</option>\n' +
+    '<option value="GI">Gibraltar</option>\n' +
+    '<option value="GR">Greece</option>\n' +
+    '<option value="GL">Greenland</option>\n' +
+    '<option value="GD">Grenada</option>\n' +
+    '<option value="GP">Guadeloupe</option>\n' +
+    '<option value="GU">Guam</option>\n' +
+    '<option value="GT">Guatemala</option>\n' +
+    '<option value="GG">Guernsey</option>\n' +
+    '<option value="GN">Guinea</option>\n' +
+    '<option value="GW">Guinea-Bissau</option>\n' +
+    '<option value="GY">Guyana</option>\n' +
+    '<option value="HT">Haiti</option>\n' +
+    '<option value="HN">Honduras</option>\n' +
+    '<option value="HK">Hong Kong</option>\n' +
+    '<option value="HU">Hungary</option>\n' +
+    '<option value="IS">Iceland</option>\n' +
+    '<option value="IN">India</option>\n' +
+    '<option value="ID">Indonesia</option>\n' +
+    '<option value="IR">Iran (Islamic Republic of)</option>\n' +
+    '<option value="IQ">Iraq</option>\n' +
+    '<option value="IE">Ireland</option>\n' +
+    '<option value="IM">Isle of Man</option>\n' +
+    '<option value="IL">Israel</option>\n' +
+    '<option value="IT">Italy</option>\n' +
+    '<option value="JM">Jamaica</option>\n' +
+    '<option value="JP">Japan</option>\n' +
+    '<option value="JE">Jersey</option>\n' +
+    '<option value="JO">Jordan</option>\n' +
+    '<option value="KZ">Kazakhstan</option>\n' +
+    '<option value="KE">Kenya</option>\n' +
+    '<option value="KI">Kiribati</option>\n' +
+    '<option value="KP">Korea (Democratic People\'s Republic of)</option>\n' +
+    '<option value="KR">Korea (Republic of)</option>\n' +
+    '<option value="KW">Kuwait</option>\n' +
+    '<option value="KG">Kyrgyzstan</option>\n' +
+    '<option value="LA">Lao People\'s Democratic Republic</option>\n' +
+    '<option value="LV">Latvia</option>\n' +
+    '<option value="LB">Lebanon</option>\n' +
+    '<option value="LS">Lesotho</option>\n' +
+    '<option value="LR">Liberia</option>\n' +
+    '<option value="LY">Libya</option>\n' +
+    '<option value="LI">Liechtenstein</option>\n' +
+    '<option value="LT">Lithuania</option>\n' +
+    '<option value="LU">Luxembourg</option>\n' +
+    '<option value="MO">Macao</option>\n' +
+    '<option value="MG">Madagascar</option>\n' +
+    '<option value="MW">Malawi</option>\n' +
+    '<option value="MY">Malaysia</option>\n' +
+    '<option value="MV">Maldives</option>\n' +
+    '<option value="ML">Mali</option>\n' +
+    '<option value="MT">Malta</option>\n' +
+    '<option value="MH">Marshall Islands</option>\n' +
+    '<option value="MQ">Martinique</option>\n' +
+    '<option value="MR">Mauritania</option>\n' +
+    '<option value="MU">Mauritius</option>\n' +
+    '<option value="YT">Mayotte</option>\n' +
+    '<option value="MX">Mexico</option>\n' +
+    '<option value="FM">Micronesia (Federated States of)</option>\n' +
+    '<option value="MD">Moldova (Republic of)</option>\n' +
+    '<option value="MC">Monaco</option>\n' +
+    '<option value="MN">Mongolia</option>\n' +
+    '<option value="ME">Montenegro</option>\n' +
+    '<option value="MS">Montserrat</option>\n' +
+    '<option value="MA">Morocco</option>\n' +
+    '<option value="MZ">Mozambique</option>\n' +
+    '<option value="MM">Myanmar</option>\n' +
+    '<option value="NA">Namibia</option>\n' +
+    '<option value="NR">Nauru</option>\n' +
+    '<option value="NP">Nepal</option>\n' +
+    '<option value="NL">Netherlands</option>\n' +
+    '<option value="NC">New Caledonia</option>\n' +
+    '<option value="NZ">New Zealand</option>\n' +
+    '<option value="NI">Nicaragua</option>\n' +
+    '<option value="NE">Niger</option>\n' +
+    '<option value="NG">Nigeria</option>\n' +
+    '<option value="MK">North Macedonia</option>\n' +
+    '<option value="MP">Northern Mariana Islands</option>\n' +
+    '<option value="NO">Norway</option>\n' +
+    '<option value="OM">Oman</option>\n' +
+    '<option value="PK">Pakistan</option>\n' +
+    '<option value="PW">Palau</option>\n' +
+    '<option value="PS">Palestinian, State of</option>\n' +
+    '<option value="PA">Panama</option>\n' +
+    '<option value="PG">Papua New Guinea</option>\n' +
+    '<option value="PY">Paraguay</option>\n' +
+    '<option value="PE">Peru</option>\n' +
+    '<option value="PH">Philippines</option>\n' +
+    '<option value="PL">Poland</option>\n' +
+    '<option value="PT">Portugal</option>\n' +
+    '<option value="PR">Puerto Rico</option>\n' +
+    '<option value="QA">Qatar</option>\n' +
+    '<option value="RO">Romania</option>\n' +
+    '<option value="RU">Russian Federation</option>\n' +
+    '<option value="RW">Rwanda</option>\n' +
+    '<option value="RE">Réunion</option>\n' +
+    '<option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>\n' +
+    '<option value="KN">Saint Kitts and Nevis</option>\n' +
+    '<option value="LC">Saint Lucia</option>\n' +
+    '<option value="PM">Saint Pierre and Miquelon</option>\n' +
+    '<option value="VC">Saint Vincent and the Grenadines</option>\n' +
+    '<option value="WS">Samoa</option>\n' +
+    '<option value="SM">San Marino</option>\n' +
+    '<option value="ST">Sao Tome and Principe</option>\n' +
+    '<option value="SA">Saudi Arabia</option>\n' +
+    '<option value="SN">Senegal</option>\n' +
+    '<option value="RS">Serbia</option>\n' +
+    '<option value="SC">Seychelles</option>\n' +
+    '<option value="SL">Sierra Leone</option>\n' +
+    '<option value="SG">Singapore</option>\n' +
+    '<option value="SX">Sint Maarten (Dutch Part)</option>\n' +
+    '<option value="SK">Slovakia</option>\n' +
+    '<option value="SI">Slovenia</option>\n' +
+    '<option value="SB">Solomon Islands</option>\n' +
+    '<option value="SO">Somalia</option>\n' +
+    '<option value="ZA">South Africa</option>\n' +
+    '<option value="SS">South Sudan</option>\n' +
+    '<option value="ES">Spain</option>\n' +
+    '<option value="LK">Sri Lanka</option>\n' +
+    '<option value="SD">Sudan</option>\n' +
+    '<option value="SR">Suriname</option>\n' +
+    '<option value="SJ">Svalbard and Jan Mayen</option>\n' +
+    '<option value="SE">Sweden</option>\n' +
+    '<option value="CH">Switzerland</option>\n' +
+    '<option value="SY">Syrian Arab Republic</option>\n' +
+    '<option value="TW">Taiwan (Province of China)</option>\n' +
+    '<option value="TJ">Tajikistan</option>\n' +
+    '<option value="TZ">Tanzania, United Republic of</option>\n' +
+    '<option value="TH">Thailand</option>\n' +
+    '<option value="TL">Timor-Leste</option>\n' +
+    '<option value="TG">Togo</option>\n' +
+    '<option value="TK">Tokelau</option>\n' +
+    '<option value="TO">Tonga</option>\n' +
+    '<option value="TT">Trinidad and Tobago</option>\n' +
+    '<option value="TN">Tunisia</option>\n' +
+    '<option value="TR">Turkey</option>\n' +
+    '<option value="TM">Turkmenistan</option>\n' +
+    '<option value="TC">Turks and Caicos Islands</option>\n' +
+    '<option value="TV">Tuvalu</option>\n' +
+    '<option value="UG">Uganda</option>\n' +
+    '<option value="UA">Ukraine</option>\n' +
+    '<option value="AE">United Arab Emirates</option>\n' +
+    '<option value="GB">United Kingdom of Great Britain and Northern Ireland</option>\n' +
+    '<option value="UM">United States Minor Outlying Islands</option>\n' +
+    '<option value="UY">Uruguay</option>\n' +
+    '<option value="UZ">Uzbekistan</option>\n' +
+    '<option value="VU">Vanuatu</option>\n' +
+    '<option value="VE">Venezuela (Bolivarian Republic of)</option>\n' +
+    '<option value="VN">Viet Nam</option>\n' +
+    '<option value="VG">Virgin Islands (British)</option>\n' +
+    '<option value="VI">Virgin Islands (U.S.)</option>\n' +
+    '<option value="WF">Wallis and Futuna</option>\n' +
+    '<option value="EH">Western Sahara</option>\n' +
+    '<option value="YE">Yemen</option>\n' +
+    '<option value="ZM">Zambia</option>\n' +
+    '<option value="ZW">Zimbabwe</option>'; 
 var noData = '<option value="" selected="">-Select-</option>';
 
 !function (a) {
@@ -233,6 +470,22 @@ $(function () {
         }
     });
 
+    // handle username changing
+    $("#usn-edit").on("click", function () {
+        $("#infoUsn").prop("disabled", false);
+        $("#usn-edit").hide();
+        $("#usn-save").show();        
+    });
+
+    $("#usn-save").on("click", function(){
+        $("#infoUsn").prop("disabled", true);
+        $("#usn-edit").show();
+        $("#usn-save").hide();
+        var newUsn = $("#infoUsn").val();
+        console.log(newUsn);
+        $.post("/users/update/username", {newUsn: newUsn})  
+    })
+
     // handle password changing
     $("#pwd-edit").on("click", function () {
         $("#infoPwd").prop("disabled", false);
@@ -276,39 +529,37 @@ $(function () {
         format: "mm/dd/yyyy" // form of date
     });
     $("#infoState").html(noData + stateData);
+
     $("#infoState1").html(noData + stateData);
 });
+
 //  Account Details
 function saveUserInfo() {
     if(!$("#informationForm").valid()){
         return;
     }
 
-    var infoEmail = $("input[name='infoEmail']").val();
-    var infoPwd = $("input[name='infoPwd']").val();
+    var firstName = $("input[name='firstName']").val();
+    var lastName = $("input[name='lastName']").val();
+    var phoneNumber = $("input[name='phoneNumber']").val();
     var dateOfBirth = $("input[name='dateOfBirth']").val();
-    var infoState = $("input[name='infoState']").val();
-    var infoCity = $("input[name='infoCity']").val();
-    var infoZip = $("input[name='infoZip']").val();
 
    // alert("save successful！");
 
     $.ajax({
         type: "POST",
-        url: "users/update/account", // Save user information
+        url: "/users/update/account", // Save user information
         data: {
-            "infoZip": infoZip,
-            "infoCity": infoCity,
-            "infoState": infoState,
+            "firstName": firstName,
+            "lastName": lastName,
+            "phoneNumber": phoneNumber,
             "dateOfBirth": dateOfBirth,
-            "infoPwd": infoPwd,
-            "infoEmail": infoEmail,
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("Save successful!");
+                alert("Successful!");
             } else {
-                alert("Fail to save");
+                alert("Fail.");
             }
         }
     });
@@ -323,7 +574,8 @@ function saveCardInfo() {
     var securityCode = $("input[name='securityCode']").val();
     $.ajax({
         type: "POST",
-        url: "/user/saveCard", // Save credit card information
+        dataType: "json",
+        url: "/users/update/payment", // Save credit card information
         data: {
             "cardNumber": cardNumber.replace(/\s/g,''),
             "expirationDate": expirationDate,
@@ -331,9 +583,9 @@ function saveCardInfo() {
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("Save successful!");
+                alert("Successful!");
             } else {
-                alert("Fail to save");
+                alert("Fail.");
             }
         }
     });
@@ -343,30 +595,24 @@ function saveDeliveryInfo() {
     if(!$("#deliveryForm").valid()){
         return;
     }
-    var firstName = $("input[name='firstName']").val();
-    var lastName = $("input[name='lastName']").val();
     var streetAddress = $("input[name='streetAddress']").val();
-    var infoState = $("input[name='infoState']").val();
     var infoCity = $("input[name='infoCity']").val();
     var infoZip = $("input[name='infoZip']").val();
-    var phoneNumber = $("input[name='phoneNumber']").val();
+    var infoState = $("input[name='infoState']").val();
     $.ajax({
         type: "POST",
-        url: "/user/saveDelivery", // Save the informatio of delivery address
+        url: "/users/update/address", // Save the informatio of delivery address
         data: {
-            "infoZip": infoZip,
-            "infoCity": infoCity,
-            "infoState": infoState,
             "streetAddress": streetAddress,
-            "lastName": lastName,
-            "firstName": firstName,
-            "phoneNumber": phoneNumber.replace(/\s/g, ""),
+            "infoCity": infoCity,
+            "infoZip": infoZip,
+            "infoState": infoState,
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("Save successful!");
+                alert("Successful!");
             } else {
-                alert("Fail to save");
+                alert("Fail.");
             }
         }
     });
