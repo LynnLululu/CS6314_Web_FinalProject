@@ -598,7 +598,7 @@ function saveDeliveryInfo() {
     var streetAddress = $("input[name='streetAddress']").val();
     var infoCity = $("input[name='infoCity']").val();
     var infoZip = $("input[name='infoZip']").val();
-    var infoState = $("input[name='infoState']").val();
+    var infoState = $("#infoState").val();
     $.ajax({
         type: "POST",
         url: "/users/update/address", // Save the informatio of delivery address

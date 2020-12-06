@@ -7,7 +7,7 @@ CREATE TABLE CUSTOMER (
 	UserName	VARCHAR(30) NOT NULL,
 	Password	CHAR(60) NOT NULL,
 	Card		VARCHAR(24),
-	ExpDate		VARCHAR(10),
+	ExpDate		VARCHAR(5),
 	SecCode		CHAR(3),
 	Street		VARCHAR(100),
 	City		VARCHAR(20),
