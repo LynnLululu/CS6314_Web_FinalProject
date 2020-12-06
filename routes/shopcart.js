@@ -25,7 +25,8 @@ router.get('/', function(req, res) {
 			let p1 = await msc.getCart(results, "cart", customerID);
 			let p2 = await mp.addCategories(results, "cart");
 			let cart = results["cart"];
-			let p3 = await msc.getTotal(results, "summary", cart);
+			let dob = user["details"]["dateOfBirth"];
+			let p3 = await msc.getTotal(results, "summary", cart, dob);
 			return Promise.resolve(results);
 		}
 		asyncFunc(user).then(results => {
@@ -166,7 +167,8 @@ router.get('/checkout', function(req, res) {
 		        }
 		    })
 		    results["checkout"] = checkout;
-		    let p3 = await msc.getTotal(results, "summary", checkout);
+		    let dob = user["details"]["dateOfBirth"];
+		    let p3 = await msc.getTotal(results, "summary", checkout, dob);
 			return Promise.resolve(results);
 		}
 		asyncFunc(user).then(results => {

@@ -220,7 +220,7 @@ var generateFilterString = function(dic, key, categories, keywords, text) {
 exports.generateFilterString = generateFilterString;
 
 // update image
-var updateImage = function(image) {  // TODO
+var updateImage = function(dic, key, image) {  // TODO
     return new Promise((resolve, reject) => {
         resolve();
     });
@@ -228,15 +228,17 @@ var updateImage = function(image) {  // TODO
 exports.updateImage = updateImage;
 
 // update product
-var updateProduct = function(productID, product) {
+var updateProduct = function(dic, key, productID, product) {
     return new Promise((resolve, reject) => {
         let visible = product["visible"] ? 1 : 0;
         let sql = "update PRODUCT SET Name='" + product["productName"] + "', Price=" + product["productPrice"] + ", Description='" + product["description"] + "', Image='" + product["image"] + "', Visible=" + visible + ", Num=" + product["storeNum"] + " where ProductID=" + productID;
         db.query(sql, (err, rows) => {
             if (err) {
+                dic[key] = false;
                 throw err;
             }
             else {
+                dic[key] = true;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updateProduct");
                 }
@@ -248,15 +250,16 @@ var updateProduct = function(productID, product) {
 exports.updateProduct = updateProduct;
 
 // soft delete product
-var deleteProduct = function(productID) {
+var deleteProduct = function(dic, key, productID) {
     return new Promise((resolve, reject) => {
         let sql = "update PRODUCT SET Visible=0, Num=0 where ProductID=" + productID;
         db.query(sql, (err, rows) => {
             if (err) {
+                dic[key] = false;
                 throw err;
             }
             else {
-                dic[key] = "success";
+                dic[key] = true;
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("deleteProduct");
                 }
