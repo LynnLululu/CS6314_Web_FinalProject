@@ -129,7 +129,7 @@ exports.addToFavorite = addToFavorite;
 
 //  remove function for favorite
 var removeFromFavorite = function(dic, key, cid, pid) {
-    let sql = "delete FROM FAVORITE_OWN_PRODUCT where AccountID=" + cid + " ADN ProductID=" + pid;
+    let sql = "delete FROM FAVORITE_OWN_PRODUCT where AccountID=" + cid + " AND ProductID=" + pid;
     return new Promise((resolve, reject) => {
         db.query(sql, (err, rows) => {
             if (err) {

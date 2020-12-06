@@ -132,6 +132,14 @@ function validateRule() {
         }
     })
 }
+function checkUsername() {
+
+}
+
+function checkEmail() {
+    
+}
+
 function login() {
     var email = $("input[name='emailx']").val();
     var pwd = $("input[name='pwdx']").val();
