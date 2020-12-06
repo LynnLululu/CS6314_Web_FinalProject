@@ -7,7 +7,7 @@ var session = require('express-session');
 var SessionStore = require('express-mysql-session');
 var bodyparser = require('body-parser');
 
-let db = require('./modules/database');
+var db = require('./modules/database');
 var indexRouter = require('./routes/index');
 var shopcartRouter = require('./routes/shopcart');
 var favoriteRouter = require('./routes/favorite');
