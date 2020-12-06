@@ -189,7 +189,7 @@ router.post('/checkout/pay', function(req, res) {
         }
         res.status(400).send("Only customers can checkout");
 	} else {
-		let asyncFunc = async (user, purchase, totalPrice) => {
+		let asyncFunc = async (user) => {
 			let results = {};
 			let cid = user["customerID"];
 			let p1 = await msc.getCart(results, "cart", cid);
@@ -204,14 +204,17 @@ router.post('/checkout/pay', function(req, res) {
 		        }
 		    })
 		    results["purchase"] = purchase;
-			let p3 = await mp.sellProducts(results, "sell", purchase);
-			let p4 = await mo.getNextOrderID(results, "newID");
+		    let dob = user["details"]["dateOfBirth"];
+		    let p3 = await msc.getTotal(results, "summary", checkout, dob);
+		    let totalPrice = results["summary"];
+			let p4 = await mp.sellProducts(results, "sell", purchase);
+			let p5 = await mo.getNextOrderID(results, "newID");
 			let newID = results["newID"];
-			let p5 = await mo.newOrder(results, "state", newID, cid, totalPrice, purchase);
-			let p6 = await msc.deleteCart(results, "state2", cid);
+			let p6 = await mo.newOrder(results, "state", newID, cid, totalPrice, purchase);
+			let p7 = await msc.deleteCart(results, "state2", cid);
 			return Promise.resolve(results);
 		}
-		asyncFunc(user, purchase, totalPrice).then(results => {
+		asyncFunc(user).then(results => {
 			if (g.logLevel <= g.Level.DEBUGGING) {
 	            console.log("Payment success. Have a nice day!");
 	            g.selectedPrint(results);
