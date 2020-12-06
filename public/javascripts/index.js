@@ -1,8 +1,8 @@
-$(document).ready(function(){
+$(document).ready(function () {
     // dropdown-menu
-    $("a.dropdown-item").on("click",(function(e){
+    $("a.dropdown-item").on("click", (function (e) {
         var selText = "&nbsp;&nbsp;&nbsp;" + $(this).text() + "&nbsp;&nbsp;";
-        $(this).parents('div.dropdown').find('button.dropdown-toggle').html(selText);       
+        $(this).parents('div.dropdown').find('button.dropdown-toggle').html(selText);
     }));
 
     //bootstrap select
@@ -24,19 +24,19 @@ $(document).ready(function(){
     });
 
     // click the trash to delete the card
-    $("#productList").on("click", "i.fa-trash-alt", function () {
-        $(this).closest(".col-lg-3").remove();
-    });
+    // $("#productList").on("click", "i.fa-trash-alt", function () {
+    //     $(this).closest(".col-lg-3").remove();
+    // });
 
     // click the trash to delete the shopcart item
-    $("#shopList").on("click", "i.fa-trash-alt", function () {
-        $(this).closest(".row").remove();
-    });
+    // $("#shopList").on("click", "i.fa-trash-alt", function () {
+    //     $(this).closest(".row").remove();
+    // });
 
 
     // pagination
     var itemNum = 8;    // display 8 item per page
-    var handleDisable = function(){
+    var handleDisable = function () {
         if (!$('#page').find('.active').prev().hasClass("page")) {
             $('#pagePrev').addClass("disabled");
         } else {
@@ -47,28 +47,28 @@ $(document).ready(function(){
         } else {
             $('#pageNext').removeClass("disabled");
         }
-        scrollTo(0,0);
+        scrollTo(0, 0);
     }
 
     // create page li
     var cardsNum = $('#productList').children().length;
     var pageNum = Math.ceil(cardsNum / itemNum);
     if (pageNum > 1) {
-        for (var i = pageNum; i > 1; i--){
-            var li = '<li id="page'+ i +'" class="page page-item"><a class="page-link">' + i +'</a></li>';
+        for (var i = pageNum; i > 1; i--) {
+            var li = '<li id="page' + i + '" class="page page-item"><a class="page-link">' + i + '</a></li>';
             $(li).insertAfter('#page .active');
         }
     }
     // set page id
     $('#productList').children().each(function (index) {
         $(this).attr("id", index);
-     });
+    });
     // render first page
-    for (var i = 0; i < itemNum; i++){
+    for (var i = 0; i < itemNum; i++) {
         $('#' + i).show();
     }
     // deal with page change
-    $('#page').children(".page").on("click",function(){
+    $('#page').children(".page").on("click", function () {
         // change active class
         $(this).addClass("active");
         $(this).siblings().removeClass("active");
@@ -86,7 +86,7 @@ $(document).ready(function(){
         handleDisable();
     });
 
-    $('#pagePrev').on("click", function(){
+    $('#pagePrev').on("click", function () {
         $('#productList').children().hide();
         var c = $('#page').find('.active a').text();
         for (var j = 0; j < itemNum; j++) {
@@ -98,11 +98,11 @@ $(document).ready(function(){
         var page = $('#page').find('.active');
         page.prev('.page').addClass("active");
         page.removeClass("active");
-        
+
         handleDisable();
     });
 
-    $('#pageNext').on("click", function(){
+    $('#pageNext').on("click", function () {
         $('#productList').children().hide();
         var c = $('#page').find('.active a').text();
         for (var j = 0; j < itemNum; j++) {
@@ -119,7 +119,23 @@ $(document).ready(function(){
     });
 
     // back to top button
-    $("#back-to-top").on("click", function(){
-        scrollTo(0,0);
+    $("#back-to-top").on("click", function () {
+        scrollTo(0, 0);
     })
 });
+
+
+function show(id) {
+    $(".item-show").hide();
+    $("#item-show-" + id).show(500);
+}
+
+// Image Preview
+function changepic() {
+    var reads= new FileReader();
+    f=document.getElementById('file').files[0];
+    reads.readAsDataURL(f);
+    reads.onload=function (e) {
+        document.getElementById('previewImage').src=this.result;
+    };
+}
