@@ -176,7 +176,7 @@ router.get('/checkout', function(req, res) {
 	            console.log("Checkout from cart. 'shopcart':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('shopcart', results);
+	        res.status(200).render('checkout', results);
 		})
 	}
 });
