@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
 
 var g = require('../modules/globals');
 var mu = require('../modules/m_user');
@@ -102,6 +104,7 @@ router.get('/products/new', function(req, res) {
 	}
 });
 
+/*
 // add product
 router.post('/products/new/add', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
@@ -119,7 +122,8 @@ router.post('/products/new/add', function(req, res) {
 				"productPrice": req.body.productPrice,
 				"description": req.body.description,
 				"image": req.body.image,
-				"visible": req.body.visible
+				"visible": req.body.visible,
+				"storeNum": req.body.storeNum
 			}
 			let p1 = await mp.getNextProductID(results, "product");
 			let p2 = await mp.updateImage(product["image"]);
@@ -135,6 +139,23 @@ router.post('/products/new/add', function(req, res) {
 	        res.status(200).redirect('/products/' + results["productID"]); 
 		})
 	}
+});
+*/
+
+router.post('/products/new/add', upload.array('photo', 12), function(req, res) {
+	let productName = req.body.productName;
+	let description = req.body.description;
+	let productPrice = req.body.productPrice;
+	let storeNum = req.body.storeNum;
+	let categories = req.body.categories;
+	let user = mu.resolveUser(req.session.user);
+	let img = req.files;
+	console.log(categories);
+	console.log(img);
+
+	let upload = multer
+	
+	res.send(0);
 });
 
 // show one product
