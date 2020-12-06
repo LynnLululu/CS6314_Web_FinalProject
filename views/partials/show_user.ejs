@@ -23,90 +23,30 @@
     <div>
 
 
-      <div class="form-group">
-        <label>Email</label>
-        <div>
-          <input type="email" disabled class="form-control" name="email" id="email" placeholder="<%= user.email %>">
+      <form class="tab-form" id="informationForm" action="/users/update/account" method="POST">
+        <div class="form-group">
+          <label>Email</label>
+          <div>
+            <input type="email" disabled class="form-control" name="email" id="email" placeholder="<%= user.email %>">
+          </div>
         </div>
-      </div>
-      <br>
-      <div class="form-group">
-        <label>User Name</label>
-        <div style="position: relative;">
-          <input disabled class="form-control" name="username" type="text" value="<%= user.username %> ">
-          <button type="button" class="btn btn-secondary float-right mt-1" data-toggle="modal"
-            data-target="#usernameModal">Edit</button>
-          <br>
-          <!-- change username Modal -->
-          <div class="modal fade" id="usernameModal" tabindex="-1" aria-labelledby="usernameModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="usernameModalLabel">Change Username</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form id="changeUsername" action="/users/update/username" method="POST">
-                    <div class="form-group">
-                      <label>Username</label>
-                      <div>
-                        <input type="text" class="form-control" name="username" value="<%= user.username %>">
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" onclick="document.getElementById('changeUsername').submit();"
-                    class="btn btn-warning">Save changes</button>
-                </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div style="position: relative;">
+            <div class="d-flex bd-highlight">
+              <div class=" w-100 bd-highlight pr-2">
+                <input disabled id="infoPwd" class="form-control" name="infoPwd" type="password" value=""
+                  placeholder="Password">
+              </div>
+              <div class=" flex-shrink-1 bd-highlight">
+                <button id="pwd-edit" type="button" class="btn btn-secondary float-right">Edit
+                </button>
+                <button id="pwd-save" style="display: none;" type="button" class="btn btn-secondary float-right">Save
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <div style="position: relative;">
-          <input disabled class="form-control" name="password" type="text" placeholder="Password">
-          <button type="button" class="btn btn-secondary float-right mt-1" data-toggle="modal"
-            data-target="#passwordModal">Edit</button>
-          <br>
-          <!-- change password Modal -->
-          <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="passwordModalLabel">Change Password</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form id="changePassword" action="/users/update/password" method="POST">
-                    <div class="form-group">
-                      <label>Password</label>
-                      <div>
-                        <input type="text" class="form-control" name="password" placeholder="Password">
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" onclick="document.getElementById('changePassword').submit();"
-                    class="btn btn-warning">Save changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <form class="tab-form" id="informationForm" action="/update/account" method="POST">
         <div class="form-group">
           <label>First Name</label>
           <div>
