@@ -24,7 +24,7 @@ router.get('/', function(req, res) {
 			let p2 = await mp.addCategories(results, "favorite");
 			return Promise.resolve(results);
 		}
-		asyncFunc(bfavorite).then(results => {
+		asyncFunc(user, bfavorite).then(results => {
 			if (g.logLevel <= g.Level.DEBUGGING) {
 	            console.log("Show favorite (not a customer). 'favorite':");
 	            g.selectedPrint(results);

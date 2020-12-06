@@ -156,7 +156,8 @@ exports.getNextOrderID = getNextOrderID;
 // save new order
 var newOrder = function(newID, cid, total, purchase) {
     return new Promise((resolve, reject) => {
-        let sqls = ["insert INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice, Comments) VALUES (" + newID + ", " + cid + ", CURDATE(), " + total + ", 'No comments yet.')"];
+        let now = new Date().toLocaleDateString('en-US');
+        let sqls = ["insert INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice, Comments) VALUES (" + newID + ", " + cid + ", '" + now + "', " + total + ", 'No comments yet.')"];
         for (let [pid, num, name, price] of purchase) {
             sqls.push("insert INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num) VALUES (" + newID + ", " + pid + ", " + num + ")");
             sqls.push("insert INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num) VALUES (" + newID + ", " + pid + ", " + name + ", " + price + ", " + num + ")");

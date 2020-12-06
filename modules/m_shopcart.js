@@ -2,9 +2,6 @@ let db = require('../modules/database');
 let g = require('../modules/globals');
 let async = require('async');
 
-const SALESTAX = 0.0825;
-const SHIPPING = 0;
-
 // products in cart
 var getCart = function(dic, key, customerID) {
     return new Promise((resolve, reject) => {
@@ -46,22 +43,35 @@ var getCart = function(dic, key, customerID) {
 }
 exports.getCart = getCart;
 
+const SALESTAX = 0.0825;
+const SHIPPING = 0;
+const DISCOUNT = 0.5;
 // get total for cart
-var getTotal = function(dic, key, cart) {
+var getTotal = function(dic, key, cart, dob) {
     return new Promise((resolve, reject) => {
-        let beforeTax = 0
+        let now = new Date().toLocaleDateString('en-US');
+        let tmp1 = now.split('/');
+        let tmp2 = dob.split('/');
+        let isBirth = ((tmp1[0] == tmp2[0]) && (tmp1[1] == tmp2[1]));
+        let discount = isBirth ? DISCOUNT : 1;
+        let beforeTax = 0;
         Object.keys(cart).forEach(function(productID) {
             beforeTax = beforeTax + cart[productID]["cartNum"] * cart[productID]["productPrice"];
         });
-        let tax = beforeTax * SALESTAX;
-        tax = parseFloat(tax).toFixed(2);
+        beforeTax = parseFloat(beforeTax).toFixed(2);
         let shipping = SHIPPING;
-        let total = Number(beforeTax) + Number(tax) + Number(shipping);
+        shipping = parseFloat(shipping).toFixed(2);
+        let afterTax = Number(beforeTax) + Number(shipping);
+        let afterDiscount = Number(afterTax) * Number(discount);
+        let tax = Number(afterDiscount) * Number(SALESTAX);
+        tax = parseFloat(tax).toFixed(2);
+        let total = Number(afterDiscount) + Number(tax);
         total = parseFloat(total).toFixed(2);
         results = {
             "beforeTax": beforeTax < 0.01 ? "Free" : '$' + beforeTax,
-            "tax": tax < 0.01 ? "Free" : '$' + tax,
             "shipping": shipping < 0.01 ? "Free" : '$' + shipping,
+            "discount": '-' + parseInt(Number(100) - Number(discount) * Number(100)) + '%',
+            "tax": tax < 0.01 ? "Free" : '$' + tax,
             "total": total < 0.01 ? "Free" : '$' + total,
         }
         if (g.logLevel <= g.Level.DEVELOPING) {

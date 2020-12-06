@@ -16,7 +16,7 @@ var usersRouter = require('./routes/users');
 // Transform unhashed passwrod from old version. I directed use my test code.
 var transformerRouter = require('./test/test_hash');
 var testStaticRouter = require('./test/test_static');
-var testRouter = require('./test/test_sqls');
+var testRouter = require('./test/test_time');
 
 var app = express();
 

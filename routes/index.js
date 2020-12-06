@@ -100,7 +100,6 @@ router.get('/products/:id', function(req, res) {
 			} else {
 				results["product"] = mp.EMPTYPRODUCT;
 			}
-			results["product"]["productID"] = productID;  // reorganize for convenient
 			results["lastCategories"] = [];
 			results["lastSearchText"] = "";
 			results["lastFilterString"] = "";
@@ -140,8 +139,7 @@ router.get('/products/:id/edit', function(req, res) {
 			let p1 = await mp.getProducts(results, "products");
 			let p2 = await mp.addCategories(results, "products");
 			let p3 = await mp.getCategories(results, "categories");
-			results["product"] = results["product"][productID];
-			results["product"]["productID"] = productID;
+			results["product"] = results["products"][productID];
 			results["user"] = user;
 			results["lastCategories"] = [];
 			results["lastSearchText"] = "";
@@ -150,10 +148,10 @@ router.get('/products/:id/edit', function(req, res) {
 		}
 		asyncFunc(user, productID).then(results => {
 			if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Edit a product. 'tbd':");
+	            console.log("Edit a product. 'edit':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('tbd', results); 
+	        res.status(200).render('edit', results); 
 		})
 	}
 });
@@ -162,6 +160,14 @@ router.get('/products/:id/edit', function(req, res) {
 router.post('/products/:id/edit/update', function(req, res) {
 	let productID = req.params.id;
 	let user = mu.resolveUser(req.session.user);
+	let product = {
+		"productName": req.body.productName,
+		"categories": req.body.categories,
+		"productPrice": req.body.productPrice,
+		"description": req.body.description,
+		"image": req.body.image,
+		"visible": req.body.visible
+	};
 	if (isNaN(Number(productID))) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post products/:id/edit/update");
@@ -173,29 +179,38 @@ router.post('/products/:id/edit/update', function(req, res) {
         }
         res.status(400).send("Only admins can edit product");
 	} else {
-		let asyncFunc = async (productID) => {
-			let results = {};
+		let asyncFunc = async (productID, product) => {
+			let results = { "product" : product};
 			let p1 = await mp.getCategories(results, "categories");
-			let product = {
-				"productName": req.body.productName,
-				"categories": req.body.categories,
-				"productPrice": req.body.productPrice,
-				"description": req.body.description,
-				"image": req.body.image,
-				"visible": req.body.visible
+			let image = product["image"];
+			let p2 = await mp.updateImage(results, "state", image);
+			if (!results["state"]) {
+				return Promise.reject("relaxCategories");
 			}
-			let p2 = await mp.updateImage(product["image"]);
-			let p3 = await mp.updateProduct(productID, product);
-			let p4 = await mp.relaxCategories(productID, product, results["categories"]);
-			return Promise.resolve(product);
+			let p3 = await mp.updateProduct(results, "state", productID, product);
+			if (!results["state"]) {
+				return Promise.reject("updateProduct");
+			}
+			let categories = results["categories"];
+			let p4 = await mp.relaxCategories(results, "state", productID, product, categories);
+			if (!results["state"]) {
+				return Promise.reject("relaxCategories");
+			} else {
+				return Promise.resolve(results);
+			}
 		}
-		asyncFunc(productID).then(results => {
+		asyncFunc(productID, product).then(results => {
 			if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Update a product.:");
+	            console.log("Update a product:");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).redirect('/products/' + results["productID"]); 
-		})
+	        res.status(200).redirect('/products/' + results["productID"]);
+	    }, (func) => {
+			if (g.logLevel <= g.Level.DEBUGGING) {
+	            console.log("Update a product fail in " + func);
+	        }
+	        res.status(400).redirect('/products');
+		});
 	}
 });
 
@@ -217,14 +232,24 @@ router.post('/products/:id/edit/remove', function(req, res) {
 		let asyncFunc = async (productID) => {
 			let results = {};
 			let p1 = await mp.deleteProduct(results, "state", productID);
-			return Promise.resolve(product);
+			if (!results["state"]) {
+				return Promise.reject("deleteProduct");
+			} else {
+				return Promise.resolve(results);
+			}
 		}
 		asyncFunc(productID).then(results => {
 			if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Soft-Delete a product.:");
+	            console.log("Update a product:");
+	            g.selectedPrint(results);
 	        }
 	        res.status(200).redirect('/products');
-		})
+	    }, (func) => {
+			if (g.logLevel <= g.Level.DEBUGGING) {
+	            console.log("Update a product fail in " + func);
+	        }
+	        res.status(400).redirect('/products');
+		});
 	}
 });
 
