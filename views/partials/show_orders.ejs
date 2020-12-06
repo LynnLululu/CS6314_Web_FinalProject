@@ -1,0 +1,87 @@
+<!-- breadcrumb -->
+
+<nav class="w-100 mt-3 mr-3" aria-label="breadcrumb">
+  <ol class="breadcrumb bg-light">
+    <li class="breadcrumb-item"><a href="/" class="text-dark">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Order History</li>
+  </ol>
+</nav>
+
+
+<!-- Page Features -->
+<div class="row userinfo">
+  <div class="col-md-9 offset-md-1">
+    <p class="content-title">
+      Order History
+    </p>
+    <div>
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Order Date</th>
+            <th scope="col">Order Number</th>
+            <th scope="col">Order Total</th>
+            <th scope="col">Order Detail</th>
+          </tr>
+        </thead>
+        <tbody id="ordersInfo">
+          <!-- Order One -->
+          <tr>
+            <td>11/18/2020</td>
+            <td>80001</td>
+            <td>$17.26</td>
+            <td><a class="viewOrder" onclick="show(1)">VIEW ORDER</a></td>
+          </tr>
+          <tr id="item-show-1" class="item-show">
+            <td colspan="4">
+              <div class="row">
+                
+                <div class="col-md-1"></div>
+                <div class="col-md-5" style="margin-bottom: 6px;">
+                  <div class="row">
+                    <div class="col-sm-5"
+                      style="background-image: url(./images/CoconutBread.jpg);background-size: cover;">
+                    </div>
+                    <div class="col-sm-6">
+                      <h6>Coconut Bread</h6>
+                      <p>QTY: 1</p>
+                      <p>PRICE: $22</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            
+          </tr>
+          <!-- Order Two -->
+          <tr>
+            <td>11/18/2020</td>
+            <td>80001</td>
+            <td>$17.26</td>
+            <td><a class="viewOrder text-dark" onclick="show(2)">VIEW ORDER</a></td>
+          </tr>
+          <tr id="item-show-2" class="item-show">
+            <td colspan="4">
+              <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5" style="margin-bottom: 6px;">
+                  <div class="row">
+                    <div class="col-sm-5"
+                      style="background-image: url(./images/CoconutBread.jpg);background-size: cover;">
+                    </div>
+                    <div class="col-sm-6">
+                      <h6>Coconut Bread</h6>
+                      <p>QTY: 1</p>
+                      <p>PRICE: $22</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- /.row -->

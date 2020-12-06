@@ -219,10 +219,17 @@
 
           <div class="form-group">
             <label>State</label>
-            <select id="infoState1" class="form-control" name="infoState" placeholder="State"
-              value="<%= user.details.state %> ">
-              <option value="" selected="">-Select-</option>
-            </select>
+            <select class="form-control" name="infoState">
+
+              <% var options = [ 'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ]; %>
+              <% var names = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
+              %> 
+              <% for ( var i = 0; i < options.length; i++ ) { %>
+                  <% var selected = ( options[i] == user.details.state ) ? "selected" : ""; %>
+                  <option value="<%= options[i] %>" <%= selected %>><%= names[i] %></option>
+              <% } %>
+
+              </select>
           </div>
 
           <button type="submit" class="btn btn-warning btn-block login-btn">Save</button>
