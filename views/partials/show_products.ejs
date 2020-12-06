@@ -3,6 +3,7 @@
 
   <% Object.keys(selected).forEach(function(productID){ %>
   <% let product = products[productID]; %>
+  <% if (product.visible) { %> 
   <div class="col-lg-3 col-md-6 mb-4" style="display: none;">
     <!-- card -->
     <div class="card h-100 pb-0">
@@ -56,6 +57,7 @@
       </div>
     </div>
   </div>
+<% } %> 
   <% }); %>
 
 </div>
