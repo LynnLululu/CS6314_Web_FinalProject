@@ -243,9 +243,9 @@ router.get('/products/new', function(req, res) {
 		res.status(400).redirect('/products');
 	} else {
 		if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Edit a new product. 'tbd':");
+	            console.log("Edit a new product. 'new':");
 	        }
-		res.status(200).render('tbd', results); 
+		res.status(200).render('new', results); 
 	}
 });
 
