@@ -242,6 +242,7 @@ router.post('/signout', function(req, res) {
 });
 
 router.post('/update/username', function(req, res) {
+	console.log(req.body.username);
 	let newUsername = req.body.newUsername;
 	let user = mu.resolveUser(req.session.user);
 	if (!newUsername) {
@@ -328,12 +329,12 @@ router.post('/update/password', function(req, res) {
 });
 
 router.post('/update/account', function(req, res) {
-	let newFName = req.body.newFName;
-	let newLName = req.body.newLName;
+	let newFName = req.body.firstName;
+	let newLName = req.body.lastName;
 	let newDob = req.body.dateOfBirth;
 	console.log(newDob);
 	res.send(0);
-	let newPhone = req.body.newPhone;
+	let newPhone = req.body.phoneNumber;
 	let user = mu.resolveUser(req.session.user);
 	if (!newFName || !newLName || !newDob || !newPhone) {
 		if (g.logLevel <= g.Level.OPERATING) {
@@ -373,9 +374,9 @@ router.post('/update/account', function(req, res) {
 });
 
 router.post('/update/payment', function(req, res) {
-	let newCard = req.body.newCard;
-	let newEDate = req.body.newEDate;
-	let newSCode = req.body.newSCode;
+	let newCard = req.body.cardNumber;
+	let newEDate = req.body.expirationDate;
+	let newSCode = req.body.securityCode;
 	let user = mu.resolveUser(req.session.user);
 	if (!newCard || !newEDate || !newSCode) {
 		if (g.logLevel <= g.Level.OPERATING) {
@@ -390,7 +391,7 @@ router.post('/update/payment', function(req, res) {
 	} else {
 		let asyncFunc = async (newCard, newEDate, newSCode, user) => {
 			let results = {}
-			let p1 = await mu.updatePaymentMethods(results, "state", ewCard, newEDate, newSCode, user);
+			let p1 = await mu.updatePaymentMethods(results, "state", newCard, newEDate, newSCode, user);
 			return Promise.resolve(results);
 		}
 		asyncFunc(newCard, newEDate, newSCode, user).then(results => {
@@ -414,10 +415,10 @@ router.post('/update/payment', function(req, res) {
 });
 
 router.post('/update/address', function(req, res) {
-	let newStreet = req.body.newStreet;
-	let newCity = req.body.newCity;
-	let newZip = req.body.newZip;
-	let newState = req.body.newState;
+	let newStreet = req.body.streetAddress;
+	let newCity = req.body.infoCity;
+	let newZip = req.body.infoZip;
+	let newState = req.body.infoState;
 	let user = mu.resolveUser(req.session.user);
 	if (!newStreet || !newCity || !newZip || !newState) {
 		if (g.logLevel <= g.Level.OPERATING) {
