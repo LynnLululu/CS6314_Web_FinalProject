@@ -67,6 +67,7 @@ function validateRule() {
                         email: function() { return $("#sgu_email").val(); }
                     },
                     dataFiliter: function(data) {
+                        alert(data);
                         let json = JSON.parse(data);
                         $("#sgu_email_validator)").val("json.message");
                         if (json.success) {

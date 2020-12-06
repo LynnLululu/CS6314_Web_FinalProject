@@ -238,6 +238,7 @@ function saveUserInfo() {
 
     $.ajax({
         type: "POST",
+        async: false,
         url: "/users/update/account", // Save user information
         data: {
             "firstName": firstName,
@@ -246,14 +247,7 @@ function saveUserInfo() {
             "dateOfBirth": dateOfBirth,
         },
         success: function(r) {
-            console.log(r);
-            if (r.code == 200) {
-                
-                console.log("Successful!");
-            } else {
-                console.log("fail");
-                // alert("Fail.");
-            }
+            alert(r);
         }
     });
 }
@@ -267,7 +261,7 @@ function saveCardInfo() {
     var securityCode = $("input[name='securityCode']").val();
     $.ajax({
         type: "POST",
-        dataType: "json",
+        async: false,
         url: "/users/update/payment", // Save credit card information
         data: {
             "cardNumber": cardNumber.replace(/\s/g,''),
@@ -275,12 +269,7 @@ function saveCardInfo() {
             "securityCode": securityCode,
         },
         success: function(r) {
-            if (r.code == 200) {
-                console.log("Successful!");
-            } else {
-                console.log("fail");
-                // alert("Fail.");
-            }
+            alert(r);
         }
     });
 }
@@ -295,6 +284,7 @@ function saveDeliveryInfo() {
     var infoState = $("#infoState").val();
     $.ajax({
         type: "POST",
+        async: false,
         url: "/users/update/address", // Save the informatio of delivery address
         data: {
             "streetAddress": streetAddress,
@@ -303,12 +293,7 @@ function saveDeliveryInfo() {
             "infoState": infoState,
         },
         success: function(r) {
-            if (r.code == 200) {
-                console.log("Successful!");
-            } else {
-                console.log("fail");
-                // alert("Fail.");
-            }
+            alert(r);
         }
     });
 }

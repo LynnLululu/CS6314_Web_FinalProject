@@ -67,8 +67,6 @@ router.post('/signin', function(req, res) {
 // check if email already existed
 router.post('/check/email', function(req, res) {
 	let email = req.body.email;
-	res.send(JSON.stringify({ "success":false, "message": "test" }));
-	/*
 	if (!email) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/check/email");
@@ -104,7 +102,6 @@ router.post('/check/email', function(req, res) {
 	        }
 		})
 	}
-	*/
 });
 
 // check if username already existed
@@ -338,6 +335,7 @@ router.post('/update/password', function(req, res) {
 });
 
 router.post('/update/account', function(req, res) {
+	console.log("account");
 	let newFName = req.body.firstName;
 	let newLName = req.body.lastName;
 	let newDob = req.body.dateOfBirth;
@@ -381,6 +379,7 @@ router.post('/update/account', function(req, res) {
 });
 
 router.post('/update/payment', function(req, res) {
+	console.log("payment");
 	let newCard = req.body.cardNumber.replace(/\s/g, '');
 	let newEDate = req.body.expirationDate;
 	let newSCode = req.body.securityCode;
@@ -422,6 +421,7 @@ router.post('/update/payment', function(req, res) {
 });
 
 router.post('/update/address', function(req, res) {
+	console.log("address");
 	console.log(req.body.infoState);
 	let newStreet = req.body.streetAddress;
 	let newCity = req.body.infoCity;

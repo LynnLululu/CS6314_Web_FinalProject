@@ -180,7 +180,6 @@ router.get('/products/:id', function(req, res) {
 	if (isNaN(Number(productID))) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in get products/:id");
-            g.selectedPrint(results);
         }
         res.status(400).redirect('/products');
 	} else {
@@ -263,7 +262,7 @@ router.post('/products/:id/edit/update', upload.single('image'), function(req, r
 	let description = req.body.description;
 	let storeNum = req.body.storeNum;
 	let file = req.file;
-	let image = file === undefined ? "" : file.originalname;
+	let image = file === undefined ? undefined : file.originalname;
 	let user = mu.resolveUser(req.session.user);
 	if (!productName || !categoriesStr || !description) {
 		if (g.logLevel <= g.Level.OPERATING) {
@@ -294,10 +293,12 @@ router.post('/products/:id/edit/update', upload.single('image'), function(req, r
 		product["image"] = image;
 		product["storeNum"] = storeNum;
 		product["visible"] = true;
-		let asyncFunc = async (productID, product, imag, categories) => {
+		let asyncFunc = async (productID, product, image, categories) => {
 			let results = { "product" : product};
 			let p1 = await mp.getCategories(results, "categories");
-			let p2 = await mp.removeOldImage(results, "state", image, productID);
+			if (!image) {
+				let p2 = await mp.keepOldImage(results, "product", "image", productID);
+			}
 			let p3 = await mp.updateProduct(results, "state2", productID, product);
 			let allCategories = results["categories"];
 			let p4 = await mp.relaxCategories(results, "state3", productID, product, categories, allCategories);
@@ -308,7 +309,7 @@ router.post('/products/:id/edit/update', upload.single('image'), function(req, r
 	            console.log("Update a product:");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).redirect('/products/' + results["productID"]);
+	        res.status(200).redirect('/products/' + productID);
 		})
 	}
 });
