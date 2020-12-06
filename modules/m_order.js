@@ -97,7 +97,7 @@ var fillProductsInOrders = function(dic, key, products, orderDetails) {
                     dic[key][orderID]["products"][productID]["productID"] = productID;
                 }
                 dic[key][orderID]["products"][productID]["productName"] = details[productID]["productName"];
-                dic[key][orderID]["products"][productID]["productPrice"] = details[productID]["productName"];
+                dic[key][orderID]["products"][productID]["productPrice"] = details[productID]["productPrice"];
                 dic[key][orderID]["products"][productID]["purchaseNum"] = details[productID]["purchaseNum"];
             })
         })
