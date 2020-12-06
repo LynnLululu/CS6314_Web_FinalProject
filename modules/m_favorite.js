@@ -107,8 +107,7 @@ var updateFavoriteTable = function(dic, key) {
 exports.updateFavoriteTable = updateFavoriteTable;
 
 //  add function for favorite
-var addToFavorite = function(dic, key, user, pid) {
-    let cid = user["detail"]["customerID"];
+var addToFavorite = function(dic, key, cid, pid) {
     let sql = "replace INTO FAVORITE_OWN_PRODUCT (AccountID, ProductID) VALUES (" + cid + ", " + pid + ")";
     return new Promise((resolve, reject) => {
         db.query(sql, (err, rows) => {
@@ -129,9 +128,8 @@ var addToFavorite = function(dic, key, user, pid) {
 exports.addToFavorite = addToFavorite;
 
 //  remove function for favorite
-var removeFromFavorite = function(dic, key, user, pid) {
-    let cid = user["detail"]["customerID"];
-    let sql = "delete FROM FAVORITE_OWN_PRODUCT where AccountID=" + cid + " ADN ProductID=" + pid;
+var removeFromFavorite = function(dic, key, cid, pid) {
+    let sql = "delete FROM FAVORITE_OWN_PRODUCT where AccountID=" + cid + " AND ProductID=" + pid;
     return new Promise((resolve, reject) => {
         db.query(sql, (err, rows) => {
             if (err) {

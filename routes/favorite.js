@@ -65,11 +65,11 @@ router.post('/add', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers' favorite will be saved in database");
         }
-    	if (!req.session.hasOwnProperty(bfavorite)) {
+    	if (!req.session.hasOwnProperty("bfavorite")) {
     		req.session.bfavorite = {};
     	}
-        res.session.bfavorite[pid] = 0;
-        res.session.save();
+        req.session.bfavorite[pid] = 0;
+        req.session.save();
         res.status(400).send("Only customers have favorite");
 	} else {
 		let asyncFunc = async (user, pid) => {
@@ -84,12 +84,12 @@ router.post('/add', function(req, res) {
 	            console.log("Add product " + pid + " to favorite");
 	            g.selectedPrint(results);
 	        }
-	        if (!req.session.hasOwnProperty(bfavorite)) {
+	        if (!req.session.hasOwnProperty("bfavorite")) {
 	    		req.session.bfavorite = {};
 	    	}
-	        res.session.bfavorite[pid] = 0;
-	        res.session.save();
-	        res.status(200).send("Add product " + pid + " to favorite");
+	        req.session.bfavorite[pid] = 0;
+	        req.session.save();
+	        res.status(200).redirect('/favorite');
 		})
 	}
 });
@@ -106,12 +106,12 @@ router.post('/remove', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers' favorite will be saved in database");
         }
-        if (req.session.hasOwnProperty(bfavorite)) {
+        if (req.session.hasOwnProperty("bfavorite")) {
         	if (req.session.bfavorite.hasOwnProperty(pid)) {
-        		delete res.session.user["bfavorite"][pid];
+        		delete req.session.user["bfavorite"][pid];
         	}
     	}
-        res.session.save();
+        req.session.save();
         res.status(400).send("Only customers have favorite");
 	} else {
 		let asyncFunc = async (user, pid) => {
@@ -126,13 +126,13 @@ router.post('/remove', function(req, res) {
 	            console.log("Remove product " + pid + " from favorite");
 	            g.selectedPrint(results);
 	        }
-	        if (req.session.hasOwnProperty(bfavorite)) {
+	        if (req.session.hasOwnProperty("bfavorite")) {
 	        	if (req.session.bfavorite.hasOwnProperty(pid)) {
-	        		delete res.session.user["bfavorite"][pid];
+	        		delete req.session.user["bfavorite"][pid];
 	        	}
 	    	}
-	        res.session.save();
-	        res.status(200).send("Remove product " + pid + " from favorite");
+	        req.session.save();
+	        res.status(200).redirect('/favorite');
 		})
 	}
 });
