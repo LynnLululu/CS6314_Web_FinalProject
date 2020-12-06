@@ -100,7 +100,6 @@ router.get('/products/:id', function(req, res) {
 			} else {
 				results["product"] = mp.EMPTYPRODUCT;
 			}
-			results["product"]["productID"] = productID;  // reorganize for convenient
 			results["lastCategories"] = [];
 			results["lastSearchText"] = "";
 			results["lastFilterString"] = "";
@@ -140,8 +139,7 @@ router.get('/products/:id/edit', function(req, res) {
 			let p1 = await mp.getProducts(results, "products");
 			let p2 = await mp.addCategories(results, "products");
 			let p3 = await mp.getCategories(results, "categories");
-			results["product"] = results["product"][productID];
-			results["product"]["productID"] = productID;
+			results["product"] = results["products"][productID];
 			results["user"] = user;
 			results["lastCategories"] = [];
 			results["lastSearchText"] = "";
@@ -150,10 +148,10 @@ router.get('/products/:id/edit', function(req, res) {
 		}
 		asyncFunc(user, productID).then(results => {
 			if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Edit a product. 'tbd':");
+	            console.log("Edit a product. 'edit':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('tbd', results); 
+	        res.status(200).render('edit', results); 
 		})
 	}
 });
@@ -270,9 +268,9 @@ router.get('/products/new', function(req, res) {
 		res.status(400).redirect('/products');
 	} else {
 		if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Edit a new product. 'tbd':");
+	            console.log("Edit a new product. 'new':");
 	        }
-		res.status(200).render('tbd', results); 
+		res.status(200).render('new', results); 
 	}
 });
 
