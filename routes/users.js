@@ -8,7 +8,7 @@ var mf = require('../modules/m_favorite');
 router.get('/', function(req, res) {
 	let user = mu.resolveUser(req.session.user);
 	if (g.logLevel <= g.Level.DEBUGGING) {
-		console.log("Show user details. 'tbd':");
+		console.log("Show user details. 'user':");
         g.selectedPrint(mu.resolveUser(req.session.user));
     }
     res.status(200).render('user', {
@@ -330,7 +330,9 @@ router.post('/update/password', function(req, res) {
 router.post('/update/account', function(req, res) {
 	let newFName = req.body.newFName;
 	let newLName = req.body.newLName;
-	let newDob = req.body.newDob;
+	let newDob = req.body.dateOfBirth;
+	console.log(newDob);
+	res.send(0);
 	let newPhone = req.body.newPhone;
 	let user = mu.resolveUser(req.session.user);
 	if (!newFName || !newLName || !newDob || !newPhone) {

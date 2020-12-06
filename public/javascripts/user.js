@@ -518,7 +518,7 @@ function saveUserInfo() {
 
     $.ajax({
         type: "POST",
-        url: "/user/save", // Save user information
+        url: "/update/account", // Save user information
         data: {
             "infoZip": infoZip,
             "infoCity": infoCity,
