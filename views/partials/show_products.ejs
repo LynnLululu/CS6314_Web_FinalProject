@@ -29,9 +29,10 @@
 
         <!-- admin delete -->
         <% if (user.category == "admin") { %>
-        <a>
+        <!-- <form id="delete_<%= productID %>" action="/products/<%= productID %>/edit/remove" method=POST></form>
+        <a href="#" onclick="document.getElementById('delete_<%= productID %>').submit();">
           <p class="float-left mb-0"><i class="far fa-trash-alt text-secondary"></i></p>
-        </a>
+        </a> -->
         <% } else { %>
 
         <!-- favorite -->
