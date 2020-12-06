@@ -3,6 +3,7 @@
 
   <% Object.keys(selected).forEach(function(productID){ %>
   <% let product = products[productID]; %>
+  <% if (product.visible) { %> 
   <div class="col-lg-3 col-md-6 mb-4" style="display: none;">
     <!-- card -->
     <div class="card h-100 pb-0">
@@ -29,9 +30,10 @@
 
         <!-- admin delete -->
         <% if (user.category == "admin") { %>
-        <a>
+        <!-- <form id="delete_<%= productID %>" action="/products/<%= productID %>/edit/remove" method=POST></form>
+        <a href="#" onclick="document.getElementById('delete_<%= productID %>').submit();">
           <p class="float-left mb-0"><i class="far fa-trash-alt text-secondary"></i></p>
-        </a>
+        </a> -->
         <% } else { %>
 
         <!-- favorite -->
@@ -55,6 +57,7 @@
       </div>
     </div>
   </div>
+<% } %> 
   <% }); %>
 
 </div>

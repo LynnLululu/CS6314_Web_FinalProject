@@ -1,6 +1,12 @@
-<!-- title -->
-<h2 class="text-center mb-3 pt-5 pb-3">Shopping Cart</h2>
-
+<!-- breadcrumb -->
+<div class="row">
+    <nav class="w-100 mt-3 mr-3" aria-label="breadcrumb">
+        <ol class="breadcrumb bg-light">
+            <li class="breadcrumb-item"><a href="/" class="text-dark">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Shop Cart</li>
+        </ol>
+    </nav>
+</div>
 <!-- Shop list -->
 <div id="shopList" class="row text-center">
     <div class="col col-lg-8 col-md-6">
@@ -45,26 +51,27 @@
 
     <!-- Order Summary -->
     <div class="col col-lg-4 col-md-6">
-        <div class="bg-light p-5"style="border-left: 1px; border-right: 1px;">
-        <h4 class="mb-4">Order Summary</h4>
-        <hr>
-        <!-- Subtotal -->
-        <div class="row">
-            <div class="col-6">
-                <h6 class="text-left">Subtotal</h6 class="text-left">
+        <div class="bg-light p-5" style="border-left: 1px; border-right: 1px;">
+            <h4 class="mb-4">Order Summary</h4>
+            <hr>
+            <!-- Subtotal -->
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="text-left">Subtotal</h6 class="text-left">
+                </div>
+                <div class="col-6">
+                    <p class="text-right"><%= summary.beforeTax %></p>
+                </div>
             </div>
-            <div class="col-6">
-                <p class="text-right"><%= summary.beforeTax %></p>
-            </div>
-        </div>
 
-        <!-- Shipping -->
-        <div class="row">
-            <div class="col-6">
-                <h6 class="text-left">Shipping</h6 class="text-left">
-            </div>
-            <div class="col-6">
-                <p class="text-right"><%= summary.shipping %></p>
+            <!-- Shipping -->
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="text-left">Shipping</h6 class="text-left">
+                </div>
+                <div class="col-6">
+                    <p class="text-right"><%= summary.shipping %></p>
+                </div>
             </div>
         </div>
         
@@ -101,15 +108,23 @@
             <div class="col-6">
                 <h5 class="text-left">Total</h5>
             </div>
-            <div class="col-6">
-                <h5 class="text-right"><%= summary.total %></h5>
+            <hr>
+            <!-- Total -->
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="text-left">Total</h5>
+                </div>
+                <div class="col-6">
+                    <h5 class="text-right"><%= summary.total %></h5>
+                </div>
             </div>
+
+            <button class="btn btn-secondary my-4 mt-5 w-100 large">
+                <h5 class="my-1">Check Out</h5>
+            </button>
+
         </div>
-
-        <button class="btn btn-secondary my-4 mt-5 w-100 large"><h5 class="my-1">Check Out</h5></button>
-
-    </div>
-    <!-- /.col summary -->
+        <!-- /.col summary -->
 
 
     </div>

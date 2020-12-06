@@ -104,65 +104,25 @@
         <div class="form-group">
           <label>Email</label>
           <div>
-            <input type="email" class="form-control" name="infoEmail" id="infoEmail" placeholder="<%= user.email %>">
+            <input type="email" readonly class="form-control-plaintext" name="email" id="email" placeholder="<%= user.email %>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>User Name</label>
+          <div>
+            <input type="text" class="form-control" name="username" id="username" placeholder="<%= user.username %>">
           </div>
         </div>
         <div class="form-group">
           <label>Password</label>
           <div style="position: relative;">
-            <input disabled id="infoPwd" class="form-control" name="infoPwd" type="password" value="" placeholder="Password">
+            <input disabled id="password" class="form-control" name="password" type="password" value="" placeholder="Password">
             <a class="pwd-edit" id="pwd-edit" href="javascript:void(0)" style="color:#495057;" >Edit</a>
           </div>
         </div>
-        <div class="form-group">
-          <label for="infoState">Date Of Birth</label>
-          <div>
-            <input type="text" id="dateOfBirth" class="form-control" name="dateOfBirth" placeholder="<%= user.dateOfBirth === "" ? user.dateOfBirth : "MM/DD/YY" %>">
-          </div>
-        </div>
-        <label class="addr-other-x" for="infoState">Location</label>
-          <div class="form-group">
-            <label for="infoState">State</label>
-            <select id="infoState" class="form-control" name="infoState" placeholder="State">
-              <option value="" selected="">-Select-</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="infoCity">City</label>
-            <input type="text" class="form-control" name="infoCity" id="infoCity" placeholder="City">
-          </div>
-          <div class="form-group">
-            <label for="infoZip">Zip</label>
-            <input type="number" class="form-control" name="infoZip" id="infoZip" placeholder="Zip" oninput="if(value.length>5)value=value.slice(0,5)" />
-          </div>
 
-        <button id="x1" onclick="saveUserInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
-      </form>
-      <!-- Payment Methods -->
-      <form class="tab-form" style="display: none;" id="cardForm" action="#">
-        <div class="form-group">
-          <label>Card Number</label>
-          <div>
-            <input onkeyup="formatBankNo(this)"  type="text" class="form-control" name="cardNumber" id="cardNumber" placeholder="Card Number">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Expiration Date</label>
-          <div>
-            <input onkeyup="formatDate(this)"  type="text" class="form-control" name="expirationDate" id="expirationDate" placeholder="MM/YY" %>">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Security Code</label>
-          <div>
-            <input type="number" class="form-control" name="securityCode" id="securityCode" placeholder="XXX" oninput="if(value.length>4)value=value.slice(0,4)" />
-          </div>
-        </div>
+        <label class="addr-other-x my-3">Details</label>
 
-        <button onclick="saveCardInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
-      </form>
-      <!-- Delivery Addresses -->
-      <form class="tab-form" style="display: none;" id="deliveryForm" action="#">
         <div class="form-group">
           <label>First Name</label>
           <div>
@@ -176,41 +136,71 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="infoState">Street Address</label>
-            <input id="streetAddress" class="form-control" name="streetAddress" placeholder="Street Address">
+          <label>Phone Number</label>
+          <div>
+            <input onkeyup="phone(this)" maxlength="12" type="text" class="form-control" name="phone" id="phone" placeholder="<%= user.phone %>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="infoState">Date Of Birth</label>
+          <div>
+            <input type="text" id="dateOfBirth" class="form-control" name="dateOfBirth" placeholder="<%= user.dateOfBirth === "" ? user.dateOfBirth : "MM/DD/YY" %>">
+          </div>
+        </div>
+
+        <button id="x1" onclick="saveUserInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
+      </form>
+      <!-- Payment Methods -->
+      <form class="tab-form" style="display: none;" id="card" action="#">
+        <div class="form-group">
+          <label>Card Number</label>
+          <div>
+            <input onkeyup="formatBankNo(this)"  type="text" class="form-control" name="card" id="card" placeholder="<%= user.card %>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Expiration Date</label>
+          <div>
+            <input onkeyup="formatDate(this)"  type="text" class="form-control" name="expDate" id="expDate" placeholder="<%= user.expDate === "" ? user.expDate : "MM/YY" %>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Security Code</label>
+          <div>
+            <input type="number" class="form-control" name="secCode" id="secCode" placeholder="<%= user.secCode === "" ? user.secCode : "XXX" %>" oninput="if(value.length>4)value=value.slice(0,4)" />
+          </div>
+        </div>
+
+        <button onclick="saveCardInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
+      </form>
+      <!-- Delivery Addresses -->
+      <form class="tab-form" style="display: none;" id="deliveryForm" action="#">
+        <div class="form-group">
+          <label for="sState">Street Address</label>
+            <input id="street" class="form-control" name="street" placeholder="<%= user.street %>">
         </div>
 
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="infoCity">City</label>
-              <input type="text" class="form-control" name="infoCity" id="infoCity1" placeholder="City">
+              <label for="city">City</label>
+              <input type="text" class="form-control" name="city" id="city1" placeholder="<%= user.city %>">
             </div>
           </div>
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="infoZip">Zip</label>
-              <input type="number" class="form-control" name="infoZip" id="infoZip1" placeholder="Zip" oninput="if(value.length>5)value=value.slice(0,5)" />
+              <label for="zip">Zip</label>
+              <input type="number" class="form-control" name="zip" id="zip" placeholder="<%= user.zip %>" oninput="if(value.length>5)value=value.slice(0,5)" />
             </div>
           </div>
         </div>
 
-
-
           <div class="form-group">
-            <label for="infoState">State</label>
-            <select id="infoState1" class="form-control" name="infoState" placeholder="State">
+            <label for="state">State</label>
+            <select id="state" class="form-control" name="state" placeholder="<%= user.state %>">
               <option value="" selected="">-Select-</option>
             </select>
           </div>
-
-
-        <div class="form-group">
-          <label>Phone Number</label>
-          <div>
-            <input onkeyup="phone(this)" maxlength="12" type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="<%= user.phone %>">
-          </div>
-        </div>
 
         <button onclick="saveDeliveryInfo()" type="button" class="btn btn-warning btn-block login-btn" >Save</button>
       </form>
