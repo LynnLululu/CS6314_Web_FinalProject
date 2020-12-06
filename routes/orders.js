@@ -35,7 +35,7 @@ router.get('/', function(req, res) {
 	            console.log("Show all orders. 'tbd':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('tbd', results);
+	        res.status(200).render('orders', results);
 		})
 	}
 });
