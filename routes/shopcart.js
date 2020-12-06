@@ -182,15 +182,8 @@ router.get('/checkout', function(req, res) {
 });
 
 router.post('/checkout/pay', function(req, res) {
-	let purchase = req.body.purchase;
-	let totalPrice = req.body.totalPrice;
 	let user = mu.resolveUser(req.session.user);
-	if (!purchase || isNaN(Number(totalPrice))) {
-		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Unvalid input in post shopcart/checkout/pay");
-        }
-        res.status(400).send("Unvalid input in post shopcart/checkout/pay");
-	} else if (user["category"] != "customer") {
+	if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers can checkout");
         }
@@ -199,11 +192,23 @@ router.post('/checkout/pay', function(req, res) {
 		let asyncFunc = async (user, purchase, totalPrice) => {
 			let results = {};
 			let cid = user["customerID"];
-			let p1 = await mp.sellProducts(results, "sell", purchase);
-			let p2 = await mo.getNextOrderID(results, "newID");
+			let p1 = await msc.getCart(results, "cart", cid);
+			let p2 = await mp.addCategories(results, "cart");
+			let cart = results["cart"];
+			let purchase = {};
+			Object.keys(cart).forEach(function(productID) {
+		        if (cart[productID]["cartNum"] > cart[productID]["storeNum"]) {
+		            purchase[productID] = cart[productID]["storeNum"];
+		        } else {
+		        	purchase[productID] = cart[productID]["cartNum"];
+		        }
+		    })
+		    results["purchase"] = purchase;
+			let p3 = await mp.sellProducts(results, "sell", purchase);
+			let p4 = await mo.getNextOrderID(results, "newID");
 			let newID = results["newID"];
-			let p3 = await mo.newOrder(results, "state", newID, cid, totalPrice, purchase);
-			let p4 = await msc.deleteCart(results, "state2", cid);
+			let p5 = await mo.newOrder(results, "state", newID, cid, totalPrice, purchase);
+			let p6 = await msc.deleteCart(results, "state2", cid);
 			return Promise.resolve(results);
 		}
 		asyncFunc(user, purchase, totalPrice).then(results => {
