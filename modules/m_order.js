@@ -26,7 +26,7 @@ var getOrderDetails = function(dic, key) {
                 let results = {};
                 for (let elem of rows) {
                     let orderID = elem['OrderID'];
-                    if (results.hasOwnProperty(orderID)) {
+                    if (!results.hasOwnProperty(orderID)) {
                         results[orderID] = {};
                     }
                     let tmp = {};
