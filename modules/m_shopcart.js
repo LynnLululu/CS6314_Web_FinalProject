@@ -45,15 +45,24 @@ exports.getCart = getCart;
 
 const SALESTAX = 0.0825;
 const SHIPPING = 0;
-const DISCOUNT = 0.5;
+const Discount = {
+    "default": { "amout" : 1, "str" : "No Discount Applied." },
+    "birthday": { "amout" : 0.5, "str" : "Happy Birthday!" },
+}
 // get total for cart
 var getTotal = function(dic, key, cart, dob) {
     return new Promise((resolve, reject) => {
-        let now = new Date().toLocaleDateString('en-US');
-        let tmp1 = now.split('/');
-        let tmp2 = dob.split('/');
-        let isBirth = ((tmp1[0] == tmp2[0]) && (tmp1[1] == tmp2[1]));
-        let discount = isBirth ? DISCOUNT : 1;
+        let discountCategory = "default";
+        if (dob !== undefined) {
+            let now = new Date().toLocaleDateString('en-US');
+            let tmp1 = now.split('/');
+            let tmp2 = dob.split('/');
+            if ((tmp1[0] == tmp2[0]) && (tmp1[1] == tmp2[1])) {
+                discountCategory = "birthday";
+            }
+        }
+        discount = Discount[discountCategory]["amout"];
+        discountStr = Discount[discountCategory]["str"];
         let beforeTax = 0;
         Object.keys(cart).forEach(function(productID) {
             beforeTax = beforeTax + cart[productID]["cartNum"] * cart[productID]["productPrice"];
@@ -70,7 +79,8 @@ var getTotal = function(dic, key, cart, dob) {
         results = {
             "beforeTax": beforeTax < 0.01 ? "Free" : '$' + beforeTax,
             "shipping": shipping < 0.01 ? "Free" : '$' + shipping,
-            "discount": '-' + parseInt(Number(100) - Number(discount) * Number(100)) + '%',
+            "discount": (Number(1) - Number(discount)) * Number(100) + "%",
+            "discountStr": discountStr,
             "tax": tax < 0.01 ? "Free" : '$' + tax,
             "total": total < 0.01 ? "Free" : '$' + total,
         }
