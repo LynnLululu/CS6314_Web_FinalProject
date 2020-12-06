@@ -229,7 +229,7 @@ var getNextProductID = function(dic, key) {
         let sql = "select ProductID from PRODUCT order by ProductID ASC";
         db.query(sql, (err, rows) => {
             if (err) {
-                console.log("removeOldImage");
+                console.log("getNextProductID");
                 throw err;
             }
             else {
@@ -253,35 +253,26 @@ var getNextProductID = function(dic, key) {
 }
 exports.getNextProductID = getNextProductID;
 
-// remove useless old image
-var removeOldImage = function(dic, key, image, productID) {
+// keep useless old image
+var keepOldImage = function(dic, key, key2, productID) {
     return new Promise((resolve, reject) => {
         let sql = "select Image from PRODUCT where ProductID=" + productID;
         db.query(sql, (err, rows) => {
             if (err) {
-                console.log("removeOldImage");
+                console.log("keepOldImage");
                 throw err;
             }
             else {
-                if (rows.length > 0) {
-                    let oldImage = rows[0]["Image"];
-                    if (oldImage == image) {
-                        dic[key] = true;
-                    } else {
-                        dic[key] = false;
-                    }
-                } else {
-                    dic[key] = false;
-                }
+                dic[key][key2] = rows[0]["Image"];
                 if (g.logLevel <= g.Level.DEVELOPING) {
-                    console.log("updateProduct");
+                    console.log("keepOldImage");
                 }
                 resolve();
             }
         });
     });
 }
-exports.removeOldImage = removeOldImage;
+exports.keepOldImage = keepOldImage;
 
 // update product
 var updateProduct = function(dic, key, productID, product) {

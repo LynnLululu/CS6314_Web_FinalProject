@@ -32,7 +32,7 @@ router.get('/', function(req, res) {
 		}
 		asyncFunc(user).then(results => {
 			if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Show all orders. 'tbd':");
+	            console.log("Show all orders. 'orders':");
 	            g.selectedPrint(results);
 	        }
 	        res.status(200).render('orders', results);
