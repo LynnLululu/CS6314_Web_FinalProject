@@ -75,6 +75,68 @@ router.get('/products', function(req, res) {
 	})
 });
 
+// new product
+router.get('/products/new', function(req, res) {
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] != "admin") {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Only admins can new product");
+        }
+		res.status(400).redirect('/products');
+	} else {
+		let asyncFunc = async (user) => {
+			let results = {
+				"user" : user,
+				"bfavorite": req.session.bfavorite,
+				"carousel": req.session.carousel,
+			};
+			let p1 = await mp.getCategories(results, "categories");
+			return Promise.resolve(results);
+		}
+		asyncFunc(user).then(results => {
+			if (g.logLevel <= g.Level.DEBUGGING) {
+	            console.log("Edit a new product. 'new':");
+	        }
+			res.status(200).render('new', results); 
+		})
+	}
+});
+
+// add product
+router.post('/products/new/add', function(req, res) {
+	let user = mu.resolveUser(req.session.user);
+	if (user["category"] != "admin") {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Only admins can new product");
+        }
+        res.status(400).send("Only admins can new product");
+	} else {
+		let asyncFunc = async (productID) => {
+			let product = {
+				"productID": undefined,
+				"productName": req.body.productName,
+				"categories": req.body.categories,
+				"productPrice": req.body.productPrice,
+				"description": req.body.description,
+				"image": req.body.image,
+				"visible": req.body.visible
+			}
+			let p1 = await mp.getNextProductID(results, "product");
+			let p2 = await mp.updateImage(product["image"]);
+			let p3 = await mp.updateProduct(product);
+			let p4 = await mp.updateCategories(product["categories"]);
+			return Promise.resolve(results);
+		}
+		asyncFunc(productID).then(results => {
+			if (g.logLevel <= g.Level.DEBUGGING) {
+	            console.log("Add a new product.:");
+	            g.selectedPrint(results);
+	        }
+	        res.status(200).redirect('/products/' + results["productID"]); 
+		})
+	}
+});
+
 // show one product
 router.get('/products/:id', function(req, res) {
 	let productID = req.params.id;
@@ -250,62 +312,6 @@ router.post('/products/:id/edit/remove', function(req, res) {
 	        }
 	        res.status(400).redirect('/products');
 		});
-	}
-});
-
-// new product
-router.get('/products/new', function(req, res) {
-	let user = mu.resolveUser(req.session.user);
-	let results = {
-		"user" : user,
-		"bfavorite": req.session.bfavorite,
-		"carousel": req.session.carousel,
-	};
-	if (user["category"] != "admin") {
-		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Only admins can new product");
-        }
-		res.status(400).redirect('/products');
-	} else {
-		if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Edit a new product. 'new':");
-	        }
-		res.status(200).render('new', results); 
-	}
-});
-
-// add product
-router.post('/products/new/add', function(req, res) {
-	let user = mu.resolveUser(req.session.user);
-	if (user["category"] != "admin") {
-		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Only admins can new product");
-        }
-        res.status(400).send("Only admins can new product");
-	} else {
-		let asyncFunc = async (productID) => {
-			let product = {
-				"productID": undefined,
-				"productName": req.body.productName,
-				"categories": req.body.categories,
-				"productPrice": req.body.productPrice,
-				"description": req.body.description,
-				"image": req.body.image,
-				"visible": req.body.visible
-			}
-			let p1 = await mp.getNextProductID(results, "product");
-			let p2 = await mp.updateImage(product["image"]);
-			let p3 = await mp.updateProduct(product);
-			let p4 = await mp.updateCategories(product["categories"]);
-			return Promise.resolve(results);
-		}
-		asyncFunc(productID).then(results => {
-			if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Add a new product.:");
-	            g.selectedPrint(results);
-	        }
-	        res.status(200).redirect('/products/' + results["productID"]); 
-		})
 	}
 });
 
