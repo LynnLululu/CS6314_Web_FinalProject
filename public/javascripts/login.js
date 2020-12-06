@@ -43,7 +43,7 @@ function register() {
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("注册成功！");
+                alert("Register Success!");
                 $("#exampleModal").modal('toggle');
             } else {
 

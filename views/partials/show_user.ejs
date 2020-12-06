@@ -1,9 +1,20 @@
+<!-- breadcrumb -->
+
+  <nav class="w-100 mt-3 mr-3" aria-label="breadcrumb">
+      <ol class="breadcrumb bg-light">
+          <li class="breadcrumb-item"><a href="/" class="text-dark">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Account Settings</li>
+      </ol>
+  </nav>
+
+
+
 <!-- admin -->
 <% if (user.category == "admin") { %>
 
 <div class="row userinfo">
 
-  <div class="col-md-6 offset-md-3">
+  <div class="col-md-8 offset-md-2">
 
     <div id="mds" style="margin-top: -62px;position: absolute;"></div>
     <p class="content-title">
@@ -58,7 +69,7 @@
 <!-- other users  -->
 
 <div class="row userinfo">
-  <div class="col-md-3 offset-md-2">
+  <div class="col-md-3">
     <div class=" navbar-collapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
@@ -80,7 +91,9 @@
     </div>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-1"></div>
+
+  <div class="col-md-6">
     <div id="mds" style="margin-top: -62px;position: absolute;"></div>
     <p class="content-title">
       Account Details
