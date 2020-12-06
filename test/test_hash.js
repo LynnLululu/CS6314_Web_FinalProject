@@ -5,6 +5,7 @@ var h = require('../modules/hash');
 
 const unhashedPwds = [
     "test",
+    "Test1234",
     "Ad123450",
     "Wid678934",
     "Uyh123456",
@@ -13,6 +14,7 @@ const unhashedPwds = [
 
 const lastResult = {
     "test":"$2b$10$OevNVIaABJZn/n9FNolEiu681PDnwfsGsCGXzhlwHU91Ma4N7FkR.",
+    "Test1234":"$2b$10$Ruzvn/MRrVPKLcLb5zBgT.g6d5d9x3Vyt4jyzE2JBxrQHQReN5l7e",
     "Ad123450":"$2b$10$OevNVIaABJZn/n9FNolEiurdtfyHnti/KKmuV6X488uXiIsBrDGgu",
     "Wid678934":"$2b$10$OevNVIaABJZn/n9FNolEiu.Urct5C5OsuBjai1sx4GMHVnUnQ1IZC",
     "Uyh123456":"$2b$10$OevNVIaABJZn/n9FNolEiufPFRtMIMll4ntHan9H9C2XbhkbSn/Yu",

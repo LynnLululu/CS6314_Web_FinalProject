@@ -470,6 +470,22 @@ $(function () {
         }
     });
 
+    // handle username changing
+    $("#usn-edit").on("click", function () {
+        $("#infoUsn").prop("disabled", false);
+        $("#usn-edit").hide();
+        $("#usn-save").show();        
+    });
+
+    $("#usn-save").on("click", function(){
+        $("#infoUsn").prop("disabled", true);
+        $("#usn-edit").show();
+        $("#usn-save").hide();
+        var newUsn = $("#infoUsn").val();
+        console.log(newUsn);
+        $.post("/users/update/username", {newUsn: newUsn})  
+    })
+
     // handle password changing
     $("#pwd-edit").on("click", function () {
         $("#infoPwd").prop("disabled", false);
@@ -513,39 +529,37 @@ $(function () {
         format: "mm/dd/yyyy" // form of date
     });
     $("#infoState").html(noData + stateData);
+
     $("#infoState1").html(noData + stateData);
 });
+
 //  Account Details
 function saveUserInfo() {
     if(!$("#informationForm").valid()){
         return;
     }
 
-    var infoEmail = $("input[name='infoEmail']").val();
-    var infoPwd = $("input[name='infoPwd']").val();
+    var firstName = $("input[name='firstName']").val();
+    var lastName = $("input[name='lastName']").val();
+    var phoneNumber = $("input[name='phoneNumber']").val();
     var dateOfBirth = $("input[name='dateOfBirth']").val();
-    var infoState = $("input[name='infoState']").val();
-    var infoCity = $("input[name='infoCity']").val();
-    var infoZip = $("input[name='infoZip']").val();
 
    // alert("save successful！");
 
     $.ajax({
         type: "POST",
-        url: "/update/account", // Save user information
+        url: "/users/update/account", // Save user information
         data: {
-            "infoZip": infoZip,
-            "infoCity": infoCity,
-            "infoState": infoState,
+            "firstName": firstName,
+            "lastName": lastName,
+            "phoneNumber": phoneNumber,
             "dateOfBirth": dateOfBirth,
-            "infoPwd": infoPwd,
-            "infoEmail": infoEmail,
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("Save successful!");
+                alert("Successful!");
             } else {
-                alert("Fail to save");
+                alert("Fail.");
             }
         }
     });
@@ -560,7 +574,8 @@ function saveCardInfo() {
     var securityCode = $("input[name='securityCode']").val();
     $.ajax({
         type: "POST",
-        url: "/user/saveCard", // Save credit card information
+        dataType: "json",
+        url: "/users/update/payment", // Save credit card information
         data: {
             "cardNumber": cardNumber.replace(/\s/g,''),
             "expirationDate": expirationDate,
@@ -568,9 +583,9 @@ function saveCardInfo() {
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("Save successful!");
+                alert("Successful!");
             } else {
-                alert("Fail to save");
+                alert("Fail.");
             }
         }
     });
@@ -580,30 +595,24 @@ function saveDeliveryInfo() {
     if(!$("#deliveryForm").valid()){
         return;
     }
-    var firstName = $("input[name='firstName']").val();
-    var lastName = $("input[name='lastName']").val();
     var streetAddress = $("input[name='streetAddress']").val();
-    var infoState = $("input[name='infoState']").val();
     var infoCity = $("input[name='infoCity']").val();
     var infoZip = $("input[name='infoZip']").val();
-    var phoneNumber = $("input[name='phoneNumber']").val();
+    var infoState = $("input[name='infoState']").val();
     $.ajax({
         type: "POST",
-        url: "/user/saveDelivery", // Save the informatio of delivery address
+        url: "/users/update/address", // Save the informatio of delivery address
         data: {
-            "infoZip": infoZip,
-            "infoCity": infoCity,
-            "infoState": infoState,
             "streetAddress": streetAddress,
-            "lastName": lastName,
-            "firstName": firstName,
-            "phoneNumber": phoneNumber.replace(/\s/g, ""),
+            "infoCity": infoCity,
+            "infoZip": infoZip,
+            "infoState": infoState,
         },
         success: function(r) {
             if (r.code == 200) {
-                alert("Save successful!");
+                alert("Successful!");
             } else {
-                alert("Fail to save");
+                alert("Fail.");
             }
         }
     });

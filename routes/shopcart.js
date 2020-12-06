@@ -59,9 +59,9 @@ router.post('/add', function(req, res) {
 			let cid = user["customerID"];
 			let p1 = await msc.getCartNum(results, "cartNum", cid, pid);
 			let total = Number(results["cartNum"]) + Number(num);
-			let p2 = await msc.updateInCart(cid, pid, total);
+			let p2 = await msc.updateInCart(results, "state", cid, pid, total);
 			results["total"] = total;
-			let p3 = await msc.updateCartTable();
+			let p3 = await msc.updateCartTable(results, "state2");
 			return Promise.resolve(results);
 		}
 		asyncFunc(user, pid, num).then(results => {
@@ -93,11 +93,11 @@ router.post('/update', function(req, res) {
 			let results = {}
 			let cid = user["customerID"];
 			if (num > 0) {
-				let p1 = await msc.updateInCart(cid, pid, num);
+				let p1 = await msc.updateInCart(results, "state", cid, pid, num);
 			} else {
-				let p2 = await msc.removeFromCart(cid, pid);
+				let p2 = await msc.removeFromCart(results, "state2", cid, pid);
 			}
-			let p3 = await msc.updateCartTable();
+			let p3 = await msc.updateCartTable(results, "state3");
 			return Promise.resolve(results);
 		}
 		asyncFunc(user, pid, num).then(results => {
@@ -127,8 +127,8 @@ router.post('/remove', function(req, res) {
 		let asyncFunc = async (user, pid) => {
 			let results = {}
 			let cid = user["customerID"];
-			let p1 = await msc.removeFromCart(cid, pid);
-			let p2 = await msc.updateCartTable();
+			let p1 = await msc.removeFromCart(results, "state", cid, pid);
+			let p2 = await msc.updateCartTable(results, "state2");
 			return Promise.resolve(results);
 		}
 		asyncFunc(user, pid).then(results => {
@@ -202,8 +202,8 @@ router.post('/checkout/pay', function(req, res) {
 			let p1 = await mp.sellProducts(results, "sell", purchase);
 			let p2 = await mo.getNextOrderID(results, "newID");
 			let newID = results["newID"];
-			let p3 = await mo.newOrder(newID, cid, totalPrice, purchase);
-			let p4 = await msc.deleteCart(cid);
+			let p3 = await mo.newOrder(results, "state", newID, cid, totalPrice, purchase);
+			let p4 = await msc.deleteCart(results, "state2", cid);
 			return Promise.resolve(results);
 		}
 		asyncFunc(user, purchase, totalPrice).then(results => {

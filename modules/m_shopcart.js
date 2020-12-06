@@ -9,6 +9,7 @@ var getCart = function(dic, key, customerID) {
         let sql = "select CP.ProductID, CP.Num CartNum, P.Name, P.Price, P.Description, P.Image, P.Visible, P.Num StoreNum from CART_OWN_PRODUCT CP, PRODUCT P where CP.AccountID=" + customerID + " and CP.ProductID=P.ProductID";
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getCart");
                 throw err;
             }
             else {
@@ -94,7 +95,7 @@ var getTotal = function(dic, key, cart, dob) {
 }
 exports.getTotal = getTotal;
 
-var updateCartTable = function() {
+var updateCartTable = function(dic, key) {
     return new Promise((resolve, reject) => {
         let sqls = [
             "TRUNCATE TABLE CART",
@@ -110,11 +111,13 @@ var updateCartTable = function() {
             });
         }, function(err) {  // callback after all queries
             if (err) {
-                console.log(err);
+                console.log("updateCartTable");
+                throw err;
             } else {
                 if (g.logLevel <= g.Level.DEBUGGING) {
                     console.log("updateCartTable");
                 }
+                dic[key] = true;
                 resolve();
             }
         });
@@ -135,6 +138,7 @@ var getCartNum = function(dic, key, cid, pid) {
             let sql = "select Num from CART_OWN_PRODUCT where AccountID=" + cid + " AND ProductID=" + pid;
             db.query(sql, (err, rows) => {
                 if (err) {
+                    console.log("getCartNum");
                     throw err;
                 }
                 else {
@@ -155,17 +159,19 @@ var getCartNum = function(dic, key, cid, pid) {
 exports.getCartNum = getCartNum;
 
 //  update function for cart
-var updateInCart = function(cid, pid, num) {
+var updateInCart = function(dic, key, cid, pid, num) {
     return new Promise((resolve, reject) => {
         let sql = "replace INTO CART_OWN_PRODUCT (AccountID, ProductID, Num) VALUES (" + cid + ", " + pid + ", " + num + ")";
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("updateInCart");
                 throw err;
             }
             else {
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("updateInCart");
                 }
+                dic[key] = true;
                 resolve();
             }
         });
@@ -174,17 +180,19 @@ var updateInCart = function(cid, pid, num) {
 exports.updateInCart = updateInCart;
 
 //  remove function for cart
-var removeFromCart = function(cid, pid) {
+var removeFromCart = function(dic, key, cid, pid) {
     return new Promise((resolve, reject) => {
         let sql = "delete FROM CART_OWN_PRODUCT where AccountID=" + cid + " AND ProductID=" + pid;
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("removeFromCart");
                 throw err;
             }
             else {
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("removeFromCart");
                 }
+                dic[key] = true;
                 resolve();
             }
         });
@@ -193,7 +201,7 @@ var removeFromCart = function(cid, pid) {
 exports.removeFromCart = removeFromCart;
 
 // delete cart
-var deleteCart = function(cid) {
+var deleteCart = function(dic, key, cid) {
     return new Promise((resolve, reject) => {
         let sqls = [
             "delete FROM CART_OWN_PRODUCT where AccountID=" + cid,
@@ -209,11 +217,13 @@ var deleteCart = function(cid) {
             });
         }, function(err) {  // callback after all queries
             if (err) {
-                console.log(err);
+                console.log("deleteCart");
+                throw err;
             } else {
                 if (g.logLevel <= g.Level.DEBUGGING) {
                     console.log("deleteCart");
                 }
+                dic[key] = true;
                 resolve();
             }
         });

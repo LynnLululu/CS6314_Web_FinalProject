@@ -61,18 +61,30 @@ function validateRule() {
                 required: true,
                 email: true,
                 remote: {
-                    url: "./data/checkEmail.json",
-                    // url: "/user/checkEmail/" + $("input[name='email']").val(),
-                    type: "get",
+                    type: "POST",
+                    url: "/users/check/email",
+                    data: {
+                        email: function() { return $("#sgu_email").val(); }
+                    },
+                    dataFiliter: function(data) {
+                        let json = JSON.parse(data);
+                        $("#sgu_email_validator)").val("json.message");
+                        if (json.success) {
+                            return true;
+                        } else {
+                            alert(json.message);
+                            return json.message;
+                        }
+                    }
                 }
             },
             userName: {
                 required: true,
                 username: true,
                 remote: {
-                    url: "./data/checkUsername.json",
+                    url: "/users/check/username",
                     // url: "/user/checkUsername" + $("input[name='userName']").val(),
-                    type: "get",
+                    type: "post",
                 }
             },
             pwd: {
@@ -88,11 +100,11 @@ function validateRule() {
         messages: {
             email: {
                 required: icon + "Please enter your email address.",
-                remote: "Email already exists."
+                remote: "Email unavailable."
             },
             userName: {
                 required: icon + "Please enter a user name.",
-                remote: "User name already exists."
+                remote: icon + "User name unavailable."
             },
             pwd: {
                 required: icon + "Please enter a password.",

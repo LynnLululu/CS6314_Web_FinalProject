@@ -20,6 +20,7 @@ var getProducts = function(dic, key) {
         let sql = "select * from PRODUCT order by ProductID DESC";  // new products at the front
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getProducts");
                 throw err;
             }
             else {
@@ -59,6 +60,7 @@ var getProductsByIDS = function(dic, key, idDic) {
         let sql = "select * from PRODUCT";
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getProductsByIDS");
                 throw err;
             }
             else {
@@ -99,6 +101,7 @@ var addCategories = function(dic, key) {
         let sql = "select * from CATEGORY AS C, PRODUCT_OWN_CATEGORY AS PC where C.CategoryID=PC.CategoryID";
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("addCategories");
                 throw err;
             }
             else {
@@ -167,6 +170,7 @@ var getCategories = function(dic, key) {
         let sql = "select * from CATEGORY order by CategoryID ASC";
         db.query(sql, (err, rows) => {
             if (err) {
+                console.log("getCategories");
                 throw err;
             }
             else {
@@ -219,22 +223,77 @@ var generateFilterString = function(dic, key, categories, keywords, text) {
 };
 exports.generateFilterString = generateFilterString;
 
-// update image
-var updateImage = function(dic, key, image) {  // TODO
+// get next available productID
+var getNextProductID = function(dic, key) {
     return new Promise((resolve, reject) => {
-        resolve();
+        let sql = "select ProductID from PRODUCT order by ProductID ASC";
+        db.query(sql, (err, rows) => {
+            if (err) {
+                console.log("removeOldImage");
+                throw err;
+            }
+            else {
+                let newID = 0;
+                for (let elem of rows) {
+                    let _id = elem['ProductID'];
+                    if (_id !== newID) {
+                        break;
+                    }
+                    newID = newID + 1;
+                }
+                dic[key] = newID;
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("getNextProductID");
+                    console.log(newID);
+                }
+                resolve();
+            }
+        });
     });
-};
-exports.updateImage = updateImage;
+}
+exports.getNextProductID = getNextProductID;
+
+// remove useless old image
+var removeOldImage = function(dic, key, image, productID) {
+    return new Promise((resolve, reject) => {
+        let sql = "select Image from PRODUCT where ProductID=" + productID;
+        db.query(sql, (err, rows) => {
+            if (err) {
+                console.log("removeOldImage");
+                throw err;
+            }
+            else {
+                if (rows.length > 0) {
+                    let oldImage = rows[0]["Image"];
+                    if (oldImage == image) {
+                        dic[key] = true;
+                    } else {
+                        dic[key] = false;
+                    }
+                } else {
+                    dic[key] = false;
+                }
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("updateProduct");
+                }
+                resolve();
+            }
+        });
+    });
+}
+exports.removeOldImage = removeOldImage;
 
 // update product
 var updateProduct = function(dic, key, productID, product) {
     return new Promise((resolve, reject) => {
         let visible = product["visible"] ? 1 : 0;
-        let sql = "update PRODUCT SET Name='" + product["productName"] + "', Price=" + product["productPrice"] + ", Description='" + product["description"] + "', Image='" + product["image"] + "', Visible=" + visible + ", Num=" + product["storeNum"] + " where ProductID=" + productID;
+        let sql = "replace INTO PRODUCT (ProductID, Name, Price, Description, Image, Visible, Num) VALUES (" + productID + ", '" + product["productName"] + "', " + product["productPrice"] + ", '" + product["description"] + "', '" + product["image"] + "', " + visible + ", " + product["storeNum"] + ")";
+        if (product["image"] === undefined || product["image"] == "") {  // do not update image if not provided
+            let sql = "replace INTO PRODUCT (ProductID, Name, Price, Description, Visible, Num) VALUES (" + productID + ", '" + product["productName"] + "', " + product["productPrice"] + ", '" + product["description"] + "', " + visible + ", " + product["storeNum"] + ")";
+        }
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = false;
+                console.log("updateProduct");
                 throw err;
             }
             else {
@@ -255,7 +314,7 @@ var deleteProduct = function(dic, key, productID) {
         let sql = "update PRODUCT SET Visible=0, Num=0 where ProductID=" + productID;
         db.query(sql, (err, rows) => {
             if (err) {
-                dic[key] = false;
+                console.log("deleteProduct");
                 throw err;
             }
             else {
@@ -271,24 +330,26 @@ var deleteProduct = function(dic, key, productID) {
 exports.deleteProduct = deleteProduct;
 
 // relax categories
-var relaxCategories = function(productID, product, categories) {
+var relaxCategories = function(dic, key, productID, product, categories, allCategories) {
     return new Promise((resolve, reject) => {
-        let cdic = {};
+        let cDic = {};
         let nextID = 0;
-        for (let c of categories) {
-            cdic[c["categoryName"]] = c["categoryID"];
+        for (let c of allCategories) {
+            cDic[c["categoryName"]] = c["categoryID"];
             if (c["categoryID"] >= nextID) {
                 nextID = c["categoryID"] + 1;
             }
         }
-        let sqls = "delete FROM PRODUCT_OWN_CATEGORY where ProductID=" + productID + ";";
-        for (let c of product["categories"]) {
-            if (!cdic.hasOwnProperty(c)) {
-                sqls = sqls + "insert INTO CATEGORY (CategoryID, Name) VALUES (" + nextID +", 'c');";
-                maxID = maxID + 1;
+        let sqls = [];
+        sqls.push("delete FROM PRODUCT_OWN_CATEGORY where ProductID=" + productID + ";");
+        for (let c of categories) {
+            let cid = cDic[c];
+            if (!cDic.hasOwnProperty(c)) {
+                cid = nextID;
+                sqls.push("insert INTO CATEGORY (CategoryID, Name) VALUES (" + cid +", '" + c + "');");
+                nextID = nextID + 1;
             }
-            sqls = sqls + "insert INTO PRODUCT_OWN_CATEGORY(ProductID, CategoryID) VALUES(" + productID + ", " + cdic[c] + ");"
-
+            sqls.push("insert INTO PRODUCT_OWN_CATEGORY(ProductID, CategoryID) VALUES(" + productID + ", " + cid + ");");
         }
         async.eachSeries(sqls, function(sql, callback) {
             db.query(sql, (err, rows) => {
@@ -300,11 +361,13 @@ var relaxCategories = function(productID, product, categories) {
             });
         }, function(err) {  // callback after all queries
             if (err) {
-                console.log(err);
+                console.log("relaxCategories");
+                throw err;
             } else {
                 if (g.logLevel <= g.Level.DEBUGGING) {
                     console.log("relaxCategories");
                 }
+                dic[key] = true;
                 resolve();
             }
         });
@@ -313,7 +376,7 @@ var relaxCategories = function(productID, product, categories) {
 exports.relaxCategories = relaxCategories;
 
 // sell products
-var sellProducts = function(purchase) {
+var sellProducts = function(dic, key, purchase) {
     return new Promise((resolve, reject) => {
         let sqls = [];
         for (let [pid, num] of purchase) {
@@ -329,11 +392,13 @@ var sellProducts = function(purchase) {
             });
         }, function(err) {  // callback after all queries
             if (err) {
-                console.log(err);
+                console.log("sellProducts");
+                throw err;
             } else {
                 if (g.logLevel <= g.Level.DEBUGGING) {
                     console.log("sellProducts");
                 }
+                dic[key] = true;
                 resolve();
             }
         });

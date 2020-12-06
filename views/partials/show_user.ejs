@@ -109,11 +109,28 @@
       </p>
       <div>
         <!-- Account Details -->
-        <form class="tab-form" id="informationForm" action="/users/update/account" method="POST">
+        <form class="tab-form" id="informationForm">
           <div class="form-group">
             <label>Email</label>
             <div>
               <input type="email" disabled class="form-control" name="email" id="email" placeholder="<%= user.email %>">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Username</label>
+            <div style="position: relative;">
+              <div class="d-flex bd-highlight">
+                <div class=" w-100 bd-highlight pr-2">
+                  <input disabled id="infoUsn" class="form-control" name="infoUsn" type="text" value=""
+                    placeholder="<%= user.username %>">
+                </div>
+                <div class=" flex-shrink-1 bd-highlight">
+                  <button id="usn-edit" type="button" class="btn btn-secondary float-right">Edit
+                  </button>
+                  <button id="usn-save" style="display: none;" type="button" class="btn btn-secondary float-right">Save
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -163,10 +180,10 @@
                 value="<%= user.details.dateOfBirth %>">
             </div>
           </div>
-          <button id="x1" type="submit" class="btn btn-warning btn-block login-btn">Save</button>
+          <button id="x1" type="submit" onclick="saveUserInfo()" class="btn btn-warning btn-block login-btn">Save</button>
         </form>
         <!-- Payment Methods -->
-        <form class="tab-form" style="display: none;" id="cardForm" action="/users/update/payment" method="POST">
+        <form class="tab-form" style="display: none;" id="cardForm">
           <div class="form-group">
             <label>Card Number</label>
             <div>
@@ -189,10 +206,10 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-warning btn-block login-btn">Save</button>
+          <button type="submit" onclick="saveCardInfo()" class="btn btn-warning btn-block login-btn">Save</button>
         </form>
         <!-- Delivery Addresses -->
-        <form class="tab-form" style="display: none;" id="deliveryForm" action="/users/update/address" method="POST">
+        <form class="tab-form" style="display: none;" id="deliveryForm">
 
           <div class="form-group">
             <label>Street Address</label>
@@ -219,6 +236,7 @@
 
           <div class="form-group">
             <label>State</label>
+<<<<<<< HEAD
             <select class="form-control" name="infoState">
 
               <% var options = [ 'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ]; %>
@@ -230,9 +248,15 @@
               <% } %>
 
               </select>
+=======
+            <select id="infoState1" class="form-control" name="infoState" placeholder="State"
+              initialValue="<%= user.details.state %> ">
+              <option value="" selected="">-Select-</option>
+            </select>
+>>>>>>> a9ecd0ee8fc0bc9beaacf5958d666879de52e023
           </div>
 
-          <button type="submit" class="btn btn-warning btn-block login-btn">Save</button>
+          <button type="submit" onclick="saveDeliveryInfo()" class="btn btn-warning btn-block login-btn">Save</button>
         </form>
       </div>
     </div>

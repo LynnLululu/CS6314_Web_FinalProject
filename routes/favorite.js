@@ -75,8 +75,8 @@ router.post('/add', function(req, res) {
 		let asyncFunc = async (user, pid) => {
 			let results = {}
 			let cid = user["customerID"];
-			let p1 = await mf.addToFavorite(cid, pid);
-			let p2 = await mf.updateFavoriteTable();
+			let p1 = await mf.addToFavorite(results, "state", cid, pid);
+			let p2 = await mf.updateFavoriteTable(results, "state2");
 			return Promise.resolve(results);
 		}
 		asyncFunc(user, pid).then(results => {
@@ -117,8 +117,8 @@ router.post('/remove', function(req, res) {
 		let asyncFunc = async (user, pid) => {
 			let results = {}
 			let cid = user["customerID"];
-			let p1 = await mf.removeFromFavorite(cid, pid);
-			let p2 = await mf.updateFavoriteTable();
+			let p1 = await mf.removeFromFavorite(results, "state", cid, pid);
+			let p2 = await mf.updateFavoriteTable(results, "state2");
 			return Promise.resolve(results);
 		}
 		asyncFunc(user, pid).then(results => {
