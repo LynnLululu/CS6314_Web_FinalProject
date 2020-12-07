@@ -55,6 +55,7 @@ router.get('/', function(req, res) {
 
 router.post('/add', function(req, res) {
 	let pid = req.body.productID;
+	console.log(pid);
 	let user = mu.resolveUser(req.session.user);
 	if (isNaN(Number(pid))) {
 		if (g.logLevel <= g.Level.OPERATING) {

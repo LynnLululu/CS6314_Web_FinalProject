@@ -21,7 +21,11 @@
             <div class="col-12 col-lg-6 col-sm-12 bg-light">
                 <div class="p-5">
                     <h4 class="text-left"><%= cart[productID].productName %>
-                        <a class="btn float-right">
+                        <!-- delete item -->
+                        <form id="deleteItem<%= productID %>" action="/shopcart/remove" method="POST">
+                            <input type="hidden" value="<%= productID %>" name="productID">
+                        </form>
+                        <a class="btn float-right" onclick="document.getElementById('deleteItem<%= productID %>').submit();">
                             <i class="fas fa-trash-alt text-secondary"></i>
                         </a>
                     </h4>
@@ -32,9 +36,9 @@
                     <br>
                     <h4 class="mt-3 mb-2 float-right mr-1 pt-2">$<%= cart[productID].productPrice %></h4>
                     <div class="dropdown my-3 pt-2 float-left">
-                        <button class="btn btn-outline-secondary dropdown-toggle px-4" type="button"
+                        <button id="<%= productID %>" class="btn btn-outline-secondary dropdown-toggle px-4 cartNum" type="button"
                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;<%= cart[productID].cartNum %>&nbsp;&nbsp;
                         </button>
                         <div class="dropdown-menu overflow-auto" style="max-height: 140px;"
                             aria-labelledby="dropdownMenuButton">
