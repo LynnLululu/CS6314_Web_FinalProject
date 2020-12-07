@@ -71,7 +71,7 @@ router.post('/add', function(req, res) {
     	}
         req.session.bfavorite[pid] = 0;
         req.session.save();
-        res.send("Only customers have favorite");
+        res.redirect('/favorite');
 	} else {
 		let asyncFunc = async (user, pid) => {
 			let results = {}
@@ -113,7 +113,7 @@ router.post('/remove', function(req, res) {
         	}
     	}
         req.session.save();
-        res.send("Only customers have favorite");
+        res.redirect('/favorite');
 	} else {
 		let asyncFunc = async (user, pid) => {
 			let results = {}

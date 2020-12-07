@@ -433,7 +433,6 @@ var updateDeliveryAddress = function(dic, key, newStreet, newCity, newZip, newSt
         if (user["category"] === "admin") {
             sql = "update ADMIN SET Street='" + newStreet + "', City='" + newCity + "', Zip='" + newZip + "', State='" + newState + "' where AccountID=" + user["customerID"];
         }
-        console.log(sql);
         db.query(sql, (err, rows) => {
             if (err) {
                 console.log("updateDeliveryAddress");
@@ -450,3 +449,28 @@ var updateDeliveryAddress = function(dic, key, newStreet, newCity, newZip, newSt
     });
 }
 exports.updateDeliveryAddress = updateDeliveryAddress;
+
+var updateLastTwo = function(dic, key, newCard, newEDate, newSCode, newStreet, newCity, newZip, newState, user) {
+    return new Promise((resolve, reject) => {
+        let sql = "update CUSTOMER SET Card='" + newCard + "', ExpDate='" + newEDate + "', SecCode='" + newSCode + "', Street='" + newStreet + "', City='" + newCity + "', Zip='" + newZip + "', State='" + newState + "' where AccountID=" + user["customerID"];
+        if (user["category"] === "admin") {
+            sql = "update ADMIN SET Card='" + newCard + "', ExpDate='" + newEDate + "', SecCode='" + newSCode + "', Street='" + newStreet + "', City='" + newCity + "', Zip='" + newZip + "', State='" + newState + "' where AccountID=" + user["customerID"];
+        }
+        db.query(sql, (err, rows) => {
+            if (err) {
+                console.log("updateLastTwo");
+                throw err;
+            }
+            else {
+                dic[key] = true;
+                if (g.logLevel <= g.Level.DEVELOPING) {
+                    console.log("updateLastTwo: " + dic[key]);
+                }
+                resolve();
+            }
+        });
+    });
+}
+exports.updateLastTwo = updateLastTwo;
+
+

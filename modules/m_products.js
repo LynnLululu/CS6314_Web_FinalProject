@@ -370,9 +370,10 @@ exports.relaxCategories = relaxCategories;
 var sellProducts = function(dic, key, purchase) {
     return new Promise((resolve, reject) => {
         let sqls = [];
-        for (let [pid, num] of purchase) {
-            sqls.push("update PRODUCT SET Num=Num+" + num + " where ProductID=" + pid);
-        }
+        Object.keys(purchase).forEach(function(pid) {
+            let num = purchase[pid]["cartNum"];
+            sqls.push("update PRODUCT SET Num=Num-" + num + " where ProductID=" + pid);
+        })
         async.eachSeries(sqls, function(sql, callback) {
             db.query(sql, (err, rows) => {
                 if (err) {

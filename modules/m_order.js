@@ -145,7 +145,7 @@ var getNextOrderID = function(dic, key) {
                 if (rows.length === 0) {
                     dic[key] = 0;
                 } else {
-                    dic[key] = rows[0]["MAX(OrderID)"];
+                    dic[key] = Number(rows[0]["MAX(OrderID)"]) + 1;
                 }
                 if (g.logLevel <= g.Level.DEVELOPING) {
                     console.log("getNextOrderID");
@@ -161,11 +161,15 @@ exports.getNextOrderID = getNextOrderID;
 var newOrder = function(dic, key, newID, cid, total, purchase) {
     return new Promise((resolve, reject) => {
         let now = new Date().toLocaleDateString('en-US');
-        let sqls = ["insert INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice, Comments) VALUES (" + newID + ", " + cid + ", '" + now + "', " + total + ", 'No comments yet.')"];
-        for (let [pid, num, name, price] of purchase) {
+        let totalPrice = total["total"].replace('$', '');
+        let sqls = ["insert INTO FOOD_ORDER (OrderID, AccountID, PurchaseDate, TotalPrice, Comments) VALUES (" + newID + ", " + cid + ", '" + now + "', " + totalPrice + ", 'No comments yet.')"];
+        Object.keys(purchase).forEach(function(pid) {
+            let num = purchase[pid]["cartNum"];
+            let name = purchase[pid]["productName"];
+            let price = purchase[pid]["productPrice"];
             sqls.push("insert INTO ORDER_OWN_PRODUCT (OrderID, ProductID, Num) VALUES (" + newID + ", " + pid + ", " + num + ")");
-            sqls.push("insert INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num) VALUES (" + newID + ", " + pid + ", " + name + ", " + price + ", " + num + ")");
-        }
+            sqls.push("insert INTO ORDER_DETAIL (OrderID, ProductID, Name, Price, Num) VALUES (" + newID + ", " + pid + ", '" + name + "', " + price + ", " + num + ")");
+        });
         async.eachSeries(sqls, function(sql, callback) {
             db.query(sql, (err, rows) => {
                 if (err) {
