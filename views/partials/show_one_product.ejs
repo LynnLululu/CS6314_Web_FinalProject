@@ -27,7 +27,6 @@
       <div class="row">
         <div class="col-6">
           <!-- shopcart form -->
-          <form>
             <!-- select number -->
             <div class="dropdown my-3 pt-2 float-left">
               <button id="cartNum" class="btn btn-outline-secondary dropdown-toggle px-4" type="button"
@@ -56,19 +55,16 @@
               class="fas fa-edit mr-2"></i>Edit</a>
           <% } else { %>
 
-          <!-- submit button -->
-          
-          <form id="addCart" action="/shopcart/update" method="POST">
+
+          <form id="addCart" action="/shopcart/add" method="POST">
             <input hidden name="productID" value="<%= product.productID %>">
             <input hidden name="num" value="1">
           </form>
           <button onclick="document.getElementById('addCart').submit();" class="btn btn-warning float-left mb-5 px-4"><i
             class="fas fa-shopping-cart mr-2"></i>Add</button>
-
           <% } %>
 
 
-          </form>
         </div>
         <div class="col-6">
 

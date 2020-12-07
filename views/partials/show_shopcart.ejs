@@ -25,7 +25,8 @@
                         <form id="deleteItem<%= productID %>" action="/shopcart/remove" method="POST">
                             <input type="hidden" value="<%= productID %>" name="productID">
                         </form>
-                        <a class="btn float-right" onclick="document.getElementById('deleteItem<%= productID %>').submit();">
+                        <a class="btn float-right"
+                            onclick="document.getElementById('deleteItem<%= productID %>').submit();">
                             <i class="fas fa-trash-alt text-secondary"></i>
                         </a>
                     </h4>
@@ -34,19 +35,27 @@
                     <a href="#" class="badge badge-secondary float-right mr-1 mb-1"><%= category.categoryName %></a>
                     <% }); %>
                     <br>
-                    <h4 class="mt-3 mb-2 float-right mr-1 pt-2">$<%= cart[productID].productPrice %></h4>
-                    <div class="dropdown my-3 pt-2 float-left">
-                        <button id="<%= productID %>" class="btn btn-outline-secondary dropdown-toggle px-4 cartNum" type="button"
-                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            &nbsp;&nbsp;<%= cart[productID].cartNum %>&nbsp;&nbsp;
-                        </button>
-                        <div class="dropdown-menu overflow-auto" style="max-height: 140px;"
-                            aria-labelledby="dropdownMenuButton">
-                            <% for (var i = 1; i <= cart[productID].storeNum; i++) {%>
-                            <a class="dropdown-item"><%= i %></a>
-                            <% } %>
+                    
+                        <div class="float-right mt-1 mb-4">
+                            <h4 class="">$<%= cart[productID].productPrice %></h4>
                         </div>
-                    </div>
+                    
+                        <div class="btn-group float-left mb-4" role="group" aria-label="Basic example">
+                            <form action="/shopcart/update" method="POST">
+                                <input hidden name="productID" value="<%= productID %>">
+                                <input hidden name="num" value="-1">
+                                <button type="submit" class="btn btn-light"><i class="fas fa-minus text-secondary"></i></button>
+                            </form>
+                            
+                            <button disabled type="button" class="btn btn-light"><h5><%= cart[productID].cartNum %></h5></button>
+
+                            <form action="/shopcart/update" method="POST">
+                                <input hidden name="productID" value="<%= productID %>">
+                                <input hidden name="num" value="1">
+                                <button type="submit" class="btn btn-light"><i class="fas fa-plus text-secondary"></i></button>
+                            </form>
+                        </div>
+                    
                 </div>
             </div>
         </div>
@@ -79,47 +88,47 @@
             </div>
 
             <!-- Discount -->
-        <div class="row">
-            <div class="col-6">
-                <h6 class="text-left">Discount</h6 class="text-left">
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="text-left">Discount</h6 class="text-left">
+                </div>
+                <div class="col-6">
+                    <p class="text-right"><%= summary.discount %></p>
+                </div>
             </div>
-            <div class="col-6">
-                <p class="text-right"><%= summary.discount %></p>
-            </div>
-        </div>
 
-        <!-- Discount String -->
-        <div class="row">
-            <div class="col-12">
-                <p class="text-right"><%= summary.discountStr %></p>
+            <!-- Discount String -->
+            <div class="row">
+                <div class="col-12">
+                    <p class="text-right"><%= summary.discountStr %></p>
+                </div>
             </div>
-        </div>
 
-        <!-- Tax -->
-        <div class="row">
-            <div class="col-6">
-                <h6 class="text-left">Tax</h6 class="text-left">
+            <!-- Tax -->
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="text-left">Tax</h6 class="text-left">
+                </div>
+                <div class="col-6">
+                    <p class="text-right"><%= summary.tax %></p>
+                </div>
             </div>
-            <div class="col-6">
-                <p class="text-right"><%= summary.tax %></p>
-            </div>
-        </div>
-        <hr>
+            <hr>
 
-        <!-- Total -->
-        <div class="row">
-            <div class="col-6">
-                <h5 class="text-left">Total</h5>
+            <!-- Total -->
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="text-left">Total</h5>
+                </div>
+                <div class="col-6">
+                    <h5 class="text-right"><%= summary.total %></h5>
+                </div>
             </div>
-            <div class="col-6">
-                <h5 class="text-right"><%= summary.total %></h5>
-            </div>
-        </div>
 
-        <a href="/shopcart/checkout" class="btn btn-secondary my-4 mt-5 w-100 large">
-            <h5 class="my-1">Check Out</h5>
-        </a>
-        <!-- /.col summary -->
+            <a href="/shopcart/checkout" class="btn btn-secondary my-4 mt-5 w-100 large">
+                <h5 class="my-1">Check Out</h5>
+            </a>
+            <!-- /.col summary -->
         </div>
     </div>
 </div>
