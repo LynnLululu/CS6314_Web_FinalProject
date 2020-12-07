@@ -29,7 +29,7 @@ router.get('/', function(req, res) {
 	            console.log("Show favorite (not a customer). 'favorite':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('favorite', results);
+	        res.render('favorite', results);
 		})
 	} else {
 		let asyncFunc = async (user) => {
@@ -48,7 +48,7 @@ router.get('/', function(req, res) {
 	            console.log("Show favorite. 'favorite':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('favorite', results);
+	        res.render('favorite', results);
 		})
 	}
 });
@@ -60,7 +60,7 @@ router.post('/add', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post favorite/add");
         }
-		res.status(400).send("Unvalid input in post favorite/add");
+		res.send("Unvalid input in post favorite/add");
 	} else if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers' favorite will be saved in database");
@@ -70,7 +70,7 @@ router.post('/add', function(req, res) {
     	}
         req.session.bfavorite[pid] = 0;
         req.session.save();
-        res.status(400).send("Only customers have favorite");
+        res.send("Only customers have favorite");
 	} else {
 		let asyncFunc = async (user, pid) => {
 			let results = {}
@@ -89,7 +89,7 @@ router.post('/add', function(req, res) {
 	    	}
 	        req.session.bfavorite[pid] = 0;
 	        req.session.save();
-	        res.status(200).redirect('/favorite');
+	        res.redirect('/favorite');
 		})
 	}
 });
@@ -101,7 +101,7 @@ router.post('/remove', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post favorite/remove");
         }
-        res.status(400).send("Unvalid input in post favorite/remove");
+        res.send("Unvalid input in post favorite/remove");
 	} else if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers' favorite will be saved in database");
@@ -112,7 +112,7 @@ router.post('/remove', function(req, res) {
         	}
     	}
         req.session.save();
-        res.status(400).send("Only customers have favorite");
+        res.send("Only customers have favorite");
 	} else {
 		let asyncFunc = async (user, pid) => {
 			let results = {}
@@ -126,13 +126,14 @@ router.post('/remove', function(req, res) {
 	            console.log("Remove product " + pid + " from favorite");
 	            g.selectedPrint(results);
 	        }
+	        console.log(req.session.bfavorite);
 	        if (req.session.hasOwnProperty("bfavorite")) {
 	        	if (req.session.bfavorite.hasOwnProperty(pid)) {
-	        		delete req.session.user["bfavorite"][pid];
+	        		delete req.session.bfavorite[pid];
 	        	}
 	    	}
 	        req.session.save();
-	        res.status(200).redirect('/favorite');
+	        res.redirect('/favorite');
 		})
 	}
 });

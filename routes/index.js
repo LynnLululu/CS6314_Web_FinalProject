@@ -20,7 +20,7 @@ var mo = require('../modules/m_order');
 
 // root
 router.get('/', function(req, res) {
-	res.status(200).redirect('/products');
+	res.redirect('/products');
 });
 
 // show all products
@@ -82,7 +82,7 @@ router.get('/products', function(req, res) {
         if (g.logLevel <= g.Level.DEVELOPING) {
             g.selectedPrint(results);
         }
-        res.status(200).render('index', dataframe); 
+        res.render('index', dataframe); 
 	})
 });
 
@@ -93,7 +93,7 @@ router.get('/products/new', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only admins can new product");
         }
-		res.status(400).redirect('/products');
+		res.redirect('/products');
 	} else {
 		let asyncFunc = async (user) => {
 			let results = {
@@ -108,7 +108,7 @@ router.get('/products/new', function(req, res) {
 			if (g.logLevel <= g.Level.DEBUGGING) {
 	            console.log("Edit a new product. 'new':");
 	        }
-			res.status(200).render('new', results); 
+			res.render('new', results); 
 		})
 	}
 });
@@ -127,17 +127,17 @@ router.post('/products/new/add', upload.single('image'), function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post products/new/add");
         }
-        res.status(400).send("Unvalid input in post products/new/add");
+        res.send("Unvalid input in post products/new/add");
 	} else if (isNaN(Number(productPrice)) || isNaN(Number(storeNum))) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post products/new/add");
         }
-        res.status(400).send("Unvalid input in post products/new/add");
+        res.send("Unvalid input in post products/new/add");
 	} else if (user["category"] != "admin") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only admins can new product");
         }
-        res.status(400).send("Only admins can new product");
+        res.send("Only admins can new product");
 	} else {
 		let categories = [];
 		if (categoriesStr !== undefined && categoriesStr != "") {
@@ -168,7 +168,7 @@ router.post('/products/new/add', upload.single('image'), function(req, res) {
 	            console.log("Add a new product.:");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).redirect('/products/' + results["productID"]); 
+	        res.redirect('/products/' + results["productID"]); 
 		})
 	}
 });
@@ -181,7 +181,7 @@ router.get('/products/:id', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in get products/:id");
         }
-        res.status(400).redirect('/products');
+        res.redirect('/products');
 	} else {
 		let asyncFunc = async (user, productID) => {
 			let results = {
@@ -207,7 +207,7 @@ router.get('/products/:id', function(req, res) {
 	            console.log("Show a product. 'show':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('show', results); 
+	        res.render('show', results); 
 		})
 	}
 });
@@ -220,12 +220,12 @@ router.get('/products/:id/edit', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in get products/:id/edit");
         }
-        res.status(400).redirect('/products/' + results["productID"]); 
+        res.redirect('/products/' + results["productID"]); 
 	} else if (user["category"] != "admin") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only admins can edit product");
         }
-		res.status(400).redirect('/products/' + results["productID"]); 
+		res.redirect('/products/' + results["productID"]); 
 	} else {
 		let asyncFunc = async (user, productID) => {
 			let results = {
@@ -248,7 +248,7 @@ router.get('/products/:id/edit', function(req, res) {
 	            console.log("Edit a product. 'edit':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('edit', results); 
+	        res.render('edit', results); 
 		})
 	}
 });
@@ -268,17 +268,17 @@ router.post('/products/:id/edit/update', upload.single('image'), function(req, r
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post products/:id/edit/update");
         }
-        res.status(400).send("Unvalid input in post products/:id/edit/update");
+        res.send("Unvalid input in post products/:id/edit/update");
 	} else if (isNaN(Number(productID)) || isNaN(Number(productPrice)) || isNaN(Number(storeNum))) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post products/:id/edit/update");
         }
-        res.status(400).send("Unvalid input in post products/:id/edit/update");
+        res.send("Unvalid input in post products/:id/edit/update");
 	} else if (user["category"] != "admin") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only admins can edit product");
         }
-        res.status(400).send("Only admins can edit product");
+        res.send("Only admins can edit product");
 	} else {
 		let categories = [];
 		if (categoriesStr !== undefined && categoriesStr != "") {
@@ -309,7 +309,7 @@ router.post('/products/:id/edit/update', upload.single('image'), function(req, r
 	            console.log("Update a product:");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).redirect('/products/' + productID);
+	        res.redirect('/products/' + productID);
 		})
 	}
 });
@@ -322,12 +322,12 @@ router.post('/products/:id/edit/remove', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post products/:id/edit/remove");
         }
-        res.status(400).send("Unvalid input in post products/:id/edit/remove");
+        res.send("Unvalid input in post products/:id/edit/remove");
 	} else if (user["category"] != "admin") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only admins can edit product");
         }
-        res.status(400).send("Only admins can edit product");
+        res.send("Only admins can edit product");
 	} else {
 		let asyncFunc = async (productID) => {
 			let results = {};
@@ -338,12 +338,12 @@ router.post('/products/:id/edit/remove', function(req, res) {
 	            console.log("Update a product:");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).redirect('/products');
+	        res.redirect('/products');
 	    }, (func) => {
 			if (g.logLevel <= g.Level.DEBUGGING) {
 	            console.log("Update a product fail in " + func);
 	        }
-	        res.status(400).redirect('/products');
+	        res.redirect('/products');
 		});
 	}
 });

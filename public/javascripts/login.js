@@ -60,33 +60,10 @@ function validateRule() {
             email: {
                 required: true,
                 email: true,
-                remote: {
-                    type: "POST",
-                    url: "/users/check/email",
-                    data: {
-                        email: function() { return $("#sgu_email").val(); }
-                    },
-                    dataFiliter: function(data) {
-                        alert(data);
-                        let json = JSON.parse(data);
-                        $("#sgu_email_validator)").val("json.message");
-                        if (json.success) {
-                            return true;
-                        } else {
-                            alert(json.message);
-                            return json.message;
-                        }
-                    }
-                }
             },
             userName: {
                 required: true,
                 username: true,
-                remote: {
-                    url: "/users/check/username",
-                    // url: "/user/checkUsername" + $("input[name='userName']").val(),
-                    type: "post",
-                }
             },
             pwd: {
                 required: true,
@@ -132,12 +109,64 @@ function validateRule() {
         }
     })
 }
-function checkUsername() {
 
-}
+$(document).ready(function(){
+    $("#sgu_name").on('change', function checkUsername(){
+        if(!$("#sgu_name").valid()){
+            return;
+        }
+        let username = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: "/users/check/username", 
+            data: {
+                "username": username,
+            },
+        }).done(function(response) {
+            $("#usernameExist").text(response);
+        }).fail(function() {
+            $("#usernameExist").text("Failed in check username");
+        });
+    });
+
+    $("#sgu_email").on('change', function checkEmail(){
+        if(!$("#sgu_email").valid()){
+            return;
+        }
+        let email = $(this).val();
+        let other = $("#usernameExist").text();
+
+        $.ajax({
+            type: "POST",
+            url: "/users/check/email", 
+            data: {
+                "email": email,
+            },
+        }).done(function(response) {
+            $("#emailExist").text(response);
+        }).fail(function() {
+            $("#emailExist").text("Failed in check email");
+        });
+    });
+}); 
 
 function checkEmail() {
-    
+    if(!$("#sgu_email").valid()){
+        return;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/users/check/email", 
+        data: {
+            email: function() { return $("#sgu_email").val(); }
+        },
+        success: function(r) {
+            $("#emailExist").val(r);
+        }
+    });
+
 }
 
 function login() {
