@@ -462,58 +462,5 @@ router.post('/update/address', function(req, res) {
 	}
 });
 
-router.post('/update/lasttwo', function(req, res) {
-	let newCard = req.body.cardNumber.replace(/\s/g, '');
-	let newEDate = req.body.expirationDate;
-	let newSCode = req.body.securityCode;
-	let newStreet = req.body.streetAddress;
-	let newCity = req.body.infoCity;
-	let newZip = req.body.infoZip;
-	let newState = req.body.infoState;
-	let user = mu.resolveUser(req.session.user);
-	if (!newCard || !newEDate || !newSCode) {
-		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Unvalid input in post users/update/lasttwo");
-        }
-        res.send("Unvalid input in post users/update/lasttwo");
-	} else if (!newStreet || !newCity || !newZip || !newState) {
-		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Unvalid input in post users/update/lasttwo");
-        }
-        res.send("Unvalid input in post users/update/lasttwo");
-	} else if (user["category"] != "customer") {
-		if (g.logLevel <= g.Level.OPERATING) {
-            console.log("Only customers have lasttwo information");
-        }
-        res.send("Only customers have lasttwo information");
-	} else {
-		let asyncFunc = async (newCard, newEDate, newSCode, newStreet, newCity, newZip, newState, user) => {
-			let results = {}
-			let p1 = await mu.updateLastTwo(results, "state", newCard, newEDate, newSCode, user);
-			return Promise.resolve(results);
-		}
-		asyncFunc(newCard, newEDate, newSCode, newStreet, newCity, newZip, newState, user).then(results => {
-			if (results["state"]) {
-	        	if (g.logLevel <= g.Level.DEBUGGING) {
-		            console.log("Update lasttwo success");
-		        }
-		        req.session.user["details"]["card"] = newCard;
-		        req.session.user["details"]["expDate"] = newEDate;
-		        req.session.user["details"]["secCode"] = newSCode;
-		        req.session.user["details"]["street"] = newStreet;
-		        req.session.user["details"]["city"] = newCity;
-		        req.session.user["details"]["zip"] = newZip;
-		        req.session.user["details"]["state"] = newState;
-		        req.session.save();
-	        	res.send("Update lasttwo success");
-	        } else {
-	        	if (g.logLevel <= g.Level.DEBUGGING) {
-		            console.log("Update lasttwo fail");
-		        }
-	        	res.send("Update lasttwo fail");
-	        }
-		})
-	}
-});
 
 module.exports = router;
