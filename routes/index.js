@@ -81,7 +81,8 @@ router.get('/products', function(req, res) {
         }
         if (g.logLevel <= g.Level.DEVELOPING) {
             g.selectedPrint(results);
-        }
+		}
+		console.log(results["bfavorite"]);
         res.render('index', dataframe); 
 	})
 });
