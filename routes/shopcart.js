@@ -92,12 +92,15 @@ router.post('/update', function(req, res) {
 		let asyncFunc = async (user, pid, num) => {
 			let results = {}
 			let cid = user["customerID"];
-			if (num > 0) {
-				let p1 = await msc.updateInCart(results, "state", cid, pid, num);
+			let p1 = await msc.getCartNum(results, "cartNum", cid, pid);
+			let cartNum = results["cartNum"];
+			let sum = Number(num) + Number(cartNum);
+			if (sum > 0) {
+				let p2 = await msc.updateInCart(results, "state", cid, pid, sum);
 			} else {
-				let p2 = await msc.removeFromCart(results, "state2", cid, pid);
+				let p3 = await msc.removeFromCart(results, "state2", cid, pid);
 			}
-			let p3 = await msc.updateCartTable(results, "state3");
+			let p4 = await msc.updateCartTable(results, "state3");
 			return Promise.resolve(results);
 		}
 		asyncFunc(user, pid, num).then(results => {
@@ -182,41 +185,67 @@ router.get('/checkout', function(req, res) {
 });
 
 router.post('/checkout/pay', function(req, res) {
+	let newCard = req.body.cardNumber.replace(/\s/g, '');
+	let newEDate = req.body.expirationDate;
+	let newSCode = req.body.securityCode;
+	let newStreet = req.body.streetAddress;
+	let newCity = req.body.infoCity;
+	let newZip = req.body.infoZip;
+	let newState = req.body.infoState;
 	let user = mu.resolveUser(req.session.user);
-	if (user["category"] != "customer") {
+	if (!newCard || !newEDate || !newSCode) {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Unvalid input in post checkout/pay");
+        }
+        res.send("Unvalid input in post checkout/pay");
+	} else if (!newStreet || !newCity || !newZip || !newState) {
+		if (g.logLevel <= g.Level.OPERATING) {
+            console.log("Unvalid input in checkout/pay");
+        }
+        res.send("Unvalid input in checkout/pay");
+	} else if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers can checkout");
         }
         res.send("Only customers can checkout");
 	} else {
-		let asyncFunc = async (user) => {
+		let asyncFunc = async (newCard, newEDate, newSCode, newStreet, newCity, newZip, newState, user) => {
 			let results = {};
 			let cid = user["customerID"];
-			let p1 = await msc.getCart(results, "cart", cid);
-			let p2 = await mp.addCategories(results, "cart");
+			let p1 = await mu.updateLastTwo(results, "state", newCard, newEDate, newSCode, newStreet, newCity, newZip, newState, user);
+			let p2 = await msc.getCart(results, "cart", cid);
+			let p3 = await mp.addCategories(results, "cart");
 			let cart = results["cart"];
 			let purchase = {};
 			Object.keys(cart).forEach(function(productID) {
 		        if (cart[productID]["cartNum"] > cart[productID]["storeNum"]) {
-		            purchase[productID] = cart[productID]["storeNum"];
+		            purchase[productID] = cart[productID];
 		        } else {
-		        	purchase[productID] = cart[productID]["cartNum"];
+		        	purchase[productID] = cart[productID];
 		        }
 		    })
 		    results["purchase"] = purchase;
 		    let dob = user["details"]["dateOfBirth"];
-		    let p3 = await msc.getTotal(results, "summary", checkout, dob);
+		    let p4 = await msc.getTotal(results, "summary", purchase, dob);
 		    let totalPrice = results["summary"];
-			let p4 = await mp.sellProducts(results, "sell", purchase);
-			let p5 = await mo.getNextOrderID(results, "newID");
+			let p5 = await mp.sellProducts(results, "sell", purchase);
+			let p6 = await mo.getNextOrderID(results, "newID");
 			let newID = results["newID"];
-			let p6 = await mo.newOrder(results, "state", newID, cid, totalPrice, purchase);
-			let p7 = await msc.deleteCart(results, "state2", cid);
+			let p7 = await mo.newOrder(results, "state2", newID, cid, totalPrice, purchase);
+			let p8 = await msc.deleteCart(results, "state3", cid);
 			return Promise.resolve(results);
 		}
-		asyncFunc(user).then(results => {
+		asyncFunc(newCard, newEDate, newSCode, newStreet, newCity, newZip, newState, user).then(results => {
+			req.session.user["details"]["card"] = newCard;
+	        req.session.user["details"]["expDate"] = newEDate;
+	        req.session.user["details"]["secCode"] = newSCode;
+	        req.session.user["details"]["street"] = newStreet;
+	        req.session.user["details"]["city"] = newCity;
+	        req.session.user["details"]["zip"] = newZip;
+	        req.session.user["details"]["state"] = newState;
+	        req.session.save();
 			if (g.logLevel <= g.Level.DEBUGGING) {
-	            console.log("Payment success. Have a nice day!");
+	            console.log("Payment issued. Have a nice day!");
 	            g.selectedPrint(results);
 	        }
 	        res.redirect('/products');
