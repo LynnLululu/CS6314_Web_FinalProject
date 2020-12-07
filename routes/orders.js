@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers have orders");
         }
-		res.status(400).redirect('/products');
+		res.redirect('/products');
 	} else {
 		let asyncFunc = async (user) => {
 			let customerID = user["customerID"];
@@ -35,7 +35,7 @@ router.get('/', function(req, res) {
 	            console.log("Show all orders. 'orders':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('orders', results);
+	        res.render('orders', results);
 		})
 	}
 });
@@ -47,12 +47,12 @@ router.get('/:id', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in get order/:id");
         }
-		res.status(400).redirect('/orders');
+		res.redirect('/orders');
 	} else if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers have orders");
         }
-		res.status(400).redirect('/orders');
+		res.redirect('/orders');
 	} else {
 		let asyncFunc = async (user, orderID) => {
 			let customerID = user["customerID"];
@@ -80,7 +80,7 @@ router.get('/:id', function(req, res) {
 	            console.log("Show a orders. 'tbd':");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).render('tbd', results);
+	        res.render('tbd', results);
 		})
 	}
 });
@@ -93,12 +93,12 @@ router.post('/:id/comment', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in get order/:id/comment");
         }
-        res.status(400).send("Unvalid input in get order/:id/comment");
+        res.send("Unvalid input in get order/:id/comment");
 	} else if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers can comment");
         }
-        res.status(400).send("Only customers can comment");
+        res.send("Only customers can comment");
 	} else {
 		let asyncFunc = async (ord, comments) => {
 			let results = {}
@@ -110,7 +110,7 @@ router.post('/:id/comment', function(req, res) {
 	            console.log("Comments.");
 	            g.selectedPrint(results);
 	        }
-	        res.status(200).redirect('/orders/' + orderID); 
+	        res.redirect('/orders/' + orderID); 
 		})
 	}
 });

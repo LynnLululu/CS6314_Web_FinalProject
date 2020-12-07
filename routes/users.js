@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
 		console.log("Show user details. 'user':");
         g.selectedPrint(mu.resolveUser(req.session.user));
     }
-    res.status(200).render('user', {
+    res.render('user', {
     	"user": user,
     	"bfavorite": req.session.bfavorite,
     	"carousel": req.session.carousel,
@@ -26,7 +26,7 @@ router.post('/signin', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/signin");
         }
-        res.status(400).send("Unvalid input in post users/signin");
+        res.send("Unvalid input in post users/signin");
 	} else {
 		let asyncFunc = async (email, password) => {
 			let results = {}
@@ -59,7 +59,7 @@ router.post('/signin', function(req, res) {
 	        if (g.logLevel <= g.Level.DEBUGGING) {
 				g.selectedPrint(results);
 	        }
-	        res.status(200).redirect('/products');
+	        res.redirect('/products');
 		})
 	}
 });
@@ -71,7 +71,7 @@ router.post('/check/email', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/check/email");
         }
-        res.status(400).write("Unvalid input");
+        res.send("Unvalid input in post users/check/email");
 	} else {
 		let asyncFunc = async (email) => {
 			let results = {}
@@ -87,18 +87,18 @@ router.post('/check/email', function(req, res) {
 	                console.log("Email already existed in admins");
 	                console.log(a);
 	            }
-	            res.status(400).write("Email already existed in customers");
+	            res.send("Email already existed in customers");
 	        } else if (c.length > 0) {
 	        	if (g.logLevel <= g.Level.OPERATING) {
 	                console.log("Email already existed in customers");
 	                console.log(c);
 	            }
-	            res.status(400).write("Email already existed in customers");
+	            res.send("Email already existed in customers");
 	        } else {
 	        	if (g.logLevel <= g.Level.OPERATING) {
 	                console.log("Email available");
 	            }
-	        	res.status(200).write(true);
+	        	res.send("Email available");
 	        }
 		})
 	}
@@ -107,13 +107,14 @@ router.post('/check/email', function(req, res) {
 // check if username already existed
 router.post('/check/username', function(req, res) {
 	let username = req.body.username;
+	console.log(req.body.function);
+	console.log(req.body.other);
 	if (!username) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/check/username");
         }
-        res.status(400).send(false);
+        res.send("Unvalid input in post users/check/username");
 	} else {
-		console.log("####");
 		let asyncFunc = async (username) => {
 			let results = {}
 			let p1 = await mu.checkInCUSTOMER(results, "usernameInC", "UserName", username);
@@ -123,24 +124,23 @@ router.post('/check/username', function(req, res) {
 		asyncFunc(username).then(results => {
 			let c = results["usernameInC"];
 	        let a = results["usernameInA"];
-	        let flag = true;
 	        if (a.length > 0) {
 	        	if (g.logLevel <= g.Level.OPERATING) {
 	                console.log("Username already existed in admins");
 	                console.log(a);
 	            }
-	            res.status(400).send(false);
+	            res.send("Username already existed in admins");
 	        } else if (c.length > 0) {
 	        	if (g.logLevel <= g.Level.OPERATING) {
 	                console.log("Username already existed in customers");
 	                console.log(c);
 	            }
-	            res.status(400).send(false);
+	            res.send("Username already existed in customers");
 	        } else {
 	        	if (g.logLevel <= g.Level.OPERATING) {
 	                console.log("Username available");
 	            }
-	        	res.status(200).send(true);
+	        	res.send("Username available");
 	        }
 		})
 	}
@@ -154,12 +154,12 @@ router.post('/check/password', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/check/password");
         }
-        res.status(400).send("Unvalid input in post users/check/password");
+        res.send("Unvalid input in post users/check/password");
 	} else if (user["category"] == "anonymous") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Guest has not password");
         }
-        res.status(400).send("Guest has not password");
+        res.send("Guest has not password");
 	} else {
 		let asyncFunc = async (input, user) => {
 			let results = {}
@@ -171,12 +171,12 @@ router.post('/check/password', function(req, res) {
 				if (g.logLevel <= g.Level.DEVELOPING) {
 	                console.log("Compare password with " + input + " success");
 	            }
-	            res.status(200).send("Compare password with " + input + " success");
+	            res.send("Compare password with " + input + " success");
 			} else {
 				if (g.logLevel <= g.Level.DEVELOPING) {
 	                console.log("Compare password with " + input + " fail");
 	            }
-	            res.status(400).send("Compare password with " + input + " fail");
+	            res.send("Compare password with " + input + " fail");
 			}
 		})
 	}
@@ -190,7 +190,7 @@ router.post('/signup', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/signup");
         }
-        res.status(400).send("Unvalid input in post users/signup");
+        res.send("Unvalid input in post users/signup");
 	} else {
 		let asyncFunc = async (email, username, password) => {
 			let exists = {}
@@ -224,7 +224,7 @@ router.post('/signup', function(req, res) {
 	        if (g.logLevel <= g.Level.DEBUGGING) {
 				g.selectedPrint(results);
 	        }
-	        res.status(200).redirect('/products');
+	        res.redirect('/products');
 	    }, (exists) => {  // sign up fail, set user to anonymous
 			if (g.logLevel <= g.Level.OPERATING) {
 	            console.log("Sign up failed.");
@@ -233,7 +233,7 @@ router.post('/signup', function(req, res) {
 	        if (g.logLevel <= g.Level.DEBUGGING) {
 				g.selectedPrint(results);
 	        }
-	        res.status(400).redirect('/products');
+	        res.redirect('/products');
 		});
 	}
 });
@@ -245,7 +245,7 @@ router.post('/signout', function(req, res) {
 		console.log("Sign out.");
         g.selectedPrint(mu.resolveUser(req.session.user));
     }
-    res.status(200).redirect('/products');
+    res.redirect('/products');
 });
 
 router.post('/update/username', function(req, res) {
@@ -255,12 +255,12 @@ router.post('/update/username', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/update/username");
         }
-        res.status(400).send("Unvalid input in post users/update/username");
+        res.send("Unvalid input in post users/update/username");
 	} else if (user["category"] == "anonymous") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Guest has not username");
         }
-        res.status(400).send("Guest has not username");
+        res.send("Guest has not username");
 	} else {
 		let asyncFunc = async (newUsername, user) => {
 			let exists = {}
@@ -281,18 +281,18 @@ router.post('/update/username', function(req, res) {
 		        }
 		        req.session.user["username"] = newUsername;
 		        req.session.save();
-	        	res.status(200).send("Change username to " + newUsername + " success");
+	        	res.send("Change username to " + newUsername + " success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Change username to " + newUsername + " fail");
 		        }
-	        	res.status(400).send("Change username to " + newUsername + " fail");
+	        	res.send("Change username to " + newUsername + " fail");
 	        }
 	    }, (exists) => {  // sign up fail, set user to anonymous
 			if (g.logLevel <= g.Level.DEBUGGING) {
 	            console.log("Fail for username existed");
 	        }
-	        res.status(400).send("Fail for username existed");
+	        res.send("Fail for username existed");
 		});
 	}
 });
@@ -304,12 +304,12 @@ router.post('/update/password', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/update/password");
         }
-        res.status(400).send("Unvalid input in post users/update/password");
+        res.send("Unvalid input in post users/update/password");
 	} else if (user["category"] == "anonymous") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Guest has not password");
         }
-        res.status(400).send("Guest has not password");
+        res.send("Guest has not password");
 	} else {
 		let asyncFunc = async (newPassword, user) => {
 			let results = {}
@@ -323,12 +323,12 @@ router.post('/update/password', function(req, res) {
 		        }
 		        req.session.user["password"] = results["hashed"];
 		        req.session.save();
-	        	res.status(200).send("Change password to " + newPassword + " success");
+	        	res.send("Change password to " + newPassword + " success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Change password to " + newPassword + " fail");
 		        }
-	        	res.status(400).send("Change password to " + newPassword + " fail");
+	        	res.send("Change password to " + newPassword + " fail");
 	        }
 		})
 	}
@@ -345,12 +345,12 @@ router.post('/update/account', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/update/account");
         }
-        res.status(400).send("Unvalid input in post users/update/account");
+        res.send("Unvalid input in post users/update/account");
 	} else if (user["category"] == "anonymous") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Guest has not account details");
         }
-        res.status(400).send("Guest has not account details");
+        res.send("Guest has not account details");
 	} else {
 		let asyncFunc = async (newFName, newLName, newDob, newPhone, user) => {
 			let results = {}
@@ -367,12 +367,12 @@ router.post('/update/account', function(req, res) {
 		        req.session.user["details"]["dateOfBirth"] = newDob;
 		        req.session.user["details"]["phone"] = newPhone;
 		        req.session.save();
-	        	res.status(200).send("Update account details success");
+	        	res.send("Update account details success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Update account details fail");
 		        }
-	        	res.status(400).send("Update account details fail");
+	        	res.send("Update account details fail");
 	        }
 		})
 	}
@@ -388,12 +388,12 @@ router.post('/update/payment', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/update/payment");
         }
-        res.status(400).send("Unvalid input in post users/update/payment");
+        res.send("Unvalid input in post users/update/payment");
 	} else if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers have payment methods");
         }
-        res.status(400).send("Only customers have payment methods");
+        res.send("Only customers have payment methods");
 	} else {
 		let asyncFunc = async (newCard, newEDate, newSCode, user) => {
 			let results = {}
@@ -409,12 +409,12 @@ router.post('/update/payment', function(req, res) {
 		        req.session.user["details"]["expDate"] = newEDate;
 		        req.session.user["details"]["secCode"] = newSCode;
 		        req.session.save();
-	        	res.status(200).send("Update payment methods success");
+	        	res.send("Update payment methods success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Update payment methods fail");
 		        }
-	        	res.status(400).send("Update payment methods fail");
+	        	res.send("Update payment methods fail");
 	        }
 		})
 	}
@@ -432,12 +432,12 @@ router.post('/update/address', function(req, res) {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Unvalid input in post users/update/address");
         }
-        res.status(400).send("Unvalid input in post users/update/address");
+        res.send("Unvalid input in post users/update/address");
 	} else if (user["category"] != "customer") {
 		if (g.logLevel <= g.Level.OPERATING) {
             console.log("Only customers have delivery address");
         }
-        res.status(400).send("Only customers have delivery address");
+        res.send("Only customers have delivery address");
 	} else {
 		let asyncFunc = async (newStreet, newCity, newZip, newState, user) => {
 			let results = {}
@@ -454,12 +454,12 @@ router.post('/update/address', function(req, res) {
 		        req.session.user["details"]["zip"] = newZip;
 		        req.session.user["details"]["state"] = newState;
 		        req.session.save();
-	        	res.status(200).send("Update delivery address success");
+	        	res.send("Update delivery address success");
 	        } else {
 	        	if (g.logLevel <= g.Level.DEBUGGING) {
 		            console.log("Update delivery address fail");
 		        }
-	        	res.status(400).send("Update delivery address fail");
+	        	res.send("Update delivery address fail");
 	        }
 		})
 	}
