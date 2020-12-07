@@ -53,6 +53,7 @@
           <% if (user.category == "admin") { %>
           <a href="/products/<%= product.productID %>/edit" class="btn btn-warning float-left mb-5 px-4"><i
               class="fas fa-edit mr-2"></i>Edit</a>
+        </div>
           <% } else { %>
 
 
@@ -62,21 +63,22 @@
           </form>
           <button onclick="document.getElementById('addCart').submit();" class="btn btn-warning float-left mb-5 px-4"><i
             class="fas fa-shopping-cart mr-2"></i>Add</button>
+          </div>
+          <div class="col-6">
+  
+            <!-- favorite -->
+            <form id="addFavorite" action="/favorite/add" method="POST">
+              <input hidden name="productID" value="<%= product.productID %>">
+            </form>
+            <a onclick="document.getElementById('addFavorite').submit();">
+              <h3 class="float-right"><i class="far fa-heart mr-1 pr-1 text-danger"></i></h3>
+            </a>
+  
+          </div>
           <% } %>
 
 
-        </div>
-        <div class="col-6">
 
-          <!-- favorite -->
-          <form id="addFavorite" action="/favorite/add" method="POST">
-            <input hidden name="productID" value="<%= product.productID %>">
-          </form>
-          <a onclick="document.getElementById('addFavorite').submit();">
-            <h3 class="float-right"><i class="far fa-heart mr-1 pr-1 text-danger"></i></h3>
-          </a>
-
-        </div>
       </div>
     </div>
   </div>
