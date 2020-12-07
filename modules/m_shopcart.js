@@ -54,7 +54,8 @@ const Discount = {
 var getTotal = function(dic, key, cart, dob) {
     return new Promise((resolve, reject) => {
         let discountCategory = "default";
-        if (dob !== undefined) {
+        console.log(dob);
+        if (dob !== undefined && dob != null) {
             let now = new Date().toLocaleDateString('en-US');
             let tmp1 = now.split('/');
             let tmp2 = dob.split('/');
