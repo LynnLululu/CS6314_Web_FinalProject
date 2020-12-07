@@ -55,6 +55,7 @@ router.get('/', function(req, res) {
 
 router.post('/add', function(req, res) {
 	let pid = req.body.productID;
+	console.log(pid);
 	let user = mu.resolveUser(req.session.user);
 	if (isNaN(Number(pid))) {
 		if (g.logLevel <= g.Level.OPERATING) {
@@ -128,7 +129,7 @@ router.post('/remove', function(req, res) {
 	        }
 	        if (req.session.hasOwnProperty("bfavorite")) {
 	        	if (req.session.bfavorite.hasOwnProperty(pid)) {
-	        		delete req.session.user["bfavorite"][pid];
+	        		delete req.session.bfavorite[pid];
 	        	}
 	    	}
 	        req.session.save();

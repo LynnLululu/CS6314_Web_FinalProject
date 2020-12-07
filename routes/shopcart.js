@@ -33,7 +33,8 @@ router.get('/', function(req, res) {
 			if (g.logLevel <= g.Level.DEBUGGING) {
 	            console.log("Show shopcart. 'shopcart':");
 	            g.selectedPrint(results);
-	        }
+			}
+			console.log(results);
 	        res.status(200).render('shopcart', results);
 		})
 	}

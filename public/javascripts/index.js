@@ -132,10 +132,18 @@ function show(id) {
 
 // Image Preview
 function changepic() {
-    var reads= new FileReader();
-    f=document.getElementById('file').files[0];
+    var reads = new FileReader();
+    f = document.getElementById('file').files[0];
     reads.readAsDataURL(f);
-    reads.onload=function (e) {
-        document.getElementById('previewImage').src=this.result;
+    reads.onload = function (e) {
+        document.getElementById('previewImage').src = this.result;
     };
 }
+
+// handle cart num change
+$(".cartNum").on("change", function(){
+    console.log("cartNum");
+    console.log($(this).id());
+    console.log($(this).val());
+    $.post("/shopcart/update", {productID: $(this).id(), num: $(this).val()})
+})

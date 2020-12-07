@@ -39,10 +39,10 @@
         </a>
 
         <!-- delete button -->
-        <form id="favoriteRemove" action="/favorite/remove" method="POST">
+        <form id="favoriteRemove<%= productID %>" action="/favorite/remove" method="POST">
           <input type="hidden" name="productID" value="<%= productID %>">
         </form>
-        <a class="btn p-0" onclick="document.getElementById('favoriteRemove').submit();">
+        <a class="btn p-0" onclick="document.getElementById('favoriteRemove<%= productID %>').submit();">
           <p class="float-left mb-0"><i class="fas fa-trash-alt text-secondary"></i></p>
         </a>
       </div>

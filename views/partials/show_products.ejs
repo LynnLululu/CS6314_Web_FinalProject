@@ -37,10 +37,10 @@
         <% } else { %>
 
         <!-- favorite -->
-        <form id="favoriteAdd" action="/favorite/add" method="POST">
+        <form id="favoriteAdd<%= productID %>" action="/favorite/add" method="POST">
           <input type="hidden" name="productID" value="<%= productID %>">
         </form>
-        <a onclick="document.getElementById('favoriteAdd').submit();">
+        <a onclick="document.getElementById('favoriteAdd<%= productID %>').submit();">
           <p class="float-left mb-0"><i class="far fa-heart text-danger"></i></p>
         </a>  
         
