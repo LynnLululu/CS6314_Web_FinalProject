@@ -213,7 +213,7 @@ router.post('/signup', function(req, res) {
 		asyncFunc(email, username, password).then(results => {
 			let newCustomer = results["newCustomer"];
 	    	req.session.user = newCustomer;
-	    	if (!req.session.hasOwnProperty(bfavorite)) {
+	    	if (!req.session.bfavorite) {
 	    		req.session.bfavorite = {};
 	    	}
 	    	req.session.save();
