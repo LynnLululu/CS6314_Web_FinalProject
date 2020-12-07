@@ -333,6 +333,7 @@ router.post('/products/:id/edit/remove', function(req, res) {
 		let asyncFunc = async (productID) => {
 			let results = {};
 			let p1 = await mp.deleteProduct(results, "state", productID);
+			return Promise.resolve(results);
 		}
 		asyncFunc(productID).then(results => {
 			if (g.logLevel <= g.Level.DEBUGGING) {
